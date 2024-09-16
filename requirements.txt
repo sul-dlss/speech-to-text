@@ -1,0 +1,3 @@
+boto3
+openai-whisper
+python-dotenv[cli]

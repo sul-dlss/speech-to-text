@@ -32,8 +32,8 @@ def test_speech_to_text():
 
     # make sure the job looks ok
     job = json.loads(msgs[0].body)
-    assert job['id'] == job_id
-    assert job['finished']
+    assert job["id"] == job_id
+    assert job["finished"]
 
     jobs = queue.receive_messages(MaxNumberOfMessages=1)
     assert len(jobs) == 0, "queue empty"

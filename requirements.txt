@@ -1,3 +1,4 @@
 boto3
 openai-whisper
-python-dotenv[cli]
+python-dotenv
+pytest

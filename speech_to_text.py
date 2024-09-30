@@ -18,21 +18,23 @@ from whisper.utils import get_writer
 dotenv.load_dotenv()
 
 
-def main(daemon=False):
+def main(daemon=True):
     # loop forever looking for jobs unless daemon says not to
     while True:
         job = get_job()
 
         try:
             if job is None:
-                print("There are no jobs waiting")
+                print("There are no jobs waiting...")
             else:
                 print(f"Processing job {job['id']}")
                 download_media(job)
                 run_whisper(job)
                 upload_results(job)
                 finish_job(job)
-
+        except KeyboardInterrupt:
+            print("Exiting...")
+            sys.exit()
         except Exception as e:
             print(f"Error while processing job {job['id']}: {e}")
             report_error(job, e)
@@ -54,14 +56,14 @@ def get_job():
         job = json.loads(msg.body)
 
         # The default Visibilty Timeout for a queue is 30 seconds. If we don't delete the
-        # message or update its Visibility Timeout in that time SQS will automatically 
+        # message or update its Visibility Timeout in that time SQS will automatically
         # requeue the message. This could lead to multiple workers working on
         # the same job!
         #
-        # While we could set the Visibility Timeout to some higher value (less than the 12 hour 
-        # maximum), the approach taken here is to delete the message once it has been received. 
-        # This means if processing fails for whatever reason we won't get the job automatically 
-        # requeued. But this is a good thing since Whisper processing on a GPU is expensive. 
+        # While we could set the Visibility Timeout to some higher value (less than the 12 hour
+        # maximum), the approach taken here is to delete the message once it has been received.
+        # This means if processing fails for whatever reason we won't get the job automatically
+        # requeued. But this is a good thing since Whisper processing on a GPU is expensive.
         # Instead exceptions will be caught and an error message will be sent to the Done queue.
         #
         # See: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
@@ -85,7 +87,7 @@ def download_media(job):
 
 def run_whisper(job):
     # this code and writer_options() below is adapted from
-    #
+    # https://github.com/openai/whisper/blob/main/whisper/transcribe.py
     options = job.get("options", {}).copy()
 
     if torch.cuda.is_available():
@@ -111,7 +113,7 @@ def run_whisper(job):
         )
         writer(result, media_file, writer_options)
 
-    job['finished'] = now()
+    job["finished"] = now()
 
     return job
 
@@ -219,7 +221,7 @@ def report_error(job, exception):
     """
     Add the job to the done queue with an error.
     """
-    job['error'] = str(exception)
+    job["error"] = str(exception)
     queue = get_done_queue()
     queue.send_message(MessageBody=json.dumps(job))
 
@@ -278,7 +280,23 @@ def add_job(job):
     queue = get_todo_queue()
     queue.send_message(MessageBody=json.dumps(job))
 
-    return 
+    return
+
+
+def receive_job():
+    """
+    Receives jobs on the DONE queue.
+    """
+    queue = get_done_queue()
+    messages = queue.receive_messages(MaxNumberOfMessages=1)
+    if len(messages) == 1:
+        msg = messages[0]
+        msg.delete()
+        return json.loads(msg.body)
+    elif len(messages) == 0:
+        return None
+    else:
+        raise Exception("received more than one message from todo queue!")
 
 
 if __name__ == "__main__":
@@ -286,15 +304,39 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(prog="speech_to_text")
     parser.add_argument("-c", "--create", help="Create a job for a given media file")
-    parser.add_argument("-d", "--daemon", action="store_true", help="Run forever looking for jobs")
+    parser.add_argument("-r", "--receive", action="store_true", help="Retrieve a job from the done queue.")
+    parser.add_argument(
+        "-d",
+        "--daemon",
+        action="store_true",
+        default=True,
+        dest="daemon",
+        help="Run forever looking for jobs",
+    )
+    parser.add_argument(
+        "-n",
+        "--no-daemon",
+        action="store_false",
+        default=False,
+        dest="daemon",
+        help="Run one job and exit.",
+    )
     args = parser.parse_args()
 
     if args.create:
         media_path = Path(args.create)
         if not media_path.is_file():
-            print("No such file {media_path}")
+            print(f"No such file {media_path}")
 
         job_id = create_job(media_path)
         print(f"Created job {job_id}")
+
+    elif args.receive:
+        job = receive_job()
+        if job is not None:
+            print(json.dumps(job, indent=2))
+        else:
+            print("No messages were found in the todo queue...")
+
     else:
         main(daemon=args.daemon)

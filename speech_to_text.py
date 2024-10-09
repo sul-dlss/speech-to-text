@@ -45,7 +45,7 @@ def main(daemon=True):
 
 def get_job():
     """
-    Fetch the next job that is queued for processing. If no job is found in 90
+    Fetch the next job that is queued for processing. If no job is found in WaitTimeSeconds
     seconds None will be returned.
     """
     queue = get_todo_queue()

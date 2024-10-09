@@ -44,7 +44,7 @@ vi .env
 
 Usually common-accessioning robots will initiate new speech-to-text work by:
 
-1. minting a new job ID:
+1. minting a new job ID
 3. copying a media file to the S3 bucket
 5. putting a job in the TODO queue
 
@@ -74,21 +74,32 @@ Usually the message on the DONE queue will be processed by the captionWF in comm
 docker run --rm --tty --env-file .env sul-speech-to-text --receive
 ```
 
-## The Job File
+## The Job Message Structure
 
-The job file is a JSON object that contains information about how to run Whisper. Minimally it contains the Job ID, which will be used to locate media files in S3 that need to be processed. 
+The job is a JSON object (used as an SQS message payload) that contains information about how to run Whisper. Minimally it contains the Job ID and a list of file names, which will be used to locate media files in S3 that need to be processed.
 
 ```json
 {
-  "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
+  "id": "gy983cn1444-v2",
+  "media": [
+    "snl_tomlin_phone_company.mp4"
+  ],
 }
 ```
+
+The job id must be a unique identifier like a UUID. In some use cases a natural key could be used, as is the case in the SDR where druid-version is used.
+
+The worker will look in the configured S3 bucket for files to process at `"media/{job['id']}/{media_file}"` for each `media_file` in `job["media"]`. E.g. `gy983cn1444-v2/snl_tomlin_phone_company.mp4` for the above example JSON. You can see this illustrated in the `create_job` and `add_media` test functions in `speech_to_text.py`.
 
 You can also pass in options for Whisper:
 
 ```json
 {
   "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
+  "media": [
+    "cat_video.mp4",
+    "The_Sea_otter.mp4"
+  ],
   "options": {
     "model": "large",
     "max_line_count": 80,
@@ -102,6 +113,7 @@ When you receive the message on the DONE SQS queue it will contain the JSON:
 ```json
 {
   "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
+  "media": ["bear_breaks_into_home_plays_piano_no_speech.mp4"],
   "options": {
     "model": "large",
     "max_line_count": 80,

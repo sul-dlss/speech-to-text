@@ -71,7 +71,7 @@ aws s3 ls s3://sul-speech-to-text-dev-your-username/out/${JOB_ID}/
 Usually the message on the DONE queue will be processed by the captionWF in common-accessioning, but if you want you can pop messages off manually:
 
 ```shell
-docker run --rm --tty --env-file .env sul-speech-to-text --receive
+docker run --rm --tty --env-file .env sul-speech-to-text --receive-done
 ```
 
 ## The Job Message Structure

@@ -114,6 +114,13 @@ def run_whisper(job):
         writer(result, media_file, writer_options)
 
     job["finished"] = now()
+    tech_md_dict = {
+        "speech_to_text_extraction_program": {"name": "whisper", "version": whisper.version.__version__},
+        "effective_options": options,
+        "effective_writer_options": writer_options,
+        "effective_model_name": model_name
+    }
+    job["extraction_technical_metadata"] = tech_md_dict
 
     return job
 
@@ -245,13 +252,13 @@ def get_output_dir(job):
     return path
 
 
-def create_job(media_path: Path):
+def create_job(media_path: Path, job_id: str = None):
     """
     Create a job for a given media file by placing the media file in S3 and
     sending a message to the TODO queue. This is really just for testing since
     the jobs are created by common-accessioning robot during captionWF.
     """
-    job_id = str(uuid.uuid4())
+    job_id = str(uuid.uuid4()) if job_id is None else job_id
     add_media(media_path, job_id)
 
     job = {"id": job_id, "media": [media_path.name]}
@@ -306,6 +313,12 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--create", help="Create a job for a given media file")
     parser.add_argument("-r", "--receive", action="store_true", help="Retrieve a job from the done queue.")
     parser.add_argument(
+        "--job_id",
+        action="store",
+        dest="job_id",
+        help="Provide a pre-determined job_id when --create mode is used to create a test job"
+    )
+    parser.add_argument(
         "-d",
         "--daemon",
         action="store_true",
@@ -328,7 +341,7 @@ if __name__ == "__main__":
         if not media_path.is_file():
             print(f"No such file {media_path}")
 
-        job_id = create_job(media_path)
+        job_id = create_job(media_path, args.job_id)
         print(f"Created job {job_id}")
 
     elif args.receive:

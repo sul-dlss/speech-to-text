@@ -56,10 +56,10 @@ docker run --rm --tty --volume .:/app --env-file .env sul-speech-to-text --creat
 
 ### Run the Job
 
-Now you can run the container and have it pick up the job you placed into the queue:
+Now you can run the container and have it pick up the job you placed into the queue. You can drop the `--gpus all` if you don't have a GPU.
 
 ```shell
-docker run --rm --tty --env-file .env sul-speech-to-text --no-daemon
+docker run --rm --tty --env-file .env --gpus all sul-speech-to-text --no-daemon
 ```
 
 Wait for the results to appear:

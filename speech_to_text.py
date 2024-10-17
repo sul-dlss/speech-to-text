@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import json
+import logging
 import os
 import sys
 import uuid
@@ -16,7 +17,11 @@ import whisper
 from whisper.utils import get_writer
 
 dotenv.load_dotenv()
-
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s :: %(levelname)s :: %(message)s", 
+    datefmt="%Y-%m-%dT%H:%M:%S%z"
+)
 
 def main(daemon=True):
     # loop forever looking for jobs unless daemon says not to
@@ -25,18 +30,19 @@ def main(daemon=True):
 
         try:
             if job is None:
-                print("There are no jobs waiting...")
+                logging.info("no jobs waiting in the todo queue")
             else:
-                print(f"Processing job {job['id']}")
+                logging.info(f"starting job {job['id']}")
                 download_media(job)
                 run_whisper(job)
                 upload_results(job)
                 finish_job(job)
+                logging.info(f"finished job {job['id']}")
         except KeyboardInterrupt:
-            print("Exiting...")
+            logging.info("exiting")
             sys.exit()
         except Exception as e:
-            print(f"Error while processing job {job['id']}: {e}")
+            logging.error(f"error while processing job {job['id']}: {e}")
             report_error(job, e)
 
         if not daemon:
@@ -49,6 +55,7 @@ def get_job():
     seconds None will be returned.
     """
     queue = get_todo_queue()
+    logging.info("looking for messages in the todo queue")
     jobs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=10)
 
     if len(jobs) == 1:
@@ -90,17 +97,8 @@ def run_whisper(job):
     # https://github.com/openai/whisper/blob/main/whisper/transcribe.py
     options = job.get("options", {}).copy()
 
-    if torch.cuda.is_available():
-        device = "cuda"
-    else:
-        # setting fp16 avoids a warning when running on cpu
-        device = "cpu"
-        options["fp16"] = False
-
     model_name = options.get("model", "small")
-    model = whisper.load_model(
-        model_name, download_root="whisper_models", device=device
-    )
+    model = load_whisper_model(model_name)
 
     output_dir = get_output_dir(job)
 
@@ -108,17 +106,27 @@ def run_whisper(job):
     writer_options = get_writer_options(options)
 
     for media_file in job["media"]:
-        result = whisper.transcribe(
-            audio=str(output_dir / media_file), model=model, **options
-        )
+        audio_file = str(output_dir / media_file)
+        logging.info(f"running whisper on {audio_file} with options {options}")
+
+        # remove model name from options to not interfere with model instance below
+        options.pop("model", None)
+
+        result = whisper.transcribe(audio=audio_file, model=model, **options)
+        logging.info(f"whisper result: {result}")
+
+        logging.info(f"writing output using writer_options: {writer_options}")
         writer(result, media_file, writer_options)
 
     job["finished"] = now()
     tech_md_dict = {
-        "speech_to_text_extraction_program": {"name": "whisper", "version": whisper.version.__version__},
+        "speech_to_text_extraction_program": {
+            "name": "whisper",
+            "version": whisper.version.__version__,
+        },
         "effective_options": options,
         "effective_writer_options": writer_options,
-        "effective_model_name": model_name
+        "effective_model_name": model_name,
     }
     job["extraction_technical_metadata"] = tech_md_dict
 
@@ -140,18 +148,20 @@ def upload_results(job):
             continue
 
         key = f"out/{job['id']}/{path.name}"
+        logging.info(f"wrote whisper result to s3://{bucket.name}/{key}")
         bucket.upload_file(path, key)
-        print(f"generated s3://{bucket.name}/{key}")
 
 
 def finish_job(job):
     queue = get_done_queue()
+    logging.info(f"sending message to done queue: {job}")
     queue.send_message(MessageBody=json.dumps(job))
 
     # clean up media on s3
     bucket = get_bucket()
     for media_file in job["media"]:
         obj = bucket.Object(f"media/{job['id']}/{media_file}")
+        logging.info(f"removing media file {obj}")
         obj.delete()
 
 
@@ -174,7 +184,6 @@ def get_writer_options(job):
     return opts
 
 
-@cache
 def get_aws(service_name):
     role = os.environ.get("AWS_ROLE_ARN")
 
@@ -201,24 +210,20 @@ def get_aws(service_name):
     return aws
 
 
-@cache
 def get_bucket():
     s3 = get_aws("s3")
     bucket_name = os.environ.get("SPEECH_TO_TEXT_S3_BUCKET")
     return s3.Bucket(bucket_name)
 
 
-@cache
 def get_todo_queue():
     return get_queue(os.environ.get("SPEECH_TO_TEXT_TODO_SQS_QUEUE"))
 
 
-@cache
 def get_done_queue():
     return get_queue(os.environ.get("SPEECH_TO_TEXT_DONE_SQS_QUEUE"))
 
 
-@cache
 def get_queue(queue_name):
     sqs = get_aws("sqs")
     return sqs.get_queue_by_name(QueueName=queue_name)
@@ -230,6 +235,7 @@ def report_error(job, exception):
     """
     job["error"] = str(exception)
     queue = get_done_queue()
+    logging.error("sending error message to done queue: {job}")
     queue.send_message(MessageBody=json.dumps(job))
 
 
@@ -252,7 +258,7 @@ def get_output_dir(job):
     return path
 
 
-def create_job(media_path: Path, job_id: str = None):
+def create_job(media_path: Path, job_id: str = None, model: str = "small"):
     """
     Create a job for a given media file by placing the media file in S3 and
     sending a message to the TODO queue. This is really just for testing since
@@ -261,7 +267,15 @@ def create_job(media_path: Path, job_id: str = None):
     job_id = str(uuid.uuid4()) if job_id is None else job_id
     add_media(media_path, job_id)
 
-    job = {"id": job_id, "media": [media_path.name]}
+    job = {
+        "id": job_id,
+        "media": [
+            media_path.name
+        ],
+        "options": {
+            "model": model
+        }
+    }
     add_job(job)
 
     return job_id
@@ -275,6 +289,7 @@ def add_media(media_path, job_id):
     key = f"media/{job_id}/{path.name}"
 
     bucket = get_bucket()
+    logging.info(f"uploading {media_path} to s3://{bucket.name}/{key}")
     bucket.upload_file(media_path, key)
 
     return path.name
@@ -290,7 +305,7 @@ def add_job(job):
     return
 
 
-def receive_job():
+def receive_done_job():
     """
     Receives jobs on the DONE queue.
     """
@@ -305,18 +320,34 @@ def receive_job():
     else:
         raise Exception("received more than one message from todo queue!")
 
+@cache
+def load_whisper_model(model_name):
+    if torch.cuda.is_available():
+        device = "cuda"
+    else:
+        device = "cpu"
+
+    logging.info(f"loading {model_name} Whisper model for {device}")
+
+    return whisper.load_model(model_name, download_root="whisper_models", device=device)
+
 
 if __name__ == "__main__":
     check_env()
 
     parser = argparse.ArgumentParser(prog="speech_to_text")
     parser.add_argument("-c", "--create", help="Create a job for a given media file")
-    parser.add_argument("-r", "--receive", action="store_true", help="Retrieve a job from the done queue.")
+    parser.add_argument(
+        "-r",
+        "--receive-done",
+        action="store_true",
+        help="Retrieve a job from the done queue.",
+    )
     parser.add_argument(
         "--job_id",
         action="store",
         dest="job_id",
-        help="Provide a pre-determined job_id when --create mode is used to create a test job"
+        help="Provide a pre-determined job_id when --create mode is used to create a test job",
     )
     parser.add_argument(
         "-d",
@@ -334,22 +365,28 @@ if __name__ == "__main__":
         dest="daemon",
         help="Run one job and exit.",
     )
+    parser.add_argument(
+        "-m",
+        "--model",
+        default="small",
+        help="Create a job using a specific Whisper model"
+    )
     args = parser.parse_args()
 
     if args.create:
         media_path = Path(args.create)
         if not media_path.is_file():
-            print(f"No such file {media_path}")
+            logging.info(f"No such file {media_path}")
 
-        job_id = create_job(media_path, args.job_id)
-        print(f"Created job {job_id}")
+        job_id = create_job(media_path, args.job_id, args.model)
+        logging.info(f"Created job {job_id} using {args.model}")
 
-    elif args.receive:
-        job = receive_job()
+    elif args.receive_done:
+        job = receive_done_job()
         if job is not None:
-            print(json.dumps(job, indent=2))
+            logging.info(json.dumps(job, indent=2))
         else:
-            print("No messages were found in the todo queue...")
+            logging.info("No messages were found in the todo queue...")
 
     else:
         main(daemon=args.daemon)

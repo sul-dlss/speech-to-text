@@ -14,15 +14,34 @@ dotenv.load_dotenv()
 def test_speech_to_text():
     clean()
 
-    job_id = speech_to_text.create_job(Path("tests/data/en.wav"))
+    job_id = speech_to_text.create_job(Path("tests/data/en.wav"), options={
+        "model": "small",
+        "writer": {
+            "max_line_width": 90
+        }
+    })
 
     speech_to_text.main(daemon=False)
 
     # check that the vtt file is present
     test_bucket = speech_to_text.get_bucket()
-    vtt_file = test_bucket.Object(f"out/{job_id}/en.vtt").get()
+    vtt_file = test_bucket.Object(f"{job_id}/output/en.vtt").get()
     assert vtt_file, "vtt file created"
     assert "This is a test" in vtt_file["Body"].read().decode("utf-8"), "vtt content"
+
+    # check that the job file is in the bucket and has the list of files in output
+    job_file = test_bucket.Object(f"{job_id}/job.json").get()
+    assert job_file, "job file created"
+    job = json.loads(job_file["Body"].read().decode("utf-8"))
+    assert len(job["output"]) == 5
+    assert f"{job_id}/output/en.vtt" in job["output"]
+    assert f"{job_id}/output/en.srt" in job["output"]
+    assert f"{job_id}/output/en.txt" in job["output"]
+    assert f"{job_id}/output/en.tsv" in job["output"]
+    assert f"{job_id}/output/en.json" in job["output"]
+
+    # check that max_line_width took effect on the writer options that were used
+    assert job["extraction_technical_metadata"]["effective_writer_options"]["max_line_width"] == 90 
 
     # make sure there's a message in the "done" queue
     queue = speech_to_text.get_done_queue()
@@ -34,6 +53,12 @@ def test_speech_to_text():
     job = json.loads(msgs[0].body)
     assert job["id"] == job_id
     assert job["finished"]
+    assert len(job["output"]) == 5
+    assert f"{job_id}/output/en.vtt" in job["output"]
+    assert f"{job_id}/output/en.srt" in job["output"]
+    assert f"{job_id}/output/en.txt" in job["output"]
+    assert f"{job_id}/output/en.tsv" in job["output"]
+    assert f"{job_id}/output/en.json" in job["output"]
 
     jobs = queue.receive_messages(MaxNumberOfMessages=1)
     assert len(jobs) == 0, "queue empty"

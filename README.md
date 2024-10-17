@@ -89,38 +89,59 @@ The job is a JSON object (used as an SQS message payload) that contains informat
 
 The job id must be a unique identifier like a UUID. In some use cases a natural key could be used, as is the case in the SDR where druid-version is used.
 
-The worker will look in the configured S3 bucket for files to process at `"media/{job['id']}/{media_file}"` for each `media_file` in `job["media"]`. E.g. `gy983cn1444-v2/snl_tomlin_phone_company.mp4` for the above example JSON. You can see this illustrated in the `create_job` and `add_media` test functions in `speech_to_text.py`.
+The worker will look in the configured S3 bucket for files to process at `"{job['id']}/{media_file}"` for each `media_file` in `job["media"]`. E.g. `gy983cn1444-v2/snl_tomlin_phone_company.mp4` for the above example JSON. You can see this illustrated in the `create_job` and `add_media` test functions in `speech_to_text.py`.
 
-You can also pass in options for Whisper:
+You can also pass in options for Whisper, note that any options for how the transcript is serialized with a writer are given using the "writer" key:
 
 ```json
 {
   "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
   "media": [
-    "cat_video.mp4",
-    "The_Sea_otter.mp4"
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.mp4",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.mp4"
   ],
   "options": {
     "model": "large",
-    "max_line_count": 80,
-    "beam_size": 10
+    "beam_size": 10,
+    "writer": {
+      "max_line_width": 80
+    }
   }
 }
 ```
 
-When you receive the message on the DONE SQS queue it will contain the JSON:
+When you receive the message on the DONE SQS queue it will contain JSON that looks something like:
 
 ```json
 {
   "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
-  "media": ["bear_breaks_into_home_plays_piano_no_speech.mp4"],
+  "media": [
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.mp4",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.mp4"
+  ],
   "options": {
     "model": "large",
-    "max_line_count": 80,
-    "beam_size": 10
-  }
+    "beam_size": 10,
+    "writer": {
+      "max_line_count": 80
+    }
+  },
+  "output": [
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.vtt",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.srt",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.json",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.txt",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.tsv",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.vtt",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.srt",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.json",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.txt",
+    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.tsv"
+  ]
 }
 ```  
+
+If there was an error during processing the `output` will be an empty list, and an `error` property will be set to a message indicating what went wrong.
 
 ## Testing
 

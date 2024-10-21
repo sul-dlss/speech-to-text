@@ -7,6 +7,8 @@ import logging
 import os
 import sys
 import uuid
+import shutil
+import traceback
 from functools import cache
 from pathlib import Path
 
@@ -19,9 +21,10 @@ from whisper.utils import get_writer
 dotenv.load_dotenv()
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s :: %(levelname)s :: %(message)s", 
-    datefmt="%Y-%m-%dT%H:%M:%S%z"
+    format="%(asctime)s :: %(levelname)s :: %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S%z",
 )
+
 
 def main(daemon=True):
     # loop forever looking for jobs unless daemon says not to
@@ -32,18 +35,18 @@ def main(daemon=True):
             if job is None:
                 logging.info("no jobs waiting in the todo queue")
             else:
-                logging.info(f"starting job {job['id']}")
-                download_media(job)
-                run_whisper(job)
-                upload_results(job)
-                finish_job(job)
+                logging.info(f"starting job {job}")
+                job = download_media(job)
+                job = run_whisper(job)
+                job = upload_results(job)
+                job = finish_job(job)
                 logging.info(f"finished job {job['id']}")
         except KeyboardInterrupt:
             logging.info("exiting")
             sys.exit()
-        except Exception as e:
-            logging.error(f"error while processing job {job['id']}: {e}")
-            report_error(job, e)
+        except Exception:
+            logging.exception(f"error while processing job {job['id']}")
+            report_error(job, traceback.format_exc())
 
         if not daemon:
             break
@@ -56,7 +59,7 @@ def get_job():
     """
     queue = get_todo_queue()
     logging.info("looking for messages in the todo queue")
-    jobs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=10)
+    jobs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=20)
 
     if len(jobs) == 1:
         msg = jobs[0]
@@ -86,10 +89,17 @@ def get_job():
 
 def download_media(job):
     bucket = get_bucket()
+
     output_dir = get_output_dir(job)
+    if not output_dir.is_dir():
+        output_dir.mkdir()
+
     for media_file in job["media"]:
-        key = f"media/{job['id']}/{media_file}"
-        bucket.download_file(key, output_dir / media_file)
+        # note the media_file is expected to be the full path in the bucket 
+        # e.g. pg879tb2706-v2/video_1.mp4
+        bucket.download_file(media_file, media_file)
+
+    return job
 
 
 def run_whisper(job):
@@ -106,20 +116,22 @@ def run_whisper(job):
     writer_options = get_writer_options(options)
 
     for media_file in job["media"]:
-        audio_file = str(output_dir / media_file)
-        logging.info(f"running whisper on {audio_file} with options {options}")
+        logging.info(f"running whisper on {media_file} with options {options}")
 
-        # remove model name from options to not interfere with model instance below
-        options.pop("model", None)
+        # remove model and writer from options that are passed to whisper
+        whisper_options = options.copy()
+        whisper_options.pop("model", None)
+        whisper_options.pop("writer", None)
 
-        result = whisper.transcribe(audio=audio_file, model=model, **options)
+        result = whisper.transcribe(audio=media_file, model=model, **whisper_options)
         logging.info(f"whisper result: {result}")
 
         logging.info(f"writing output using writer_options: {writer_options}")
         writer(result, media_file, writer_options)
 
     job["finished"] = now()
-    tech_md_dict = {
+
+    job["extraction_technical_metadata"] = {
         "speech_to_text_extraction_program": {
             "name": "whisper",
             "version": whisper.version.__version__,
@@ -128,28 +140,39 @@ def run_whisper(job):
         "effective_writer_options": writer_options,
         "effective_model_name": model_name,
     }
-    job["extraction_technical_metadata"] = tech_md_dict
 
     return job
 
 
 def upload_results(job):
     """
-    Upload the Whisper output to S3, and put the job file there too.
+    Upload the Whisper output to S3, and put the job file there too. The job
+    file will have the output key added to it, which will contain a list of
+    bucket path names for the results.
     """
     bucket = get_bucket()
 
-    bucket.put_object(Key=f"out/{job['id']}.json", Body=json.dumps(job, indent=2))
-
+    job["output"] = []
     output_dir = get_output_dir(job)
     for path in output_dir.iterdir():
-        # don't upload the media again
-        if path.name in job["media"]:
+
+        # ignore non output files
+        if path.suffix not in [".vtt", ".srt", ".json", ".txt", ".tsv"]:
             continue
 
-        key = f"out/{job['id']}/{path.name}"
+        key = f"{job['id']}/output/{path.name}"
         logging.info(f"wrote whisper result to s3://{bucket.name}/{key}")
         bucket.upload_file(path, key)
+        job["output"].append(key)
+
+    bucket.put_object(Key=f"{job['id']}/job.json", Body=json.dumps(job, indent=2))
+
+    # the files have landed in s3 so the local copies can be deleted so they
+    # don't accumulate in the docker container over time
+    logging.info("deleting local files for job: {output_dir}")
+    shutil.rmtree(output_dir)
+
+    return job
 
 
 def finish_job(job):
@@ -157,12 +180,7 @@ def finish_job(job):
     logging.info(f"sending message to done queue: {job}")
     queue.send_message(MessageBody=json.dumps(job))
 
-    # clean up media on s3
-    bucket = get_bucket()
-    for media_file in job["media"]:
-        obj = bucket.Object(f"media/{job['id']}/{media_file}")
-        logging.info(f"removing media file {obj}")
-        obj.delete()
+    return job
 
 
 def get_writer_options(job):
@@ -173,13 +191,11 @@ def get_writer_options(job):
         "max_words_per_line",
     ]
 
-    opts = {option: job.get(option) for option in word_options}
+    opts = {option: job.get("writer", {}).get(option) for option in word_options}
 
     # ensure word_timestamps is set if any of the word options are
-    if job.get("word_timestamps") is None:
-        for option in word_options:
-            if job.get(option) is not None:
-                opts["word_timestamps"] = True
+    if len(opts) > 0:
+        opts["word_timestamps"] = True
 
     return opts
 
@@ -252,29 +268,24 @@ def now():
 
 def get_output_dir(job):
     path = Path(job["id"])
-    if not path.is_dir():
-        path.mkdir()
-
     return path
 
 
-def create_job(media_path: Path, job_id: str = None, model: str = "small"):
+def create_job(media_path: Path, job_id: str = None, options={}):
     """
     Create a job for a given media file by placing the media file in S3 and
     sending a message to the TODO queue. This is really just for testing since
-    the jobs are created by common-accessioning robot during captionWF.
+    the jobs are created by common-accessioning robot during speechToTextWF.
     """
     job_id = str(uuid.uuid4()) if job_id is None else job_id
     add_media(media_path, job_id)
 
     job = {
-        "id": job_id,
+        "id": job_id, 
         "media": [
-            media_path.name
-        ],
-        "options": {
-            "model": model
-        }
+            f"{job_id}/{media_path.name}"
+        ], 
+        "options": options
     }
     add_job(job)
 
@@ -286,7 +297,7 @@ def add_media(media_path, job_id):
     Upload a media file to the bucket, and return the filename.
     """
     path = Path(media_path)
-    key = f"media/{job_id}/{path.name}"
+    key = f"{job_id}/{path.name}"
 
     bucket = get_bucket()
     logging.info(f"uploading {media_path} to s3://{bucket.name}/{key}")
@@ -319,6 +330,7 @@ def receive_done_job():
         return None
     else:
         raise Exception("received more than one message from todo queue!")
+
 
 @cache
 def load_whisper_model(model_name):
@@ -369,7 +381,7 @@ if __name__ == "__main__":
         "-m",
         "--model",
         default="small",
-        help="Create a job using a specific Whisper model"
+        help="Create a job using a specific Whisper model",
     )
     args = parser.parse_args()
 
@@ -378,7 +390,7 @@ if __name__ == "__main__":
         if not media_path.is_file():
             logging.info(f"No such file {media_path}")
 
-        job_id = create_job(media_path, args.job_id, args.model)
+        job_id = create_job(media_path, args.job_id, {"model": args.model})
         logging.info(f"Created job {job_id} using {args.model}")
 
     elif args.receive_done:

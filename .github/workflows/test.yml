@@ -1,0 +1,39 @@
+name: Test
+on: 
+  - push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11]
+    steps:
+
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Lint
+        uses: chartboost/ruff-action@v1
+        # Default action is 'check'
+        # it may move, see https://github.com/astral-sh/ruff/issues/8400
+
+      - name: Format
+        uses: chartboost/ruff-action@v1
+        with:
+          args: 'format --check'
+
+      - name: Install ffmpeg
+        run: |
+          wget -O - https://raw.githubusercontent.com/jontybrook/ffmpeg-install-script/main/install-ffmpeg-static.sh | bash -s -- --stable --force
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest

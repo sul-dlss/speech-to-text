@@ -18,13 +18,6 @@ import torch
 import whisper
 from whisper.utils import get_writer
 
-dotenv.load_dotenv()
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s :: %(levelname)s :: %(message)s",
-    datefmt="%Y-%m-%dT%H:%M:%S%z",
-)
-
 
 def main(daemon=True):
     # loop forever looking for jobs unless daemon says not to
@@ -95,7 +88,7 @@ def download_media(job):
         output_dir.mkdir()
 
     for media_file in job["media"]:
-        # note the media_file is expected to be the full path in the bucket 
+        # note the media_file is expected to be the full path in the bucket
         # e.g. pg879tb2706-v2/video_1.mp4
         bucket.download_file(media_file, media_file)
 
@@ -155,7 +148,6 @@ def upload_results(job):
     job["output"] = []
     output_dir = get_output_dir(job)
     for path in output_dir.iterdir():
-
         # ignore non output files
         if path.suffix not in [".vtt", ".srt", ".json", ".txt", ".tsv"]:
             continue
@@ -280,13 +272,7 @@ def create_job(media_path: Path, job_id: str = None, options={}):
     job_id = str(uuid.uuid4()) if job_id is None else job_id
     add_media(media_path, job_id)
 
-    job = {
-        "id": job_id, 
-        "media": [
-            f"{job_id}/{media_path.name}"
-        ], 
-        "options": options
-    }
+    job = {"id": job_id, "media": [f"{job_id}/{media_path.name}"], "options": options}
     add_job(job)
 
     return job_id
@@ -345,6 +331,14 @@ def load_whisper_model(model_name):
 
 
 if __name__ == "__main__":
+    dotenv.load_dotenv()
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s :: %(levelname)s :: %(message)s",
+        datefmt="%Y-%m-%dT%H:%M:%S%z",
+    )
+
     check_env()
 
     parser = argparse.ArgumentParser(prog="speech_to_text")

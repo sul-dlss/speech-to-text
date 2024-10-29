@@ -2,3 +2,4 @@ boto3
 openai-whisper
 python-dotenv
 pytest
+moto[s3,sqs,sts]

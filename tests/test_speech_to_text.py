@@ -57,20 +57,22 @@ def queues(sqs):
 # ignore utcnow warning until https://github.com/boto/boto3/issues/3889 is resolved
 @pytest.mark.filterwarnings("ignore:datetime.datetime.utcnow")
 def test_speech_to_text(bucket, queues):
+    # upload a audio file to s3 and create the sqs job that sets max_line_width
     job_id = speech_to_text.create_job(
         Path("tests/data/en.wav"),
         options={"model": "small", "writer": {"max_line_width": 42}},
     )
 
+    # run the job
     speech_to_text.main(daemon=False)
 
-    # check that the vtt file is present
+    # is the whisper output in s3?
     test_bucket = speech_to_text.get_bucket()
     vtt_file = test_bucket.Object(f"{job_id}/output/en.vtt").get()
     assert vtt_file, "vtt file created"
     assert "This is a test" in vtt_file["Body"].read().decode("utf-8"), "vtt content"
 
-    # check that the job file is in the bucket and has the list of files in output
+    # is the job file in the bucket and does it list the output files?
     job_file = test_bucket.Object(f"{job_id}/job.json").get()
     assert job_file, "job file created"
     job = json.loads(job_file["Body"].read().decode("utf-8"))
@@ -81,7 +83,7 @@ def test_speech_to_text(bucket, queues):
     assert f"{job_id}/output/en.tsv" in job["output"]
     assert f"{job_id}/output/en.json" in job["output"]
 
-    # check that max_line_width took effect on the writer options that were used
+    # did the max_line_width option take effect?
     assert (
         job["extraction_technical_metadata"]["effective_writer_options"][
             "max_line_width"
@@ -89,13 +91,13 @@ def test_speech_to_text(bucket, queues):
         == 42
     )
 
-    # make sure there's a message in the "done" queue
+    # is there a message in the "done" queue?
     queue = speech_to_text.get_done_queue()
     msgs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=10)
     assert len(msgs) == 1, "found a done message"
     assert msgs[0].delete(), "delete the message from the queue"
 
-    # make sure the job looks ok
+    # does the sqs job look ok?
     job = json.loads(msgs[0].body)
     assert job["id"] == job_id
     assert job["finished"]
@@ -106,5 +108,6 @@ def test_speech_to_text(bucket, queues):
     assert f"{job_id}/output/en.tsv" in job["output"]
     assert f"{job_id}/output/en.json" in job["output"]
 
+    # is the "done" queue now empty
     jobs = queue.receive_messages(MaxNumberOfMessages=1)
     assert len(jobs) == 0, "queue empty"

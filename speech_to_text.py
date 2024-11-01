@@ -11,20 +11,22 @@ import shutil
 import traceback
 from functools import cache
 from pathlib import Path
+from typing import Optional
 
 import boto3
 import dotenv
 import torch
 import whisper
 from whisper.utils import get_writer
+from mypy_boto3_s3.service_resource import Bucket, S3ServiceResource
+from mypy_boto3_sqs.service_resource import SQSServiceResource, Queue
 
 
-def main(daemon=True):
+def main(daemon=True) -> None:
     # loop forever looking for jobs unless daemon says not to
     while True:
-        job = get_job()
-
         try:
+            job = get_job()
             if job is None:
                 logging.info("no jobs waiting in the todo queue")
             else:
@@ -33,19 +35,19 @@ def main(daemon=True):
                 job = run_whisper(job)
                 job = upload_results(job)
                 job = finish_job(job)
-                logging.info(f"finished job {job['id']}")
+                logging.info(f"finished job {job}")
         except KeyboardInterrupt:
             logging.info("exiting")
             sys.exit()
         except Exception:
-            logging.exception(f"error while processing job {job['id']}")
+            logging.exception("error while processing job")
             report_error(job, traceback.format_exc())
 
         if not daemon:
             break
 
 
-def get_job():
+def get_job() -> Optional[dict]:
     """
     Fetch the next job that is queued for processing. If no job is found in WaitTimeSeconds
     seconds None will be returned.
@@ -80,7 +82,7 @@ def get_job():
         raise Exception(f"expected 1 job from queue but got {len(jobs)}")
 
 
-def download_media(job):
+def download_media(job: dict) -> dict:
     bucket = get_bucket()
 
     output_dir = get_output_dir(job)
@@ -95,7 +97,7 @@ def download_media(job):
     return job
 
 
-def run_whisper(job):
+def run_whisper(job: dict) -> dict:
     # this code and writer_options() below is adapted from
     # https://github.com/openai/whisper/blob/main/whisper/transcribe.py
     options = job.get("options", {}).copy()
@@ -137,7 +139,7 @@ def run_whisper(job):
     return job
 
 
-def upload_results(job):
+def upload_results(job: dict) -> dict:
     """
     Upload the Whisper output to S3, and put the job file there too. The job
     file will have the output key added to it, which will contain a list of
@@ -154,7 +156,7 @@ def upload_results(job):
 
         key = f"{job['id']}/output/{path.name}"
         logging.info(f"wrote whisper result to s3://{bucket.name}/{key}")
-        bucket.upload_file(path, key)
+        bucket.upload_file(str(path), key)
         job["output"].append(key)
 
     bucket.put_object(Key=f"{job['id']}/job.json", Body=json.dumps(job, indent=2))
@@ -167,7 +169,7 @@ def upload_results(job):
     return job
 
 
-def finish_job(job):
+def finish_job(job: dict) -> dict:
     queue = get_done_queue()
     logging.info(f"sending message to done queue: {job}")
     queue.send_message(MessageBody=json.dumps(job))
@@ -175,7 +177,7 @@ def finish_job(job):
     return job
 
 
-def get_writer_options(job):
+def get_writer_options(job: dict) -> dict:
     word_options = [
         "highlight_words",
         "max_line_count",
@@ -192,52 +194,57 @@ def get_writer_options(job):
     return opts
 
 
-def get_aws(service_name):
-    role = os.environ.get("AWS_ROLE_ARN")
+def get_s3() -> S3ServiceResource:
+    return boto3.resource("s3", **get_session())
 
+
+def get_sqs() -> SQSServiceResource:
+    return boto3.resource("sqs", **get_session())
+
+
+def get_session() -> dict:
     # This would be a lot easier if boto3 read AWS_ROLE_ARN like it does other
     # environment variables:
     #
     # see: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-api.html
+    session = {}
+
+    role = os.environ.get("AWS_ROLE_ARN")
 
     if role:
         sts_client = boto3.client("sts")
         response = sts_client.assume_role(
             RoleArn=role, RoleSessionName="speech-to-text"
         )
-        cred = response["Credentials"]
-        aws = boto3.resource(
-            service_name,
-            aws_access_key_id=cred["AccessKeyId"],
-            aws_secret_access_key=cred["SecretAccessKey"],
-            aws_session_token=cred["SessionToken"],
-        )
-    else:
-        aws = boto3.resource(service_name)
+        session = {
+            "aws_access_key_id": response["Credentials"]["AccessKeyId"],
+            "aws_secret_access_key": response["Credentials"]["SecretAccessKey"],
+            "aws_session_token": response["Credentials"]["SessionToken"],
+        }
 
-    return aws
+    return session
 
 
-def get_bucket():
-    s3 = get_aws("s3")
-    bucket_name = os.environ.get("SPEECH_TO_TEXT_S3_BUCKET")
+def get_bucket() -> Bucket:
+    s3 = get_s3()
+    bucket_name = os.environ.get("SPEECH_TO_TEXT_S3_BUCKET", "")
     return s3.Bucket(bucket_name)
 
 
-def get_todo_queue():
+def get_todo_queue() -> Queue:
     return get_queue(os.environ.get("SPEECH_TO_TEXT_TODO_SQS_QUEUE"))
 
 
-def get_done_queue():
+def get_done_queue() -> Queue:
     return get_queue(os.environ.get("SPEECH_TO_TEXT_DONE_SQS_QUEUE"))
 
 
-def get_queue(queue_name):
-    sqs = get_aws("sqs")
+def get_queue(queue_name) -> Queue:
+    sqs = get_sqs()
     return sqs.get_queue_by_name(QueueName=queue_name)
 
 
-def report_error(job, exception):
+def report_error(job, exception) -> None:
     """
     Add the job to the done queue with an error.
     """
@@ -247,23 +254,22 @@ def report_error(job, exception):
     queue.send_message(MessageBody=json.dumps(job))
 
 
-def check_env():
+def check_env() -> None:
     names = ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "SPEECH_TO_TEXT_S3_BUCKET"]
     for name in names:
         if os.environ.get(name) is None:
             sys.exit(f"{name} is not defined in the environment")
 
 
-def now():
+def now() -> str:
     return datetime.datetime.now(datetime.UTC).isoformat()
 
 
-def get_output_dir(job):
-    path = Path(job["id"])
-    return path
+def get_output_dir(job) -> Path:
+    return Path(job["id"])
 
 
-def create_job(media_path: Path, job_id: str = None, options={}):
+def create_job(media_path: Path, job_id: Optional[str] = None, options={}):
     """
     Create a job for a given media file by placing the media file in S3 and
     sending a message to the TODO queue. This is really just for testing since
@@ -278,7 +284,7 @@ def create_job(media_path: Path, job_id: str = None, options={}):
     return job_id
 
 
-def add_media(media_path, job_id):
+def add_media(media_path, job_id) -> str:
     """
     Upload a media file to the bucket, and return the filename.
     """
@@ -292,17 +298,15 @@ def add_media(media_path, job_id):
     return path.name
 
 
-def add_job(job):
+def add_job(job) -> None:
     """
     Create a job JSON file in the S3 bucket.
     """
     queue = get_todo_queue()
     queue.send_message(MessageBody=json.dumps(job))
 
-    return
 
-
-def receive_done_job():
+def receive_done_job() -> Optional[dict]:
     """
     Receives jobs on the DONE queue.
     """
@@ -319,7 +323,7 @@ def receive_done_job():
 
 
 @cache
-def load_whisper_model(model_name):
+def load_whisper_model(model_name) -> whisper.model.Whisper:
     if torch.cuda.is_available():
         device = "cuda"
     else:

@@ -151,7 +151,7 @@ def upload_results(job: dict) -> dict:
     output_dir = get_output_dir(job)
     for path in output_dir.iterdir():
         # ignore non output files
-        if path.suffix not in [".vtt", ".srt", ".json", ".txt", ".tsv"]:
+        if path.suffix not in [".vtt", ".txt"]:
             continue
 
         key = f"{job['id']}/output/{path.name}"

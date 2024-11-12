@@ -78,10 +78,10 @@ def test_speech_to_text(bucket, queues):
     job = json.loads(job_file["Body"].read().decode("utf-8"))
     assert len(job["output"]) == 5
     assert f"{job_id}/output/en.vtt" in job["output"]
-    assert f"{job_id}/output/en.srt" in job["output"]
     assert f"{job_id}/output/en.txt" in job["output"]
-    assert f"{job_id}/output/en.tsv" in job["output"]
-    assert f"{job_id}/output/en.json" in job["output"]
+    assert f"{job_id}/output/en.srt" not in job["output"]
+    assert f"{job_id}/output/en.tsv" not in job["output"]
+    assert f"{job_id}/output/en.json" not in job["output"]
 
     # did the max_line_width option take effect?
     assert (

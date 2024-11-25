@@ -8,6 +8,7 @@ import os
 import sys
 import uuid
 import shutil
+import subprocess
 import traceback
 from functools import cache
 from pathlib import Path
@@ -39,7 +40,7 @@ def main(daemon=True) -> None:
         except KeyboardInterrupt:
             logging.info("exiting")
             sys.exit()
-        except Exception:
+        except SpeechToTextException:
             logging.exception("error while processing job")
             report_error(job, traceback.format_exc())
 
@@ -79,7 +80,7 @@ def get_job() -> Optional[dict]:
         return None
     else:
         # this should never happen
-        raise Exception(f"expected 1 job from queue but got {len(jobs)}")
+        raise SpeechToTextException(f"expected 1 job from queue but got {len(jobs)}")
 
 
 def download_media(job: dict) -> dict:
@@ -93,6 +94,9 @@ def download_media(job: dict) -> dict:
         # note the media_file is expected to be the full path in the bucket
         # e.g. pg879tb2706-v2/video_1.mp4
         bucket.download_file(media_file, media_file)
+
+        media_info = inspect_media(media_file)
+        logging.info(f"downloaded {media_file}: {json.dumps(media_info)}")
 
     return job
 
@@ -118,7 +122,13 @@ def run_whisper(job: dict) -> dict:
         whisper_options.pop("model", None)
         whisper_options.pop("writer", None)
 
-        result = whisper.transcribe(audio=media_file, model=model, **whisper_options)
+        try:
+            result = whisper.transcribe(
+                audio=media_file, model=model, **whisper_options
+            )
+        except Exception as e:
+            raise SpeechToTextException(str(e))
+
         logging.info(f"whisper result: {result}")
 
         logging.info(f"writing output using writer_options: {writer_options}")
@@ -319,7 +329,22 @@ def receive_done_job() -> Optional[dict]:
     elif len(messages) == 0:
         return None
     else:
-        raise Exception("received more than one message from todo queue!")
+        raise SpeechToTextException("received more than one message from todo queue!")
+
+
+def inspect_media(path) -> dict:
+    try:
+        output = subprocess.check_output(
+            ["ffprobe", "-show_format", "-print_format", "json", "-v", "quiet", path]
+        )
+        result = json.loads(output)
+        return {
+            "duration": float(result["format"]["duration"]),
+            "format": result["format"]["format_name"],
+            "size": int(result["format"]["size"]),
+        }
+    except subprocess.CalledProcessError:
+        raise SpeechToTextException(f"Invalid media file {path}")
 
 
 @cache
@@ -400,3 +425,7 @@ if __name__ == "__main__":
 
     else:
         main(daemon=args.daemon)
+
+
+class SpeechToTextException(Exception):
+    pass

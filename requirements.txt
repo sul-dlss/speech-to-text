@@ -1,4 +1,5 @@
 boto3
+ffprobe3
 openai-whisper
 python-dotenv
 pytest

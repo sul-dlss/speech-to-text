@@ -12,7 +12,7 @@ import subprocess
 import traceback
 from functools import cache
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict
 
 import boto3
 import dotenv
@@ -24,10 +24,10 @@ from mypy_boto3_sqs.service_resource import SQSServiceResource, Queue
 
 
 def main(daemon=True) -> None:
-    # loop forever looking for jobs unless daemon says not to
+    # loop forever looking for jobs unless daemon option says not to
     while True:
         try:
-            job = get_job()
+            job: Optional[Dict] = get_job()
             if job is None:
                 logging.info("no jobs waiting in the todo queue")
             else:
@@ -40,9 +40,12 @@ def main(daemon=True) -> None:
         except KeyboardInterrupt:
             logging.info("exiting")
             sys.exit()
-        except SpeechToTextException:
-            logging.exception("error while processing job")
-            report_error(job, traceback.format_exc())
+        except SpeechToTextException as e:
+            report_error(
+                f"Caught error while processing job: {e}", job, traceback.format_exc()
+            )
+        except Exception as e:
+            report_error(f"Caught unexpected error: {e}", job, traceback.format_exc())
 
         if not daemon:
             break
@@ -90,9 +93,10 @@ def download_media(job: dict) -> dict:
     if not output_dir.is_dir():
         output_dir.mkdir()
 
-    for media_file in job["media"]:
+    for media in job["media"]:
         # note the media_file is expected to be the full path in the bucket
         # e.g. pg879tb2706-v2/video_1.mp4
+        media_file = media["name"]
         bucket.download_file(media_file, media_file)
 
         media_info = inspect_media(media_file)
@@ -102,48 +106,60 @@ def download_media(job: dict) -> dict:
 
 
 def run_whisper(job: dict) -> dict:
-    # this code and writer_options() below is adapted from
+    # the code for interacting with whisper here was adapted from
     # https://github.com/openai/whisper/blob/main/whisper/transcribe.py
+
     options = job.get("options", {}).copy()
 
     model_name = options.get("model", "small")
     model = load_whisper_model(model_name)
 
+    # configure the whisper writer that will take the whisper JSON output and
+    # convert to other formats like vtt, txt, etc
     output_dir = get_output_dir(job)
-
     writer = get_writer(output_format="all", output_dir=output_dir)
-    writer_options = get_writer_options(options)
 
-    for media_file in job["media"]:
-        logging.info(f"running whisper on {media_file} with options {options}")
+    for media in job["media"]:
+        media_file = media["name"]
+
+        whisper_options = {**options, **media.get("options", {})}
+        writer_options = get_writer_options(whisper_options)
 
         # remove model and writer from options that are passed to whisper
-        whisper_options = options.copy()
         whisper_options.pop("model", None)
         whisper_options.pop("writer", None)
 
+        # accumulate the options that were used for transcription and writing
+        runs = []
+
         try:
+            logging.info(
+                f"running whisper on {media_file} with model={model_name} options={whisper_options}"
+            )
             result = whisper.transcribe(
                 audio=media_file, model=model, **whisper_options
             )
+            logging.info(f"whisper result: {result}")
+
+            logging.info(f"writing output using writer_options: {writer_options}")
+            writer(result, media_file, writer_options)
         except Exception as e:
             raise SpeechToTextException(str(e))
 
-        logging.info(f"whisper result: {result}")
-
-        logging.info(f"writing output using writer_options: {writer_options}")
-        writer(result, media_file, writer_options)
+        runs.append(
+            {
+                "media": media_file,
+                "transcribe": {"model": model_name, **whisper_options},
+                "write": writer_options,
+            }
+        )
 
     job["finished"] = now()
 
-    job["extraction_technical_metadata"] = {
-        "speech_to_text_extraction_program": {
-            "name": "whisper",
-            "version": whisper.version.__version__,
-        },
-        "effective_options": options,
-        "effective_writer_options": writer_options,
-        "effective_model_name": model_name,
+    job["log"] = {
+        "name": "whisper",
+        "version": whisper.version.__version__,
+        "runs": runs,
     }
 
     return job
@@ -198,6 +214,7 @@ def get_writer_options(job: dict) -> dict:
     opts = {option: job.get("writer", {}).get(option) for option in word_options}
 
     # ensure word_timestamps is set if any of the word options are
+    # the timestamps are used by the writer
     if len(opts) > 0:
         opts["word_timestamps"] = True
 
@@ -254,14 +271,21 @@ def get_queue(queue_name) -> Queue:
     return sqs.get_queue_by_name(QueueName=queue_name)
 
 
-def report_error(job, exception) -> None:
+def report_error(message: str, job: Optional[Dict], traceback: str) -> None:
     """
     Add the job to the done queue with an error.
     """
-    job["error"] = str(exception)
-    queue = get_done_queue()
-    logging.error("sending error message to done queue: {job}")
-    queue.send_message(MessageBody=json.dumps(job))
+    full_message = message + "\n" + traceback
+    logging.exception(full_message)
+
+    # it's possible that we are reporting an error without a job
+    # we can only send a message to the DONE queue if we have a job!
+    if job is not None:
+        job["error"] = full_message
+
+        queue = get_done_queue()
+        logging.error(f"sending error message to done queue: {job}")
+        queue.send_message(MessageBody=json.dumps(job))
 
 
 def check_env() -> None:
@@ -279,17 +303,23 @@ def get_output_dir(job) -> Path:
     return Path(job["id"])
 
 
-def create_job(media_path: Path, job_id: Optional[str] = None, options={}):
+def create_job(media_path: Path, options={}):
     """
     Create a job for a given media file by placing the media file in S3 and
     sending a message to the TODO queue. This is really just for testing since
     the jobs are created by common-accessioning robot during speechToTextWF.
     """
-    job_id = str(uuid.uuid4()) if job_id is None else job_id
+    job_id = str(uuid.uuid4())
+
     add_media(media_path, job_id)
 
-    job = {"id": job_id, "media": [f"{job_id}/{media_path.name}"], "options": options}
-    add_job(job)
+    add_job(
+        {
+            "id": job_id,
+            "media": [{"name": f"{job_id}/{media_path.name}"}],
+            "options": options,
+        }
+    )
 
     return job_id
 
@@ -379,12 +409,6 @@ if __name__ == "__main__":
         help="Retrieve a job from the done queue.",
     )
     parser.add_argument(
-        "--job_id",
-        action="store",
-        dest="job_id",
-        help="Provide a pre-determined job_id when --create mode is used to create a test job",
-    )
-    parser.add_argument(
         "-d",
         "--daemon",
         action="store_true",
@@ -413,7 +437,7 @@ if __name__ == "__main__":
         if not media_path.is_file():
             logging.info(f"No such file {media_path}")
 
-        job_id = create_job(media_path, args.job_id, {"model": args.model})
+        job_id = create_job(media_path, {"model": args.model})
         logging.info(f"Created job {job_id} using {args.model}")
 
     elif args.receive_done:

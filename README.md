@@ -78,29 +78,28 @@ docker run --rm --tty --env-file .env sul-speech-to-text --receive-done
 
 ## The Job Message Structure
 
-The job is a JSON object (used as an SQS message payload) that contains information about how to run Whisper. Minimally it contains the Job ID and a list of file names, which will be used to locate media files in S3 that need to be processed.
+The job is a JSON object (used as an SQS message payload) that contains information about how to run Whisper. Minimally it contains the Job ID and a list of S3 bucket file paths, which will be used to locate media files in S3 that need to be processed.
 
 ```json
 {
-  "id": "gy983cn1444-v2",
+  "id": "gy983cn1444",
   "media": [
-    "snl_tomlin_phone_company.mp4"
-  ],
+    { "name": "gy983cn1444/media.mp4" }
+  ]
 }
 ```
 
 The job id must be a unique identifier like a UUID. In some use cases a natural key could be used, as is the case in the SDR where druid-version is used.
 
-The worker will look in the configured S3 bucket for files to process at `"{job['id']}/{media_file}"` for each `media_file` in `job["media"]`. E.g. `gy983cn1444-v2/snl_tomlin_phone_company.mp4` for the above example JSON. You can see this illustrated in the `create_job` and `add_media` test functions in `speech_to_text.py`.
+## Whisper Options
 
-You can also pass in options for Whisper, note that any options for how the transcript is serialized with a writer are given using the "writer" key:
+You can also pass in options for Whisper, note that any options for how the transcript is serialized with a writer are given using the `writer` key:
 
 ```json
 {
-  "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
+  "id": "gy983cn1444",
   "media": [
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.mp4",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.mp4"
+    { "name": "gy983cn1444/media.mp4" },
   ],
   "options": {
     "model": "large",
@@ -112,14 +111,50 @@ You can also pass in options for Whisper, note that any options for how the tran
 }
 ```
 
-When you receive the message on the DONE SQS queue it will contain JSON that looks something like:
+If you are passing in multiple files and would like to specify different options for each file you can override at the file level. For example here two files are being transcribed, the first using French and the second in Spanish:
 
 ```json
 {
-  "id": "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F",
+  "id": "gy983cn1444",
   "media": [
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.mp4",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.mp4"
+    {
+      "name": "gy983cn1444/media-fr.mp4",
+      "options": {
+        "language": "fr"
+      }
+    },
+    {
+      "name": "gy983cn1444/media-es.mp4",
+      "options": {
+        "language": "es"
+      }
+    }
+  ],
+  "options": {
+    "model": "large",
+    "beam_size": 10,
+    "writer": {
+      "max_line_width": 80
+    }
+  }
+}
+```
+
+## Receiving Jobs
+
+When a job completes you will receive a message on the DONE SQS queue which will contain JSON that looks something like:
+
+```json
+{
+  "id": "gy983cn1444",
+  "media": [
+    {
+      "name": "gy983cn1444/cat_videocat_video.mp4"
+    },
+    {
+      "name": "gy983cn1444/The_Sea_otter.mp4",
+      "language": "fr"
+    }
   ],
   "options": {
     "model": "large",
@@ -129,21 +164,67 @@ When you receive the message on the DONE SQS queue it will contain JSON that loo
     }
   },
   "output": [
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.vtt",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.srt",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.json",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.txt",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/cat_video.tsv",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.vtt",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.srt",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.json",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.txt",
-    "8EB51B59-BDFF-4507-B1AA-0DE91ACA388F/The_Sea_otter.tsv"
-  ]
+    "gy983cn1444/cat_video.vtt",
+    "gy983cn1444/cat_video.srt",
+    "gy983cn1444/cat_video.json",
+    "gy983cn1444/cat_video.txt",
+    "gy983cn1444/cat_video.tsv",
+    "gy983cn1444/The_Sea_otter.vtt",
+    "gy983cn1444/The_Sea_otter.srt",
+    "gy983cn1444/The_Sea_otter.json",
+    "gy983cn1444/The_Sea_otter.txt",
+    "gy983cn1444/The_Sea_otter.tsv"
+  ],
+  "log": {
+    "name": "whisper",
+    "version": "20240930",
+    "runs": [
+      {
+        "media": "gy983cn1444/cat_video.mp4",
+        "transcribe": {
+          "model": "large"
+        },
+        "write": {
+          "max_line_count": 80,
+          "word_timestamps": true
+        }
+      },
+      {
+        "media": "gy983cn1444/The_Sea_otter.mp4",
+        "transcribe": {
+          "model": "large",
+          "language": "fr"
+        },
+        "write": {
+          "max_line_count": 80,
+          "word_timestamps": true
+        }
+      }
+    ]
+  }
 }
-```  
+```
 
 If there was an error during processing the `output` will be an empty list, and an `error` property will be set to a message indicating what went wrong.
+
+```json
+{
+  "id": "gy983cn1444",
+  "media": [
+    "gy983cn1444/cat_videocat_video.mp4",
+    "gy983cn1444/The_Sea_otter.mp4"
+  ],
+  "options": {
+    "model": "large",
+    "beam_size": 10,
+    "writer": {
+      "max_line_count": 80
+    }
+  },
+  "output": [],
+  "error": "Invalid media file gy983cn1444/The_Sea_otter.mp4"
+}
+```
 
 ## Testing
 

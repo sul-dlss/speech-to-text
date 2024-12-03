@@ -1,6 +1,8 @@
 import os
 import boto3
 import json
+import re
+import uuid
 from pathlib import Path
 
 import moto
@@ -84,12 +86,8 @@ def test_speech_to_text(bucket, queues):
     assert f"{job_id}/output/en.json" in job["output"]
 
     # did the max_line_width option take effect?
-    assert (
-        job["extraction_technical_metadata"]["effective_writer_options"][
-            "max_line_width"
-        ]
-        == 42
-    )
+    assert job["log"]["runs"][0]["media"] == f"{job_id}/en.wav"
+    assert job["log"]["runs"][0]["write"]["max_line_width"] == 42
 
     # is there a message in the "done" queue?
     queue = speech_to_text.get_done_queue()
@@ -111,3 +109,60 @@ def test_speech_to_text(bucket, queues):
     # is the "done" queue now empty
     jobs = queue.receive_messages(MaxNumberOfMessages=1)
     assert len(jobs) == 0, "queue empty"
+
+
+# ignore utcnow warning until https://github.com/boto/boto3/issues/3889 is resolved
+@pytest.mark.filterwarnings("ignore:datetime.datetime.utcnow")
+def test_file_options(bucket, queues):
+    media_path = Path("tests/data/en.wav")
+    job_id = str(uuid.uuid4())
+    speech_to_text.add_media(media_path, job_id)
+    speech_to_text.add_job(
+        {
+            "id": job_id,
+            "media": [
+                {
+                    "name": f"{job_id}/{media_path.name}",
+                    "options": {"language": "en", "writer": {"max_line_width": 20}},
+                }
+            ],
+            "options": {"model": "tiny", "writer": {"max_line_width": 42}},
+        }
+    )
+
+    # run the job
+    speech_to_text.main(daemon=False)
+
+    # look at the done job to see if whisper ran with language=fr
+    queue = speech_to_text.get_done_queue()
+    msgs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=10)
+    assert len(msgs) == 1, "found a done message"
+
+    job = json.loads(msgs[0].body)
+    assert len(job["log"]["runs"]) == 1
+    assert job["log"]["runs"][0]["media"] == f"{job_id}/{media_path.name}"
+    assert job["log"]["runs"][0]["transcribe"]["language"] == "en"
+    assert job["log"]["runs"][0]["transcribe"]["model"] == "tiny"
+    assert job["log"]["runs"][0]["write"]["max_line_width"] == 20
+
+
+# ignore utcnow warning until https://github.com/boto/boto3/issues/3889 is resolved
+@pytest.mark.filterwarnings("ignore:datetime.datetime.utcnow")
+def test_exception_handling(bucket, queues):
+    # ensure that an invalid job won't cause the processing to fail
+    media_path = Path("tests/data/en.wav")
+    job_id = str(uuid.uuid4())
+    speech_to_text.add_media(media_path, job_id)
+    speech_to_text.add_job({"id": job_id, "media": ["foo"]})
+
+    # run the job
+    speech_to_text.main(daemon=False)
+
+    # look at the done job to see if whisper ran with language=fr
+    queue = speech_to_text.get_done_queue()
+    msgs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=10)
+    assert len(msgs) == 1, "found a done message"
+
+    job = json.loads(msgs[0].body)
+    assert "error" in job, "it's an error message"
+    assert re.match("^Caught unexpected error.*", job["error"]), "error message"

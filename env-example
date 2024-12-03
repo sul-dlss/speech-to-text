@@ -6,3 +6,4 @@ SPEECH_TO_TEXT_S3_BUCKET=sul-speech-to-text-dev-your-username
 SPEECH_TO_TEXT_TODO_SQS_QUEUE=sul-speech-to-text-todo-dev-your-username
 SPEECH_TO_TEXT_DONE_SQS_QUEUE=sul-speech-to-text-done-dev-your-username
 HONEYBADGER_API_KEY=CHANGE_ME
+HONEYBADGER_ENV=stage

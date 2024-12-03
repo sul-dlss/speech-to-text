@@ -87,6 +87,7 @@ def test_speech_to_text(bucket, queues):
 
     # did the max_line_width option take effect?
     assert job["log"]["runs"][0]["media"] == f"{job_id}/en.wav"
+    assert job["log"]["runs"][0]["transcribe"]["word_timestamps"] is True
     assert job["log"]["runs"][0]["write"]["max_line_width"] == 42
 
     # is there a message in the "done" queue?

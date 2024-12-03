@@ -27,7 +27,7 @@ $ aws sqs create-queue --queue-name sul-speech-to-text-todo-your-username
 $ aws sqs create-queue --queue-name sul-speech-to-text-done-your-username
 ```
 
-Create a bucket: 
+Create a bucket:
 
 ```shell
 aws s3 mb s3://sul-speech-to-text-dev-your-username

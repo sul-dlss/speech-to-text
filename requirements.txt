@@ -1,5 +1,6 @@
 boto3
 ffprobe3
+honeybadger
 openai-whisper
 python-dotenv
 pytest

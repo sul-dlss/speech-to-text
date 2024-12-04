@@ -238,3 +238,25 @@ pytest
 ```
 
 Note: the tests use the [moto](https://docs.getmoto.org/en/latest/) library to mock out AWS resources. If you want to test live AWS you can follow the steps above to create a job, run, and then receive the done message.
+
+## Linting and Type Checking
+
+You may notice your changes fail in CI if they require reformatting or fail type checking. We use [ruff](https://docs.astral.sh/ruff/) for formatting Python code, and [mypy](https://mypy-lang.org/) for type checking. Both of those should be present in your virtual environment.
+
+If you want to reformat your code you can:
+
+```shell
+ruff format .
+```
+
+If you would prefer to see what would change you can:
+
+```shell
+ruff format --check .
+```
+
+Similarly if you would like to see if there are any type checking errors you can:
+
+```shell
+mypy .
+```

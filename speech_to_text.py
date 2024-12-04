@@ -10,7 +10,7 @@ import uuid
 import shutil
 import subprocess
 import traceback
-import honeybadger
+from honeybadger import honeybadger
 from functools import cache
 from pathlib import Path
 from typing import Optional, Dict

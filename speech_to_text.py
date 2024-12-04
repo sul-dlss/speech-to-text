@@ -123,7 +123,10 @@ def run_whisper(job: dict) -> dict:
         media_file = media["name"]
 
         whisper_options = {**options, **media.get("options", {})}
-        writer_options = get_writer_options(whisper_options)
+
+        writer_options = whisper_options.get("writer", {})
+        if len(writer_options) > 0:
+            whisper_options["word_timestamps"] = True
 
         # remove model and writer from options that are passed to whisper
         whisper_options.pop("model", None)
@@ -201,24 +204,6 @@ def finish_job(job: dict) -> dict:
     queue.send_message(MessageBody=json.dumps(job))
 
     return job
-
-
-def get_writer_options(job: dict) -> dict:
-    word_options = [
-        "highlight_words",
-        "max_line_count",
-        "max_line_width",
-        "max_words_per_line",
-    ]
-
-    opts = {option: job.get("writer", {}).get(option) for option in word_options}
-
-    # ensure word_timestamps is set if any of the word options are
-    # the timestamps are used by the writer
-    if len(opts) > 0:
-        opts["word_timestamps"] = True
-
-    return opts
 
 
 def get_s3() -> S3ServiceResource:

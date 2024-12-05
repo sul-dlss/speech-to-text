@@ -8,6 +8,7 @@ from pathlib import Path
 import moto
 import pytest
 import speech_to_text
+from unittest.mock import patch
 
 BUCKET = "bucket"
 TODO_QUEUE = "todo"
@@ -167,3 +168,26 @@ def test_exception_handling(bucket, queues):
     job = json.loads(msgs[0].body)
     assert "error" in job, "it's an error message"
     assert re.match("^Caught unexpected error.*", job["error"]), "error message"
+
+
+# ignore utcnow warning until https://github.com/boto/boto3/issues/3889 is resolved
+@pytest.mark.filterwarnings("ignore:datetime.datetime.utcnow")
+@patch("speech_to_text.honeybadger")  # Mock the honeybadger module
+def test_honeybadger_notification(mock_honeybadger, bucket, queues):
+    # ensure that honeybadger is notified when an exception occurs
+    media_path = Path("tests/data/en.wav")
+    job_id = str(uuid.uuid4())
+    speech_to_text.add_media(media_path, job_id)
+
+    # Create an invalid job to trigger an exception
+    speech_to_text.add_job({"id": job_id, "media": ["foo"]})
+
+    # run the job
+    speech_to_text.main(daemon=False)
+
+    # Assert that honeybadger.notify was called
+    mock_honeybadger.notify.assert_called_once()
+    args, kwargs = mock_honeybadger.notify.call_args
+    assert "Whisper AWS process" in args[0]
+    assert "job" in kwargs["context"]
+    assert "traceback" in kwargs["context"]

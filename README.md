@@ -251,6 +251,12 @@ If you get no result, install with:
 
 You may notice your changes fail in CI if they require reformatting or fail type checking. We use [ruff](https://docs.astral.sh/ruff/) for formatting Python code, and [mypy](https://mypy-lang.org/) for type checking. Both of those should be present in your virtual environment.
 
+Check your code:
+
+```shell
+ruff check
+```
+
 If you want to reformat your code you can:
 
 ```shell

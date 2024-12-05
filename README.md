@@ -239,6 +239,14 @@ pytest
 
 Note: the tests use the [moto](https://docs.getmoto.org/en/latest/) library to mock out AWS resources. If you want to test live AWS you can follow the steps above to create a job, run, and then receive the done message.
 
+You may need to install `ffmpeg` on your laptop in order to run the tests.  On a Mac, see if you have the dependency installed:
+
+`which ffprobe`
+
+If you get no result, install with:
+
+`brew install ffmpeg`
+
 ## Linting and Type Checking
 
 You may notice your changes fail in CI if they require reformatting or fail type checking. We use [ruff](https://docs.astral.sh/ruff/) for formatting Python code, and [mypy](https://mypy-lang.org/) for type checking. Both of those should be present in your virtual environment.

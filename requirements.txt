@@ -1,8 +1,10 @@
 boto3
+boto3-stubs[s3,sqs,sts]
 ffprobe3
+honeybadger
+moto[s3,sqs,sts]
+mypy
 openai-whisper
 python-dotenv
 pytest
-moto[s3,sqs,sts]
-mypy
-boto3-stubs[s3,sqs,sts]
+ruff

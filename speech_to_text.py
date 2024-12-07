@@ -10,6 +10,7 @@ import uuid
 import shutil
 import subprocess
 import traceback
+from honeybadger import honeybadger
 from functools import cache
 from pathlib import Path
 from typing import Optional, Dict
@@ -21,6 +22,11 @@ import whisper
 from whisper.utils import get_writer
 from mypy_boto3_s3.service_resource import Bucket, S3ServiceResource
 from mypy_boto3_sqs.service_resource import SQSServiceResource, Queue
+
+honeybadger.configure(
+    api_key=os.environ.get("HONEYBADGER_API_KEY", ""),
+    environment=os.environ.get("HONEYBADGER_ENV", "stage"),
+)
 
 
 def main(daemon=True) -> None:
@@ -262,6 +268,9 @@ def report_error(message: str, job: Optional[Dict], traceback: str) -> None:
     """
     full_message = message + "\n" + traceback
     logging.exception(full_message)
+    honeybadger.notify(
+        "Whisper AWS process \n" + message, context={"job": job, "traceback": traceback}
+    )
 
     # it's possible that we are reporting an error without a job
     # we can only send a message to the DONE queue if we have a job!

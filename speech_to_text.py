@@ -119,6 +119,9 @@ def run_whisper(job: dict) -> dict:
     output_dir = get_output_dir(job)
     writer = get_writer(output_format="all", output_dir=output_dir)
 
+    # accumulate the options that were used for transcription and writing
+    runs = []
+
     for media in job["media"]:
         media_file = media["name"]
 
@@ -131,9 +134,6 @@ def run_whisper(job: dict) -> dict:
         # remove model and writer from options that are passed to whisper
         whisper_options.pop("model", None)
         whisper_options.pop("writer", None)
-
-        # accumulate the options that were used for transcription and writing
-        runs = []
 
         try:
             logging.info(
@@ -374,6 +374,10 @@ def load_whisper_model(model_name) -> whisper.model.Whisper:
     return whisper.load_model(model_name, download_root="whisper_models", device=device)
 
 
+class SpeechToTextException(Exception):
+    pass
+
+
 if __name__ == "__main__":
     dotenv.load_dotenv()
 
@@ -434,7 +438,3 @@ if __name__ == "__main__":
 
     else:
         main(daemon=args.daemon)
-
-
-class SpeechToTextException(Exception):
-    pass

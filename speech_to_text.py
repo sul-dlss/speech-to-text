@@ -11,7 +11,6 @@ import shutil
 import subprocess
 import traceback
 from honeybadger import honeybadger
-from functools import cache
 from pathlib import Path
 from typing import Optional, Dict
 
@@ -290,7 +289,7 @@ def check_env() -> None:
 
 
 def now() -> str:
-    return datetime.datetime.now(datetime.UTC).isoformat()
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
 def get_output_dir(job) -> Path:
@@ -371,7 +370,6 @@ def inspect_media(path) -> dict:
         raise SpeechToTextException(f"Invalid media file {path}")
 
 
-@cache
 def load_whisper_model(model_name) -> whisper.model.Whisper:
     if torch.cuda.is_available():
         device = "cuda"

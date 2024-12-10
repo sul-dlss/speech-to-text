@@ -6,6 +6,11 @@ This repository contains a Docker configuration for performing serverless speech
 
 ## Build
 
+First a note of caution if you are updating the Docker image. In order to prevent random segmentation faults you will want to make sure that:
+
+1. You are using an [nvidia/cuda](https://hub.docker.com/r/nvidia/cuda) base Docker image.
+2. The version of CUDA you are using in the Docker container aligns with the version of CUDA that is installed in the host operating system that is running Docker.
+
 To build the container you will need to first download the pytorch models that Whisper uses. This is about 13GB of data and can take some time! The idea here is to bake the models into Docker image so they don't need to be fetched dynamically every time the container runs (which will add to the runtime). If you know you only need one size model, and want to just include that then edit the `whisper_models/urls.txt` file accordingly before running the `wget` command.
 
 ```shell

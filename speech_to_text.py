@@ -10,7 +10,6 @@ import uuid
 import shutil
 import subprocess
 import traceback
-from honeybadger import honeybadger
 from functools import cache
 from pathlib import Path
 from typing import Optional, Dict
@@ -19,6 +18,7 @@ import boto3
 import dotenv
 import torch
 import whisper
+from honeybadger import honeybadger
 from whisper.utils import get_writer
 from mypy_boto3_s3.service_resource import Bucket, S3ServiceResource
 from mypy_boto3_sqs.service_resource import SQSServiceResource, Queue
@@ -290,7 +290,7 @@ def check_env() -> None:
 
 
 def now() -> str:
-    return datetime.datetime.now(datetime.UTC).isoformat()
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
 def get_output_dir(job) -> Path:

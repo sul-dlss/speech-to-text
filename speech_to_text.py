@@ -198,7 +198,7 @@ def upload_results(job: dict) -> dict:
 
     # the files have landed in s3 so the local copies can be deleted so they
     # don't accumulate in the docker container over time
-    logging.info("deleting local files for job: {output_dir}")
+    logging.info(f"deleting local files for job: {output_dir}")
     shutil.rmtree(output_dir)
 
     return job

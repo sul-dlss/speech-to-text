@@ -10,7 +10,6 @@ import uuid
 import shutil
 import subprocess
 import traceback
-from functools import cache
 from pathlib import Path
 from typing import Optional, Dict
 
@@ -371,7 +370,6 @@ def inspect_media(path) -> dict:
         raise SpeechToTextException(f"Invalid media file {path}")
 
 
-@cache
 def load_whisper_model(model_name) -> whisper.model.Whisper:
     if torch.cuda.is_available():
         device = "cuda"

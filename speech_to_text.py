@@ -268,7 +268,9 @@ def report_error(message: str, job: Optional[Dict], traceback: str) -> None:
     full_message = message + "\n" + traceback
     logging.exception(full_message)
     honeybadger.notify(
-        "Whisper AWS process \n" + message, context={"job": job, "traceback": traceback}
+        error_class="SpeechToTextError",
+        error_message="Whisper AWS process \n" + message,
+        context={"job": job, "traceback": traceback},
     )
 
     # it's possible that we are reporting an error without a job

@@ -188,6 +188,7 @@ def test_honeybadger_notification(mock_honeybadger, bucket, queues):
     # Assert that honeybadger.notify was called
     mock_honeybadger.notify.assert_called_once()
     args, kwargs = mock_honeybadger.notify.call_args
-    assert "Whisper AWS process" in args[0]
+    assert kwargs["error_class"] == "SpeechToTextError"
+    assert "Whisper AWS process" in kwargs["error_message"]
     assert "job" in kwargs["context"]
     assert "traceback" in kwargs["context"]

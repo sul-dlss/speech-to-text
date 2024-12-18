@@ -1,5 +1,5 @@
 name: Test
-on: 
+on:
   - push
 jobs:
   build:
@@ -18,12 +18,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Lint
-        uses: chartboost/ruff-action@v1
-        # Default action is 'check'
-        # it may move, see https://github.com/astral-sh/ruff/issues/8400
+        uses: astral-sh/ruff-action@v2
+        with:
+          args: 'check'
 
       - name: Format
-        uses: chartboost/ruff-action@v1
+        uses: astral-sh/ruff-action@v2
         with:
           args: 'format --check'
 

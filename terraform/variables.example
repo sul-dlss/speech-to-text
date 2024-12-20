@@ -1,0 +1,6 @@
+# The project-name needs to be unique in Amazon S3 and Batch since it used to
+# name an S3 and Batch resources.
+
+variable "project_name" {
+  default = "your-project-name"
+}

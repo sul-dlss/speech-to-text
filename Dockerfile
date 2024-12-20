@@ -16,5 +16,6 @@ RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install -r requirements.txt
 
 ADD ./speech_to_text.py speech_to_text.py
+RUN python3 -m py_compile speech_to_text.py
 
 ENTRYPOINT ["python3", "speech_to_text.py"]

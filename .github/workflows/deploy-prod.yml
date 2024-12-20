@@ -1,0 +1,27 @@
+# Build and deploy a Docker image to the production AWS environment
+# when a new release has been created.
+
+name: Deploy to Production
+
+on:
+  release:
+    types:
+      published
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Build and push Docker image to production
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+          AWS_ECR_DOCKER_REPO: ${{ secrets.AWS_ECR_DOCKER_REPO_PRODUCTION }}
+        run: |
+          echo "production deploy not yet enabled"
+          # uncomment this when the keys are avaialable!
+          # ./deploy.sh

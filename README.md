@@ -27,45 +27,38 @@ terraform validate
 terraform apply
 ```
 
-## Build Docker Image
+## Build and Deploy
 
-To build the container you will need to first download the pytorch models that Whisper uses. This is about 13GB of data and can take some time! The idea here is to bake the models into Docker image so they don't need to be fetched dynamically every time the container runs (which will add to the runtime). If you know you only need one size model, and want to just include that then edit the `whisper_models/urls.txt` file accordingly before running the `wget` command.
+In order to use the service you will need to build and deploy the speech-to-text Docker image to ECR where it will be picked up by Batch you can use the provided `deploy.sh` script.
 
-```shell
-wget --directory-prefix whisper_models --input-file whisper_models/urls.txt
+Before running it you will need to define three environment variables using the values that Terraform has created for you, which you can inspect by running `terraform output`:
+
+```
+$ terraform output
+
+batch_job_definition = "arn:aws:batch:us-west-2:1234567890123:job-definition/sul-speech-to-text-qa"
+batch_job_queue = "arn:aws:batch:us-west-2:1234567890123:job-queue/sul-speech-to-text-qa"
+docker_repository = "1234567890123.dkr.ecr.us-west-2.amazonaws.com/sul-speech-to-text-qa"
+ecs_instance_role = "sul-speech-to-text-qa-ecs-instance-role"
+s3_bucket = "arn:aws:s3:::sul-speech-to-text-qa"
+sqs_done_queue = "https://sqs.us-west-2.amazonaws.com/1234567890123/sul-speech-to-text-done-qa"
+text_to_speech_access_key_id = "XXXXXXXXXXXXXX"
+text_to_speech_secret_access_key = <sensitive>
+
+$ terraform output text_to_speech_secret_access_key
+"XXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
-Then you can build the image:
+You will want to set these in your environment:
 
-```shell
-docker build --tag sul-speech-to-text .
-```
+- AWS_ACCESS_KEY_ID: the `text_to_speech_access_key_id` value
+- AWS_SECRET_ACCESS_KEY: the `text_to_speech_secret_access_key`
+- AWS_ECR_DOCKER_REPO: the `docker_repository` value
 
-## Push Docker Image
+Then you can run the deploy:
 
-You will need to push your Docker image to the ECR repository that Terraform created. You can ask Terraform for the repository URL that it created. For example mine is:
-
-```shell
-terraform output docker_repository
-"482101366956.dkr.ecr.us-east-1.amazonaws.com/edsu-speech-to-text-qa"
-```
-
-Tag your Docker image with the ECR URL:
-
-```shell
-docker tag speech-to-text YOUR-ECR-URL
-```
-
-Ensure your Docker client is logged in:
-
-```shell
-aws ecr get-login-password | docker login --username AWS --password-stdin YOUR-ECR-URL
-```
-
-And then you can push the Docker image:
-
-```shell
-docker push YOUR-ECR-URL
+```bash
+$ ./deploy.sh
 ```
 
 ## Run
@@ -282,7 +275,11 @@ If you get no result, install with:
 
 `brew install ffmpeg`
 
-## Updating Docker Image
+## Continuous Integration
+
+This Github repository is set up with a Github Action that will automatically deployed tagged releases e.g. `rel-2025-01-01` to the DLSS development and staging AWS environments. When a Github release is created it will automatically be deployed to the production AWS environment.
+
+## Development Notes
 
 When updating the base Docker image, in order to prevent random segmentation faults you will want to make sure that:
 

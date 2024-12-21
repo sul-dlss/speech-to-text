@@ -1,6 +1,22 @@
-# The project-name needs to be unique in Amazon S3 and Batch since it used to
-# name an S3 and Batch resources.
+# the project name needs to uniquely identify your application in AWS S3
 
 variable "project_name" {
-  default = "your-project-name"
+  default = "my-project-name"
 }
+
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "availability_zone" {
+  default = "us-east-1a"
+}
+
+variable "default_tags" {
+  default = {
+    environment = "production"
+    project     = "speech_to_text"
+    terraform   = "true"
+  }
+}
+

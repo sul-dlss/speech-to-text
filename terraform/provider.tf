@@ -1,11 +1,7 @@
 provider "aws" {
-  region  = "us-east-1"
+  region  = var.region
 
   default_tags {
-    tags = {
-      environment = "qa"
-      project     = "speech_to_text"
-      terraform   = "true"
-    }
+    tags = var.default_tags
   }
 }

@@ -20,75 +20,24 @@ import whisper
 from honeybadger import honeybadger
 from whisper.utils import get_writer
 from mypy_boto3_s3.service_resource import Bucket, S3ServiceResource
-from mypy_boto3_sqs.service_resource import SQSServiceResource, Queue
-
-honeybadger.configure(
-    api_key=os.environ.get("HONEYBADGER_API_KEY", ""),
-    environment=os.environ.get("HONEYBADGER_ENV", "stage"),
-)
+from mypy_boto3_sqs.service_resource import Queue
 
 
-def main(daemon=True) -> None:
-    # loop forever looking for jobs unless daemon option says not to
-    while True:
-        try:
-            job: Optional[Dict] = get_job()
-            if job is None:
-                logging.info("no jobs waiting in the todo queue")
-            else:
-                logging.info(f"starting job {job}")
-                job = download_media(job)
-                job = run_whisper(job)
-                job = upload_results(job)
-                job = finish_job(job)
-                logging.info(f"finished job {job}")
-        except KeyboardInterrupt:
-            logging.info("exiting")
-            sys.exit()
-        except SpeechToTextException as e:
-            report_error(
-                f"Caught error while processing job: {e}", job, traceback.format_exc()
-            )
-        except Exception as e:
-            report_error(f"Caught unexpected error: {e}", job, traceback.format_exc())
-
-        if not daemon:
-            break
-
-
-def get_job() -> Optional[dict]:
-    """
-    Fetch the next job that is queued for processing. If no job is found in WaitTimeSeconds
-    seconds None will be returned.
-    """
-    queue = get_todo_queue()
-    logging.info("looking for messages in the todo queue")
-    jobs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=20)
-
-    if len(jobs) == 1:
-        msg = jobs[0]
-        job = json.loads(msg.body)
-
-        # The default Visibilty Timeout for a queue is 30 seconds. If we don't delete the
-        # message or update its Visibility Timeout in that time SQS will automatically
-        # requeue the message. This could lead to multiple workers working on
-        # the same job!
-        #
-        # While we could set the Visibility Timeout to some higher value (less than the 12 hour
-        # maximum), the approach taken here is to delete the message once it has been received.
-        # This means if processing fails for whatever reason we won't get the job automatically
-        # requeued. But this is a good thing since Whisper processing on a GPU is expensive.
-        # Instead exceptions will be caught and an error message will be sent to the Done queue.
-        #
-        # See: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html
-        msg.delete()
-
-        return job
-    elif len(jobs) == 0:
-        return None
-    else:
-        # this should never happen
-        raise SpeechToTextException(f"expected 1 job from queue but got {len(jobs)}")
+def main(job: Dict) -> None:
+    try:
+        if job is None:
+            logging.info("no jobs waiting in the todo queue")
+        else:
+            logging.info(f"starting job {job}")
+            job = download_media(job)
+            job = run_whisper(job)
+            job = upload_results(job)
+            job = finish_job(job)
+            logging.info(f"finished job {job}")
+    except SpeechToTextException as e:
+        report_error(f"Unexpected error while processing job: {e}", job, e)
+    except Exception as e:
+        report_error(f"Unexpected error: {e}", job, e)
 
 
 def download_media(job: dict) -> dict:
@@ -215,10 +164,6 @@ def get_s3() -> S3ServiceResource:
     return boto3.resource("s3", **get_session())
 
 
-def get_sqs() -> SQSServiceResource:
-    return boto3.resource("sqs", **get_session())
-
-
 def get_session() -> dict:
     # This would be a lot easier if boto3 read AWS_ROLE_ARN like it does other
     # environment variables:
@@ -248,30 +193,20 @@ def get_bucket() -> Bucket:
     return s3.Bucket(bucket_name)
 
 
-def get_todo_queue() -> Queue:
-    return get_queue(os.environ.get("SPEECH_TO_TEXT_TODO_SQS_QUEUE"))
-
-
 def get_done_queue() -> Queue:
-    return get_queue(os.environ.get("SPEECH_TO_TEXT_DONE_SQS_QUEUE"))
+    sqs = boto3.resource("sqs", **get_session())
+    return sqs.get_queue_by_name(
+        QueueName=os.environ.get("SPEECH_TO_TEXT_DONE_SQS_QUEUE", "")
+    )
 
 
-def get_queue(queue_name) -> Queue:
-    sqs = get_sqs()
-    return sqs.get_queue_by_name(QueueName=queue_name)
-
-
-def report_error(message: str, job: Optional[Dict], traceback: str) -> None:
+def report_error(message: str, job: Optional[Dict], e: Exception) -> None:
     """
     Add the job to the done queue with an error.
     """
-    full_message = message + "\n" + traceback
+    stacktrace = traceback.format_exc()
+    full_message = message + "\n" + stacktrace
     logging.exception(full_message)
-    honeybadger.notify(
-        error_class="SpeechToTextError",
-        error_message="Whisper AWS process \n" + message,
-        context={"job": job, "traceback": traceback},
-    )
 
     # it's possible that we are reporting an error without a job
     # we can only send a message to the DONE queue if we have a job!
@@ -281,6 +216,18 @@ def report_error(message: str, job: Optional[Dict], traceback: str) -> None:
         queue = get_done_queue()
         logging.error(f"sending error message to done queue: {job}")
         queue.send_message(MessageBody=json.dumps(job))
+
+    hb_key = os.environ.get("HONEYBADGER_API_KEY", "")
+    hb_env = os.environ.get("HONEYBADGER_ENV", "stage")
+    honeybadger.configure(api_key=hb_key, environment=hb_env)
+
+    honeybadger.notify(
+        error_class="SpeechToTextError",
+        error_message="Whisper AWS process \n" + message,
+        context={"job": job, "traceback": stacktrace},
+    )
+
+    raise e
 
 
 def check_env() -> None:
@@ -300,15 +247,16 @@ def get_output_dir(job) -> Path:
 
 def create_job(media_path: Path, options={}):
     """
-    Create a job for a given media file by placing the media file in S3 and
-    sending a message to the TODO queue. This is really just for testing since
-    the jobs are created by common-accessioning robot during speechToTextWF.
+    Create a job for a given media file by placing the media file in S3 and then
+    performing the transcription using the supplied options.
+
+    This is mostly here just for testing.
     """
     job_id = str(uuid.uuid4())
 
     add_media(media_path, job_id)
 
-    add_job(
+    main(
         {
             "id": job_id,
             "media": [{"name": f"{job_id}/{media_path.name}"}],
@@ -331,30 +279,6 @@ def add_media(media_path, job_id) -> str:
     bucket.upload_file(media_path, key)
 
     return path.name
-
-
-def add_job(job) -> None:
-    """
-    Create a job JSON file in the S3 bucket.
-    """
-    queue = get_todo_queue()
-    queue.send_message(MessageBody=json.dumps(job))
-
-
-def receive_done_job() -> Optional[dict]:
-    """
-    Receives jobs on the DONE queue.
-    """
-    queue = get_done_queue()
-    messages = queue.receive_messages(MaxNumberOfMessages=1)
-    if len(messages) == 1:
-        msg = messages[0]
-        msg.delete()
-        return json.loads(msg.body)
-    elif len(messages) == 0:
-        return None
-    else:
-        raise SpeechToTextException("received more than one message from todo queue!")
 
 
 def inspect_media(path) -> dict:
@@ -399,51 +323,22 @@ if __name__ == "__main__":
     check_env()
 
     parser = argparse.ArgumentParser(prog="speech_to_text")
-    parser.add_argument("-c", "--create", help="Create a job for a given media file")
     parser.add_argument(
-        "-r",
-        "--receive-done",
-        action="store_true",
-        help="Retrieve a job from the done queue.",
-    )
-    parser.add_argument(
-        "-d",
-        "--daemon",
-        action="store_true",
-        default=True,
-        dest="daemon",
-        help="Run forever looking for jobs",
-    )
-    parser.add_argument(
-        "-n",
-        "--no-daemon",
-        action="store_false",
-        default=False,
-        dest="daemon",
-        help="Run one job and exit.",
-    )
-    parser.add_argument(
-        "-m",
-        "--model",
-        default="small",
-        help="Create a job using a specific Whisper model",
+        "-j",
+        "--job",
+        required=True,
+        help="A JSON string for a job, or path to a JSON file",
     )
     args = parser.parse_args()
 
-    if args.create:
-        media_path = Path(args.create)
-        if not media_path.is_file():
-            logging.info(f"No such file {media_path}")
-
-        job_id = create_job(media_path, {"model": args.model})
-        logging.info(f"Created job {job_id} using {args.model}")
-
-    elif args.receive_done:
-        job = receive_done_job()
-        if job is not None:
-            logging.info(json.dumps(job, indent=2))
+    # get the job either from a JSON string or file
+    try:
+        if Path(args.job).is_file():
+            job = json.load(open(args.job))
         else:
-            logging.info("No messages were found in the todo queue...")
+            job = json.loads(args.job)
+    except json.decoder.JSONDecodeError as e:
+        sys.exit(f"Invalid job {e} for JSON {args.job}")
 
-    else:
-        main(daemon=args.daemon)
+    # run the job!
+    main(job)

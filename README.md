@@ -29,7 +29,7 @@ terraform apply
 
 ## Build and Deploy
 
-In order to use the service you will need to build and deploy the speech-to-text Docker image to ECR where it will be picked up by Batch you can use the provided `deploy.sh` script.
+In order to use the service, you will need to build and deploy the speech-to-text Docker image to ECR, where it will be picked up by Batch. You can use the provided `deploy.sh` script to build and deploy.
 
 Before running it you will need to define three environment variables using the values that Terraform has created for you, which you can inspect by running `terraform output`:
 
@@ -59,6 +59,13 @@ Then you can run the deploy:
 
 ```bash
 $ ./deploy.sh
+```
+
+Since this project already installs the `python-dotenv` package, you can do something like the following to run the deploy script with the correct environment variable values, if you want to avoid pasting credentials into your terminal and/or having them stored in your shell history:
+
+```shell
+# requires you to create a .env.qa file with the QA-specific env vars values needed by deploy.sh
+dotenv --file=.env.qa run ./deploy.sh
 ```
 
 ## Run
@@ -265,6 +272,11 @@ pip install -r requirements.txt
 pytest
 ```
 
+If you've already installed dependencies in your current virtual env, and want to update to the latest versions:
+```shell
+pip install --upgrade -r requirements.txt
+```
+
 Note: the tests use the [moto](https://docs.getmoto.org/en/latest/) library to mock out AWS resources. If you want to test live AWS you can follow the steps above to create a job, run, and then receive the done message.
 
 You may need to install `ffmpeg` on your laptop in order to run the tests.  On a Mac, see if you have the dependency installed:
@@ -305,11 +317,17 @@ ruff format .
 If you would prefer to see what would change you can:
 
 ```shell
-ruff format --check .
+ruff format --check . # just tells you that things would change, e.g. "1 file would be reformatted, 4 files already formatted"
+ruff format --diff .  # if files would be reformatted: print the diff between the current file and the re-formatted file, then exit with non-zero status code
 ```
 
 Similarly if you would like to see if there are any type checking errors you can:
 
 ```shell
 mypy .
+```
+
+One line for running the linter, the type checker, and the test suite (failing fast if there are errors):
+```shell
+ruff format --diff . && ruff check && mypy . && pytest
 ```

@@ -1,0 +1,272 @@
+{
+  "cocinaVersion": "0.99.3",
+  "type": "https://cocina.sul.stanford.edu/models/media",
+  "externalIdentifier": "druid:fk250vc8974",
+  "label": "lost-landscapes",
+  "version": 6,
+  "access": {
+    "view": "world",
+    "download": "world",
+    "controlledDigitalLending": false
+  },
+  "administrative": {
+    "hasAdminPolicy": "druid:pp818dw4992"
+  },
+  "description": {
+    "title": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "lost-landscapes",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "contributor": [],
+    "event": [],
+    "form": [],
+    "geographic": [],
+    "language": [],
+    "note": [],
+    "identifier": [],
+    "subject": [],
+    "relatedResource": [],
+    "marcEncodedData": [],
+    "purl": "https://sul-purl-stage.stanford.edu/fk250vc8974"
+  },
+  "identification": {
+    "catalogLinks": [],
+    "sourceId": "lost:landscapes"
+  },
+  "structural": {
+    "contains": [
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/video",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/fk250vc8974-eb3f3c64-a6ab-42ba-8038-042410ea5287",
+        "label": "video",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/fk250vc8974-eb3f3c64-a6ab-42ba-8038-042410ea5287/LLSF_7_20121209.mp4",
+              "label": "LLSF_7_20121209.mp4",
+              "filename": "LLSF_7_20121209.mp4",
+              "size": 417604955,
+              "version": 1,
+              "hasMimeType": "video/mp4",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "f10b07c1953e58260cc67ba1388bdc20"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "c45aac47d43fdfc82d44c9daba4958b50235ab73"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/5d65567a-c6f0-429f-b377-5924a18d5b65",
+              "label": "LLSF_7_20121209.txt",
+              "filename": "LLSF_7_20121209.txt",
+              "size": 9718,
+              "version": 4,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "8d600967502c3349ca2c08b305ef6ae8"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "397d6c940c851d8f461f0eff150cbb4c6008dad2"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/e7a58722-9da7-44dd-9041-6cb9659506d4",
+              "label": "LLSF_7_20121209.vtt",
+              "filename": "LLSF_7_20121209.vtt",
+              "size": 19196,
+              "version": 4,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "e9a66fe4df3704668feb26b48ce26530"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "dbb02cadf153540345ac24937c905aa99f3dd757"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/9d46dc52-9ff8-41cc-adf9-dd8e53982e08",
+              "label": "LLSF_7_20121209_mp4.txt",
+              "filename": "LLSF_7_20121209_mp4.txt",
+              "size": 9683,
+              "version": 6,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "da16e87a00ce1af9f47d41d7a4183bdf"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "ddbf0e839c86e845d2db3ab711ff9071df52d81b"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/4eefd723-7500-4ed9-a4e7-2070f6efd59f",
+              "label": "LLSF_7_20121209_mp4.vtt",
+              "filename": "LLSF_7_20121209_mp4.vtt",
+              "size": 19161,
+              "version": 6,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "ce999c70bfbdd1c166edc15c28de9678"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "6c60c692244f1aca64fa2dff817ec8b93a0b38db"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/file",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/fk250vc8974-fc68f721-10bc-453b-a3fa-d789582cc609",
+        "label": "file",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/fk250vc8974-fc68f721-10bc-453b-a3fa-d789582cc609/internet-archive-whisper-files.zip",
+              "label": "internet-archive-whisper-files.zip",
+              "filename": "internet-archive-whisper-files.zip",
+              "size": 98946,
+              "version": 1,
+              "hasMimeType": "application/zip",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "1bc2f3422951520dbf6f10b88c6867fb"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "2358b9999ee2faaae9d9ccf8d8c4947881fc9106"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "hasMemberOrders": [],
+    "isMemberOf": [
+      "druid:mk455yf5748"
+    ]
+  },
+  "created": "2025-01-31T16:44:42.000+00:00",
+  "modified": "2025-01-31T18:27:01.000+00:00",
+  "lock": "druid:fk250vc8974=12=2"
+}

@@ -1,0 +1,348 @@
+{
+  "cocinaVersion": "0.99.3",
+  "type": "https://cocina.sul.stanford.edu/models/media",
+  "externalIdentifier": "druid:xs708yc4548",
+  "label": "tibetan oral history (tibetan and english)",
+  "version": 6,
+  "access": {
+    "view": "world",
+    "download": "world",
+    "controlledDigitalLending": false
+  },
+  "administrative": {
+    "hasAdminPolicy": "druid:pp818dw4992"
+  },
+  "description": {
+    "title": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "tibetan oral history (tibetan and english)",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "contributor": [],
+    "event": [],
+    "form": [],
+    "geographic": [],
+    "language": [],
+    "note": [],
+    "identifier": [],
+    "subject": [],
+    "relatedResource": [],
+    "marcEncodedData": [],
+    "purl": "https://sul-purl-stage.stanford.edu/xs708yc4548"
+  },
+  "identification": {
+    "catalogLinks": [],
+    "sourceId": "prod:dd704pb2854"
+  },
+  "structural": {
+    "contains": [
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/video",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/xs708yc4548-42b145c5-42cc-46a0-b58b-ebfa5be2b591",
+        "label": "video",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/xs708yc4548-0a38f154-0e40-45c1-8051-8863a4e8c98f/dd704pb2854_6N_Dhondup_Lhamo_sl.mp4",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_sl.mp4",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_sl.mp4",
+              "size": 862712504,
+              "version": 1,
+              "hasMimeType": "video/mp4",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "0c4de7ae2a38f5546b24f90fa1c9790d"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "ffcd28c23193a22a6fed8b1eb229e48491dbd02d"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/xs708yc4548-cd565389-2ae4-4732-af87-9c3cd6a5e060/dd704pb2854_6N_Dhondup_Lhamo_thumb.jp2",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_thumb.jp2",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_thumb.jp2",
+              "size": 474996,
+              "version": 1,
+              "hasMimeType": "image/jp2",
+              "languageTag": null,
+              "use": "thumbnail",
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "1ec6b667cb71a9dd88733e158a3650aa"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "68b5043926e77add91d21bcc660992176ececbf7"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/09cf0f2c-e763-4100-be86-85ac5affbcb8",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_sl.txt",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_sl.txt",
+              "size": 15946,
+              "version": 4,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "0f6dd651f5369fc2c24cb27e92ed74f8"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "5771d480f3d9b3b52af590ddd4ea6da734af861c"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/ffa6a1aa-382b-49f1-bc66-0ce224d2261f",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_sl.vtt",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_sl.vtt",
+              "size": 26927,
+              "version": 4,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "e8c28da3d7b4ab9eca93014c1ddcf698"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "fa8927c9434c1979fd1a987ac369c7dbd3efcdfa"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/a035797b-8942-4d62-8508-87a4273e9890",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_sl_mp4.txt",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_sl_mp4.txt",
+              "size": 17232,
+              "version": 6,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "bdff5f4998df78d2561320418a687b78"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "b15fe32278dacace579dabbbdb2df0fa4862c982"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/37d91ed9-18d5-42a3-b456-82fa7c50da92",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_sl_mp4.vtt",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_sl_mp4.vtt",
+              "size": 28737,
+              "version": 6,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "ad32cbdb44994dc5890ebb31b1d4e57f"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "5a64e4138ba35626da147e3b2810b653c97acadb"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/image",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/xs708yc4548-77874ee9-371c-4e98-93ac-58049fbb4cd8",
+        "label": "image",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/xs708yc4548-42b145c5-42cc-46a0-b58b-ebfa5be2b591/dd704pb2854_6N_Dhondup_Lhamo_img.jp2",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_img.jp2",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_img.jp2",
+              "size": 570885,
+              "version": 1,
+              "hasMimeType": "image/jp2",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "b8626f1e26527dd7123b80afe58ab393"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "33d872be6867674993bedc8e96476d012f5eeb65"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/file",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/xs708yc4548-0a38f154-0e40-45c1-8051-8863a4e8c98f",
+        "label": "transcript pdf",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/xs708yc4548-77874ee9-371c-4e98-93ac-58049fbb4cd8/dd704pb2854_6N_Dhondup_Lhamo_script.pdf",
+              "label": "dd704pb2854_6N_Dhondup_Lhamo_script.pdf",
+              "filename": "dd704pb2854_6N_Dhondup_Lhamo_script.pdf",
+              "size": 1023477,
+              "version": 1,
+              "hasMimeType": "application/pdf",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "b7ac54491c704292a0c890a99c36a3be"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "d3975e3f7b13bc0b32850d5f49b0092e4435bd8d"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "hasMemberOrders": [],
+    "isMemberOf": [
+      "druid:mk455yf5748"
+    ]
+  },
+  "created": "2025-01-31T16:44:46.000+00:00",
+  "modified": "2025-01-31T18:47:23.000+00:00",
+  "lock": "druid:xs708yc4548=12=2"
+}

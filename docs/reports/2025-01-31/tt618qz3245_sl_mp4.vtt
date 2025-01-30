@@ -1,0 +1,392 @@
+WEBVTT
+
+00:05.300 --> 00:06.700
+I'm sorry.
+
+00:30.000 --> 00:30.800
+Music
+
+00:56.060 --> 00:58.640
+At SRI, we are experimenting with a mobile
+
+00:58.640 --> 01:03.640
+robot. We call him Shaky. Our goal is to
+
+01:03.640 --> 01:05.080
+give Shakey some of the abilities
+
+01:05.080 --> 01:07.040
+associated with intelligence, abilities
+
+01:07.040 --> 01:09.660
+like planning and learning. Even though
+
+01:09.660 --> 01:11.580
+the tasks we give Shakey seem quite
+
+01:11.580 --> 01:13.900
+simple, the programs needed to plan and
+
+01:13.900 --> 01:17.060
+coordinate his activities are complex. The
+
+01:17.060 --> 01:18.900
+main purpose of our research is to learn
+
+01:18.900 --> 01:21.240
+how to design these programs so that
+
+01:21.240 --> 01:23.180
+robots can be employed in a variety of
+
+01:23.180 --> 01:25.960
+tasks ranging from space exploration to
+
+01:25.960 --> 01:29.700
+industrial automation. Shakey operates in
+
+01:29.700 --> 01:30.500
+this experimental environmental
+
+01:30.500 --> 01:32.820
+environment of rooms, doorways, and simple
+
+01:32.820 --> 01:33.240
+objects.
+
+01:38.340 --> 01:40.520
+The top lens belongs to Shakey's
+
+01:40.520 --> 01:42.980
+television camera. He uses it to obtain
+
+01:42.980 --> 01:45.300
+visual information about his own location
+
+01:45.300 --> 01:48.980
+or about other objects. These walls were
+
+01:48.980 --> 01:50.840
+made high enough so that Shakey cannot see
+
+01:50.840 --> 01:52.260
+over them with his television camera.
+
+01:52.260 --> 01:56.620
+camera. Shakey uses these feelers or cat
+
+01:56.620 --> 01:58.700
+whiskers to tell him if he has bumped into
+
+01:58.700 --> 02:01.940
+anything. He can push objects with this
+
+02:01.940 --> 02:02.340
+push bar.
+
+02:07.620 --> 02:10.700
+The programs controlling Shakey reside in
+
+02:10.700 --> 02:13.640
+a large PDP-10 computer and occupy over
+
+02:13.640 --> 02:19.800
+300,000 36-bit words of storage. Shakey
+
+02:19.800 --> 02:21.820
+communicates with the computer over a
+
+02:21.820 --> 02:22.340
+radio link.
+
+02:26.360 --> 02:29.060
+We use a teletype to give instructions to
+
+02:29.060 --> 02:31.200
+the computer programs that control Shakey.
+
+02:33.080 --> 02:35.320
+Shakey reports back to us using the
+
+02:35.320 --> 02:38.160
+teletype and the cathode ray tube display.
+
+02:42.240 --> 02:44.800
+An executive program handles communication
+
+02:44.800 --> 02:47.420
+between the experimenter and and the robot
+
+02:47.420 --> 02:47.820
+system.
+
+02:51.460 --> 02:53.600
+Shakey's movements are directly controlled
+
+02:53.600 --> 02:55.880
+by a set of low-level action programs.
+
+02:58.010 --> 03:00.480
+These programs convert orders such as roll
+
+03:00.480 --> 03:03.820
+2.1 feet into appropriate commands to
+
+03:03.820 --> 03:05.860
+circuits on the vehicle that control
+
+03:05.860 --> 03:06.600
+Shakey's motors.
+
+03:09.600 --> 03:12.300
+Two other examples of low-level actions
+
+03:12.710 --> 03:15.420
+are pan fan, and tilt.
+
+03:20.680 --> 03:23.160
+The low level actions provide some of the
+
+03:23.160 --> 03:25.100
+building blocks for more complicated and
+
+03:25.100 --> 03:27.000
+powerful programs called intermediate
+
+03:27.000 --> 03:32.500
+level actions. One such action is go-to.
+
+03:43.900 --> 03:46.680
+Go-to plans and executes a route to a
+
+03:46.680 --> 03:48.760
+named goal location, marked with a cross
+
+03:48.760 --> 03:51.240
+here, circumventing obstacles if need be.
+
+03:57.020 --> 04:00.020
+The Go-To program plans a route by first
+
+04:00.020 --> 04:02.040
+computing whether any obstacles lie on a
+
+04:02.040 --> 04:06.400
+direct path. If so, points near the
+
+04:06.400 --> 04:11.160
+obstacle are set up as sub-goals. After
+
+04:11.160 --> 04:13.400
+Shakey computes a route, he traverses it
+
+04:13.400 --> 04:13.880
+to the goal.
+
+04:19.620 --> 04:22.660
+Another intermediate level action pushes a
+
+04:22.660 --> 04:25.340
+named object, box one in this example, to
+
+04:25.340 --> 04:27.280
+a location specified by a pair of
+
+04:27.280 --> 04:27.640
+coordinates.
+
+04:30.680 --> 04:32.660
+A feature of the intermediate level
+
+04:32.660 --> 04:35.060
+actions is their ability to recover from
+
+04:35.060 --> 04:38.960
+unforeseen accidents. Our gremlin,
+
+04:39.140 --> 04:41.520
+Charlie, symbolizes as an agent of change
+
+04:41.520 --> 04:46.040
+unknown to Shakey. Shakey's sensors tell
+
+04:46.040 --> 04:48.020
+him that the box has slipped off the push
+
+04:48.020 --> 04:50.620
+bar, but his cat whiskers tell him where
+
+04:50.620 --> 04:53.760
+the box is so he can get behind it and
+
+04:53.760 --> 04:54.400
+resume pushing.
+
+05:36.980 --> 05:41.600
+ level actions is
+
+05:41.600 --> 05:43.660
+designed to try again if the first attempt
+
+05:43.660 --> 05:44.120
+fails.
+
+06:01.860 --> 06:04.420
+We use the push program in another
+
+06:04.420 --> 06:06.340
+intermediate level action that blocks a
+
+06:06.340 --> 06:10.840
+doorway with a box. We also have an
+
+06:10.840 --> 06:12.980
+intermediate level action to take Shakey
+
+06:12.980 --> 06:15.000
+through a doorway into an adjacent room.
+
+06:16.360 --> 06:18.360
+Ordinarily, Shakey keeps track of his own
+
+06:18.360 --> 06:20.360
+position by counting wheel revolutions.
+
+06:22.360 --> 06:24.720
+This dead reckoning navigation is quite
+
+06:24.720 --> 06:27.500
+accurate, but errors do accumulate. If an
+
+06:27.500 --> 06:29.060
+intermediate level action needs more
+
+06:29.060 --> 06:31.660
+precise location information, it calls on
+
+06:31.660 --> 06:33.820
+a special picture taking routine called
+
+06:33.820 --> 06:38.000
+landmark for orientation. Here we see
+
+06:38.000 --> 06:39.760
+Shakey taking a picture of the nearest
+
+06:39.760 --> 06:42.240
+reliable landmark, in this case a corner
+
+06:42.240 --> 06:42.720
+of the room.
+
+06:49.200 --> 06:51.680
+Shakey's view is shown on the TV monitor.
+
+06:56.300 --> 06:58.980
+His vision programs enhance the edges of
+
+06:58.980 --> 07:01.280
+of the picture to produce a line
+
+07:01.280 --> 07:03.620
+representation on the cathode ray tube
+
+07:03.620 --> 07:06.520
+display. If Shakey's dead reckoned
+
+07:06.520 --> 07:09.000
+estimate of his position were correct, the
+
+07:09.000 --> 07:10.540
+outline of the corner would have looked
+
+07:10.540 --> 07:14.880
+like this. Shakey uses the new picture
+
+07:14.880 --> 07:17.360
+information to improve his estimate of his
+
+07:17.360 --> 07:21.880
+location. The intermediate level actions
+
+07:21.880 --> 07:23.640
+communicate directly with the executive
+
+07:23.640 --> 07:25.980
+program and indirectly with the vehicle.
+
+07:30.140 --> 07:32.880
+To summarize, intermediate level actions
+
+07:32.880 --> 07:35.120
+are pre-programmed to work on frequently
+
+07:35.120 --> 07:37.720
+encountered tasks. They can recover from
+
+07:37.720 --> 07:40.420
+several types of errors and accidents and
+
+07:40.420 --> 07:42.620
+they incorporate powerful subroutines for
+
+07:42.620 --> 07:44.540
+analyzing pictures and for navigating.
+
+07:47.640 --> 07:49.840
+Of course, for intermediate level actions
+
+07:49.840 --> 07:51.800
+to work, they need information about
+
+07:51.800 --> 07:52.780
+Shakey's experimental environmental
+
+07:52.780 --> 07:56.040
+environment. Shakey models his environment
+
+07:56.040 --> 07:57.860
+with a list of assertions giving
+
+07:57.860 --> 08:00.140
+information about the locations of walls,
+
+08:00.440 --> 08:04.360
+doorways, other objects, and himself. From
+
+08:04.360 --> 08:06.360
+his model, Shakey knows that the floor
+
+08:06.360 --> 08:08.880
+plan of his world looks like this. The
+
+08:08.880 --> 08:13.780
+small hand points to Shakey. His model may
+
+08:13.780 --> 08:16.520
+be incomplete. complete. For example, it
+
+08:16.520 --> 08:18.360
+happens that the contents of this room are
+
+08:18.360 --> 08:18.680
+unknown.
+
+08:22.260 --> 08:25.600
+The model may also be inaccurate. It shows
+
+08:25.600 --> 08:27.420
+that the upper right-hand corner of room
+
+08:27.420 --> 08:30.300
+two is empty, even though a box is in fact
+
+08:30.300 --> 08:30.720
+present.
+
+08:38.760 --> 08:40.880
+The executive and the action programs
+
+08:40.880 --> 08:42.220
+communicate with the models.
+

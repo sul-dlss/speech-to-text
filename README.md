@@ -287,6 +287,10 @@ If you get no result, install with:
 
 `brew install ffmpeg`
 
+### Test coverage reporting
+
+In addition to the terminal display of a summary of the test coverage percentages, you can get a detailed look at which lines are covered or not by opening `htmlcov/index.html` after running the test suite.
+
 ## Continuous Integration
 
 This Github repository is set up with a Github Action that will automatically deployed tagged releases e.g. `rel-2025-01-01` to the DLSS development and staging AWS environments. When a Github release is created it will automatically be deployed to the production AWS environment.

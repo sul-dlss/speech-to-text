@@ -4,6 +4,7 @@ honeybadger
 moto[s3,sqs,sts]
 mypy
 openai-whisper
-python-dotenv
 pytest
+pytest-cov
+python-dotenv
 ruff

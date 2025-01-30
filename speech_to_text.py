@@ -280,7 +280,7 @@ def load_whisper_model(model_name) -> whisper.model.Whisper:
 def create(media_path: Path):
     """
     Create a job for a given media file by placing the media file in S3 and then
-    creating a batch job which can be picked up ot perform transcription using
+    creating a batch job which can be picked up to perform transcription using
     boilerplate options.
     """
     job_id = str(uuid.uuid4())

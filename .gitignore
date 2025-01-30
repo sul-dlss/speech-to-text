@@ -8,3 +8,5 @@ whisper_models
 terraform.tfstate
 terraform.tfstate.backup
 variables.tf
+.coverage
+.coverage.*

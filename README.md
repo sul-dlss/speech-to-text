@@ -1,6 +1,7 @@
 # speech-to-text
 
 [![Test](https://github.com/sul-dlss/speech-to-text/actions/workflows/test.yml/badge.svg)](https://github.com/sul-dlss/speech-to-text/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/sul-dlss/speech-to-text/graph/badge.svg?token=SB8E3KXTJ1)](https://codecov.io/gh/sul-dlss/speech-to-text)
 
 This repository contains a Docker configuration for performing speech-to-text processing with [Whisper](https://openai.com/index/whisper/) using Amazon Web Services (AWS) to provision GPU resources on demand, and to tear them down when there is no more remaining work. It uses:
 

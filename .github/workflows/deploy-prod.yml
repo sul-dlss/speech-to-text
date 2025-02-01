@@ -22,7 +22,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
           AWS_ECR_DOCKER_REPO: ${{ secrets.AWS_ECR_DOCKER_REPO_PRODUCTION }}
           HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
-          DEPLOYMENT_ENV: prod
+          DEPLOYMENT_ENV: production
         run: |
           echo "production deploy not yet enabled"
           # uncomment this when the keys are avaialable!

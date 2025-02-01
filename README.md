@@ -55,7 +55,7 @@ You will want to set these in your environment:
 - AWS_ACCESS_KEY_ID: the `text_to_speech_access_key_id` value
 - AWS_SECRET_ACCESS_KEY: the `text_to_speech_secret_access_key`
 - AWS_ECR_DOCKER_REPO: the `docker_repository` value
-- DEPLOYMENT_ENV: the SDR environment being deployed to (e.g. qa, stage, prod)
+- DEPLOYMENT_ENV: the SDR environment being deployed to (e.g. qa, staging, production)
 - HONEYBADGER_API_KEY: the API key for this project, to support deployment notifications (obtainable from project settings in HB web UI)
 
 Then you can run the deploy:

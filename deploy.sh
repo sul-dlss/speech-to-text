@@ -6,6 +6,8 @@
 # - AWS_ACCESS_KEY_ID: the access key for the speech-to-text user
 # - AWS_SECRET_ACCESS_KEY: the secret key for the speech-to-text user
 # - AWS_ECR_DOCKER_REPO: the Elastic Compute Registry URL for the Docker repository
+# - DEPLOYMENT_ENV: the SDR environment being deployed to (e.g. qa, stage, prod)
+# - HONEYBADGER_API_KEY: the API key for this project, to support deployment notifications (obtainable from project settings in HB web UI)
 #
 # The values can be obtained by running `terraform output` in the relevant portion of
 # the Terraform configuration.
@@ -33,3 +35,9 @@ docker build -t speech-to-text --platform="linux/amd64" .
 docker tag speech-to-text $AWS_ECR_DOCKER_REPO
 
 docker push $AWS_ECR_DOCKER_REPO
+
+# Notify Honeybadger of the deployment, see https://docs.honeybadger.io/api/reporting-deployments
+# Another option would be to use the Github Action, but this allows deployment notification to work even
+# when run manually from a dev laptop (see https://github.com/marketplace/actions/honeybadger-deploy-action)
+curl --data "deploy[environment]=$DEPLOYMENT_ENV&deploy[revision]=`git rev-parse HEAD`&deploy[repository]=https://github.com/sul-dlss/speech-to-text.git&api_key=$HONEYBADGER_API_KEY" \
+            "https://api.honeybadger.io/v1/deploys"

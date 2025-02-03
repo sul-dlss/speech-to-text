@@ -1,0 +1,305 @@
+{
+  "cocinaVersion": "0.99.3",
+  "type": "https://cocina.sul.stanford.edu/models/media",
+  "externalIdentifier": "druid:rr765bw2466",
+  "label": "Whitmire, Amanda L. Student work, copyright and FERPA: how what you don't know might FERP-YA: Stanford (Calif.), 2020-02-10",
+  "version": 6,
+  "access": {
+    "view": "world",
+    "download": "world",
+    "controlledDigitalLending": false
+  },
+  "administrative": {
+    "hasAdminPolicy": "druid:pp818dw4992"
+  },
+  "description": {
+    "title": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Whitmire, Amanda L. Student work, copyright and FERPA: how what you don't know might FERP-YA: Stanford (Calif.), 2020-02-10",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "contributor": [],
+    "event": [],
+    "form": [],
+    "geographic": [],
+    "language": [],
+    "note": [],
+    "identifier": [],
+    "subject": [],
+    "relatedResource": [],
+    "marcEncodedData": [],
+    "purl": "https://sul-purl-stage.stanford.edu/rr765bw2466"
+  },
+  "identification": {
+    "catalogLinks": [],
+    "sourceId": "prod:bg405cn7261"
+  },
+  "structural": {
+    "contains": [
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/video",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/rr765bw2466-99886ef7-b297-495a-a904-2ceb9b604877",
+        "label": "video",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/rr765bw2466-3aae0244-9b57-44ba-8ed2-9f7b7305392b/bg405cn7261_v2_sl.mp4",
+              "label": "bg405cn7261_v2_sl.mp4",
+              "filename": "bg405cn7261_v2_sl.mp4",
+              "size": 153664227,
+              "version": 1,
+              "hasMimeType": "video/mp4",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "6a6c9506d13fb8bed9a8f6572333982e"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "8b43ebb693b99c13dfc2e075c8939953a90852dc"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/rr765bw2466-110afd38-88b4-4f6a-b326-9ab06a69e93c/bg405cn7261_v2_thumb.jp2",
+              "label": "bg405cn7261_v2_thumb.jp2",
+              "filename": "bg405cn7261_v2_thumb.jp2",
+              "size": 741057,
+              "version": 1,
+              "hasMimeType": "image/jp2",
+              "languageTag": null,
+              "use": "thumbnail",
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "d68cb386aac33be4a9ac8eb8a095ceda"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "13b42c0af6a41565e37fa68596951642e6b3c2bb"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/c552c869-2127-4198-ac54-ab34e6ff607d",
+              "label": "bg405cn7261_v2_sl.txt",
+              "filename": "bg405cn7261_v2_sl.txt",
+              "size": 10679,
+              "version": 5,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "5ba6e51677a565f920afdb74fb86ca36"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "0fc60895b69552799bdaacb8afc64c5c553cf27f"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/a557b7cc-bb0b-4c36-9723-4b5a3636ace9",
+              "label": "bg405cn7261_v2_sl.vtt",
+              "filename": "bg405cn7261_v2_sl.vtt",
+              "size": 17462,
+              "version": 5,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "bf903de4f2b97151f6c992f3d1804083"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "3e4276172a4706417412dd314ab873302b45b9b4"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/0a5dd97e-894c-46d2-bbc4-8e3f76395f5c",
+              "label": "bg405cn7261_v2_sl_mp4.txt",
+              "filename": "bg405cn7261_v2_sl_mp4.txt",
+              "size": 10679,
+              "version": 6,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "5ba6e51677a565f920afdb74fb86ca36"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "0fc60895b69552799bdaacb8afc64c5c553cf27f"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/fd5efc19-bbd6-44d8-9eeb-ce9a8d5b5472",
+              "label": "bg405cn7261_v2_sl_mp4.vtt",
+              "filename": "bg405cn7261_v2_sl_mp4.vtt",
+              "size": 17462,
+              "version": 6,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "bf903de4f2b97151f6c992f3d1804083"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "3e4276172a4706417412dd314ab873302b45b9b4"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/file",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/rr765bw2466-3aae0244-9b57-44ba-8ed2-9f7b7305392b",
+        "label": "pdf of slides",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/rr765bw2466-99886ef7-b297-495a-a904-2ceb9b604877/bg405cn7261_Whitmire_LTWF_20200210_backup.pdf",
+              "label": "bg405cn7261_Whitmire_LTWF_20200210_backup.pdf",
+              "filename": "bg405cn7261_Whitmire_LTWF_20200210_backup.pdf",
+              "size": 11008780,
+              "version": 1,
+              "hasMimeType": "application/pdf",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "04bc4144c8d8ff37a2c6e25a0429e15f"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "2945c40d4063a1f9831481ba8064bb95587e660f"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "hasMemberOrders": [],
+    "isMemberOf": [
+      "druid:mk455yf5748"
+    ]
+  },
+  "created": "2025-01-29T18:08:36.000+00:00",
+  "modified": "2025-01-29T18:46:35.000+00:00",
+  "lock": "druid:rr765bw2466=12=2"
+}

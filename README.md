@@ -305,6 +305,10 @@ When updating the base Docker image, in order to prevent random segmentation fau
 1. You are using an [nvidia/cuda](https://hub.docker.com/r/nvidia/cuda) base Docker image.
 2. The version of CUDA you are using in the Docker container aligns with the version of CUDA that is installed in the host operating system that is running Docker.
 
+## Benchmarking
+
+It may be useful to compare the output of speech-to-text with previous runs. See docs/README.md for more about that.
+
 ## Linting and Type Checking
 
 You may notice your changes fail in CI if they require reformatting or fail type checking. We use [ruff](https://docs.astral.sh/ruff/) for formatting Python code, and [mypy](https://mypy-lang.org/) for type checking. Both of those should be present in your virtual environment.

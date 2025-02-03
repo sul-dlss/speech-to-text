@@ -1,0 +1,5153 @@
+WEBVTT
+
+00:16.940 --> 00:21.580
+All right. Welcome to CS547. I've just got
+
+00:21.580 --> 00:25.200
+a few words of administrative stuff. The
+
+00:25.200 --> 00:27.320
+official sign-in list is right here. It
+
+00:27.320 --> 00:28.700
+should have everyone's name on it who was
+
+00:28.700 --> 00:30.680
+here last time. Just give your signature
+
+00:30.680 --> 00:32.820
+next to it, and that should be enough. If
+
+00:32.820 --> 00:34.340
+you're not on the list, just put your name
+
+00:34.340 --> 00:35.980
+at the end. And we've also had some
+
+00:35.980 --> 00:39.160
+problems in the past with the list sort of
+
+00:39.160 --> 00:41.060
+being stuck over here. So if you're
+
+00:41.060 --> 00:42.320
+holding the list over here and it's not
+
+00:42.320 --> 00:43.960
+going anywhere, make sure it gets over
+
+00:43.960 --> 00:46.040
+there because that seems to be a perpetual
+
+00:46.040 --> 00:50.020
+problem. And subbing for today is Karen
+
+00:50.020 --> 00:51.180
+Butler, and she's going to give an
+
+00:51.180 --> 00:55.480
+introduction. Yes, I'm substituting for
+
+00:55.480 --> 00:58.100
+Professor Winograd today. and I just
+
+00:58.100 --> 01:00.680
+wanted to briefly introduce our speaker
+
+01:00.680 --> 01:06.120
+for today. Lucy Suchman was one of the
+
+01:06.120 --> 01:08.520
+first to apply anthropology to the whole
+
+01:08.520 --> 01:12.600
+area of human-computer interaction. She is
+
+01:12.600 --> 01:15.300
+the author of Plans and Situated Actions,
+
+01:15.360 --> 01:16.880
+which came out of her dissertation work.
+
+01:16.880 --> 01:20.500
+and she has been working at Xerox PARC for
+
+01:20.500 --> 01:25.660
+several years where she's head of the is
+
+01:25.660 --> 01:29.220
+it product work practices area and where
+
+01:29.220 --> 01:31.080
+she's really an expert in work patterns
+
+01:31.080 --> 01:32.620
+and applying this whole area so she's
+
+01:32.620 --> 01:34.260
+going to be speaking us to us today about
+
+01:34.260 --> 01:37.760
+some of her work in this area thank you
+
+01:46.880 --> 01:47.000
+OK.
+
+01:59.220 --> 02:01.880
+Oh, it's the left-right problem, I see.
+
+02:05.300 --> 02:09.340
+I have to reverse the little clip.
+
+02:21.640 --> 02:25.480
+Okay, is that as it's supposed to be as
+
+02:25.480 --> 02:30.400
+far as you can tell? Okay, my talk today
+
+02:30.400 --> 02:33.860
+is, the title is Putting Working Document
+
+02:33.860 --> 02:36.440
+Collections Online, and I'm going to use a
+
+02:36.440 --> 02:38.780
+current project that I'm involved with as
+
+02:38.780 --> 02:42.280
+a kind of illustration of the work that I
+
+02:42.280 --> 02:44.820
+and my colleagues at Xerox PARC have been
+
+02:44.820 --> 02:47.620
+doing, and this is very much a joint
+
+02:47.620 --> 02:50.420
+project with my colleagues Jeanette
+
+02:50.420 --> 02:52.520
+Blomberg, who's also an anthropologist,
+
+02:53.180 --> 02:55.500
+Randy Trigg, who's a computer scientist,
+
+02:55.720 --> 02:57.020
+and David Levy, who's a computer
+
+02:57.020 --> 02:59.400
+scientist. So this is a thoroughly
+
+02:59.400 --> 03:02.500
+collaborative effort that I'm presenting
+
+03:02.500 --> 03:06.180
+to you today. And as you'll see, the title
+
+03:06.180 --> 03:08.120
+is Putting Working Document Collections
+
+03:08.120 --> 03:11.040
+Online. That's sort of the more general
+
+03:11.040 --> 03:13.240
+project, and then the more specific
+
+03:13.240 --> 03:14.680
+instance of it that I'm going to be
+
+03:14.680 --> 03:17.000
+talking about is located in a particular
+
+03:17.000 --> 03:20.020
+organization, namely our beloved State
+
+03:20.020 --> 03:22.380
+Department of Transportation, Caltrans.
+
+03:23.560 --> 03:27.200
+And you'll hear a lot more about that as I
+
+03:27.200 --> 03:32.760
+go along. I wanted to start out by showing
+
+03:32.760 --> 03:36.940
+you one model of the problem of current
+
+03:36.940 --> 03:39.720
+design practice and how to address it. And
+
+03:39.720 --> 03:42.660
+I'm showing you this because this is not
+
+03:42.660 --> 03:46.600
+our model. And I'll let you digest it
+
+03:46.600 --> 03:46.800
+here.
+
+03:53.120 --> 03:56.440
+So this wonderful cartoon, which I like
+
+03:56.440 --> 03:59.860
+very much, posits a particular view of
+
+03:59.860 --> 04:02.540
+what the problem might be with existing
+
+04:02.540 --> 04:04.460
+design practice and how it might be
+
+04:04.460 --> 04:07.720
+corrected. And we're interested in viewing
+
+04:07.720 --> 04:11.040
+both sides of this in a very different
+
+04:11.040 --> 04:14.280
+way. You know, we see this not as a
+
+04:14.280 --> 04:16.980
+behavioral problem of individual
+
+04:16.980 --> 04:19.800
+designers, but as a very complex and
+
+04:19.800 --> 04:23.520
+multifaceted problem that really includes
+
+04:23.520 --> 04:26.660
+how design as a practice is currently
+
+04:26.660 --> 04:32.600
+located within what I think are two self
+
+04:32.600 --> 04:35.380
+-contained sort of insular environments
+
+04:35.380 --> 04:37.540
+environments and sort of overly
+
+04:37.540 --> 04:39.400
+professionalized world so that even
+
+04:39.400 --> 04:42.080
+designers, practicing designers who would
+
+04:42.080 --> 04:44.340
+really like to do things in a different
+
+04:44.340 --> 04:46.720
+way find it quite difficult to do that.
+
+04:46.880 --> 04:49.080
+And it shifts from being a kind of a
+
+04:49.080 --> 04:51.340
+psychological problem to being a social
+
+04:51.340 --> 04:55.180
+problem and one that implicates I think a
+
+04:55.180 --> 04:57.840
+fairly broad range of forms of social
+
+04:57.840 --> 04:59.960
+change if we really want want to address
+
+04:59.960 --> 05:02.940
+it that have to do with how the working
+
+05:02.940 --> 05:05.820
+relationships of technology production and
+
+05:05.820 --> 05:08.700
+use are currently organized. I'm not going
+
+05:08.700 --> 05:11.400
+to elaborate on that today, but that's
+
+05:11.400 --> 05:14.860
+kind of a framing for how we're looking at
+
+05:14.860 --> 05:18.160
+the question of design practice and
+
+05:18.160 --> 05:23.420
+potential changes and improvements to it.
+
+05:25.000 --> 05:28.980
+And let me give you, just to continue the
+
+05:28.980 --> 05:31.740
+prelude here a little bit longer, another
+
+05:31.740 --> 05:34.720
+kind of motivating view of our motivating
+
+05:34.720 --> 05:38.620
+problem. Any of you who have heard me talk
+
+05:38.620 --> 05:40.280
+before have probably seen this slide
+
+05:40.280 --> 05:42.600
+because I'm very fond of it. I apologize
+
+05:42.600 --> 05:46.300
+for any repetition. But it's an image
+
+05:46.300 --> 05:49.980
+that's taken from an ad in a computing
+
+05:49.980 --> 05:53.260
+magazine a few years back. and the
+
+05:53.260 --> 05:56.520
+question that it asks is why do this at
+
+05:56.520 --> 05:58.280
+the top you have the sort of proverbial
+
+05:58.280 --> 06:00.560
+paper napkin on which brilliant ideas have
+
+06:00.560 --> 06:02.580
+been scribbled over the course of a lunch
+
+06:02.580 --> 06:05.280
+and so the question is why do this use a
+
+06:05.280 --> 06:07.680
+paper napkin when you can do this and it's
+
+06:07.680 --> 06:09.560
+a little hard to see but we've got these
+
+06:09.560 --> 06:11.980
+two guys sitting at a very small table and
+
+06:11.980 --> 06:14.700
+they have a laptop in between them and of
+
+06:14.700 --> 06:16.220
+course it's not clear you know where they
+
+06:16.220 --> 06:18.300
+would put their lunch or their napkins or
+
+06:18.300 --> 06:20.200
+whatever but you know it's a little bit of
+
+06:20.200 --> 06:23.940
+poetic or artistic license here. And the
+
+06:23.940 --> 06:26.880
+project that we've taken on, I think of it
+
+06:26.880 --> 06:29.120
+as taking this as a serious question. So
+
+06:29.120 --> 06:31.280
+rather than treating it as a kind of
+
+06:31.280 --> 06:33.100
+rhetorical question, as I think the
+
+06:33.100 --> 06:34.860
+writers of this ad copy do, you know, the
+
+06:34.860 --> 06:36.700
+answer to this question is self-evident,
+
+06:36.780 --> 06:39.080
+we're saying, well, you know, what might
+
+06:39.080 --> 06:41.480
+be the reasons that you would do this
+
+06:41.480 --> 06:44.920
+given the opportunity to do that? And that
+
+06:44.920 --> 06:49.460
+starts by taking existing artifacts
+
+06:49.460 --> 06:53.320
+seriously. Paper napkins as, you know, for
+
+06:53.320 --> 06:56.420
+us an extremely relevant artifact in so
+
+06:56.420 --> 06:58.040
+far as, in this case, it's been turned
+
+06:58.040 --> 07:00.400
+into a document. And that's what we're
+
+07:00.400 --> 07:02.920
+interested in at Xerox. But so let's start
+
+07:02.920 --> 07:05.640
+by seeing what are the media that people
+
+07:05.640 --> 07:07.540
+are using at present. And what are the
+
+07:07.540 --> 07:09.300
+particular resources that those media
+
+07:09.300 --> 07:12.100
+provide? and have that as a background
+
+07:12.100 --> 07:14.580
+that informs the answer to the question,
+
+07:14.820 --> 07:18.140
+how is the introduction of new media, how
+
+07:18.140 --> 07:19.780
+does the introduction of new media relate
+
+07:19.780 --> 07:23.360
+to the use of existing media? So we want
+
+07:23.360 --> 07:25.320
+to take it as a serious question. We also
+
+07:25.320 --> 07:29.280
+want to, again, I think that this image
+
+07:29.280 --> 07:32.340
+assumes that we're in a situation where
+
+07:32.340 --> 07:34.540
+we're going from one medium to the next.
+
+07:34.660 --> 07:36.000
+So it's going to be a wholesale
+
+07:36.000 --> 07:39.220
+displacement transformation. this is the
+
+07:39.220 --> 07:43.020
+paperless office sort of fantasy. And
+
+07:43.020 --> 07:47.680
+instead, we're going to assume that we are
+
+07:47.680 --> 07:49.640
+now and will continue to be living in a
+
+07:49.640 --> 07:54.140
+world made up of multiple media. That for
+
+07:54.140 --> 07:57.760
+a lot of both practical reasons, paper is
+
+07:57.760 --> 07:59.600
+going to be staying around. It's just
+
+07:59.600 --> 08:01.800
+tremendously, there's a very, very
+
+08:01.800 --> 08:05.000
+extensive investment in paper media that
+
+08:05.000 --> 08:07.140
+can't be transformed overnight. night and
+
+08:07.140 --> 08:11.200
+also of course as people like my
+
+08:11.200 --> 08:13.680
+colleagues Abby Sellin and Richard Harper
+
+08:13.680 --> 08:16.520
+at the Cambridge lab of Xerox have pointed
+
+08:16.520 --> 08:19.460
+out paper has certain affordances that are
+
+08:19.460 --> 08:22.700
+that are quite powerful and effective so
+
+08:22.700 --> 08:24.960
+for both practical reasons and because
+
+08:24.960 --> 08:29.120
+paper is a useful medium we are going to
+
+08:29.120 --> 08:30.720
+continue to live in a world that's made up
+
+08:30.720 --> 08:35.320
+of multiple media and the sense I have is
+
+08:35.320 --> 08:37.600
+that you know we might just be becoming
+
+08:37.600 --> 08:39.940
+sophisticated enough technologically that
+
+08:39.940 --> 08:44.040
+we can actually design for a world that
+
+08:44.040 --> 08:46.140
+includes both paper and digital media and
+
+08:46.140 --> 08:49.040
+that involves of course making it much
+
+08:49.040 --> 08:52.420
+easier for people to move between those
+
+08:52.420 --> 08:54.700
+media so that's the goal is supporting
+
+08:54.700 --> 08:56.960
+multiple media and and relations between
+
+08:56.960 --> 08:59.080
+them rather than you know transforming
+
+08:59.080 --> 09:03.500
+ourselves from paper to digital. And then
+
+09:03.500 --> 09:06.580
+finally the kind of reworking that we want
+
+09:06.580 --> 09:10.680
+to do of this image is rather than taking
+
+09:10.680 --> 09:13.100
+the artifacts, the technologies that we're
+
+09:13.100 --> 09:15.760
+interested in as these objects floating in
+
+09:15.760 --> 09:18.640
+white space as they are so nicely here, we
+
+09:18.640 --> 09:21.620
+want to locate them in the environments
+
+09:21.620 --> 09:23.060
+where they're actually going to be used.
+
+09:23.060 --> 09:26.600
+And that means going out into work sites
+
+09:26.600 --> 09:28.560
+and seeing how it is that people are
+
+09:28.560 --> 09:31.780
+actually using the artifacts and the
+
+09:31.780 --> 09:33.960
+technologies that we're interested in in
+
+09:33.960 --> 09:35.560
+the course of their everyday activities.
+
+09:37.700 --> 09:40.660
+Okay, so with that kind of background,
+
+09:41.180 --> 09:43.900
+what I'm going to try to do in the time
+
+09:43.900 --> 09:46.400
+that remains is first a little bit of an
+
+09:46.400 --> 09:49.000
+introduction, again, to give you a sense
+
+09:49.000 --> 09:51.920
+of a couple of general aspects of the
+
+09:51.920 --> 09:53.660
+approach that we're taking. The first,
+
+09:53.800 --> 09:56.040
+what we're calling case-based prototyping,
+
+09:56.100 --> 09:58.400
+which I'll explain, and then this idea of
+
+09:58.400 --> 10:01.220
+working document collections. And then
+
+10:01.220 --> 10:04.020
+having sort of talked briefly about those
+
+10:04.020 --> 10:06.620
+two general ideas, move into the specific
+
+10:06.620 --> 10:08.300
+project that we're involved with at
+
+10:08.300 --> 10:10.800
+Caltrans, and in particular our work with
+
+10:10.800 --> 10:12.680
+their project files, and then the
+
+10:12.680 --> 10:16.520
+prototype that we've developed to address
+
+10:16.520 --> 10:21.400
+the problems that we've found. Okay, so
+
+10:21.400 --> 10:24.540
+first of all case-based prototypes. This
+
+10:24.540 --> 10:28.960
+is another kind of framing image for the
+
+10:28.960 --> 10:32.060
+work that we're doing, which is focused on
+
+10:32.060 --> 10:36.120
+this idea of the project of design being
+
+10:36.120 --> 10:38.940
+artful integration. that increasingly
+
+10:38.940 --> 10:43.260
+design is as much if not more about
+
+10:43.260 --> 10:47.460
+embedding artifacts and technologies new
+
+10:47.460 --> 10:50.860
+in new ways into existing environments as
+
+10:50.860 --> 10:53.980
+it is about inventing things completely de
+
+10:53.980 --> 10:56.720
+novo so and the things that we're trying
+
+10:56.720 --> 11:01.580
+to integrate are both to integrate the
+
+11:01.580 --> 11:03.860
+technology both with the activities that
+
+11:03.860 --> 11:05.220
+people are engaged in with their work
+
+11:05.220 --> 11:07.120
+practices and with the rest of their
+
+11:07.120 --> 11:09.560
+technology environment. And a sort of
+
+11:09.560 --> 11:12.940
+center for that for us is what we're
+
+11:12.940 --> 11:14.820
+calling case-based prototypes. Case-based
+
+11:14.820 --> 11:18.040
+because these are prototypes that actually
+
+11:18.040 --> 11:22.220
+incorporate real work, some understanding
+
+11:22.220 --> 11:24.460
+of real work practices and work materials
+
+11:24.460 --> 11:27.080
+into them in contrast to some of the
+
+11:27.080 --> 11:29.880
+demonstration prototypes that we have
+
+11:29.880 --> 11:32.160
+around that take some kind of a generic
+
+11:32.160 --> 11:35.180
+corpus of materials and try to show what
+
+11:35.180 --> 11:37.460
+it would be like to work with the system.
+
+11:37.700 --> 11:40.400
+And our experience is that when people are
+
+11:40.400 --> 11:42.360
+assessing a prototype that actually has
+
+11:42.360 --> 11:45.160
+their documents in it, their work
+
+11:45.160 --> 11:48.280
+materials, they have a base for doing that
+
+11:48.280 --> 11:50.980
+assessment that's much, much richer than
+
+11:50.980 --> 11:54.360
+if they're looking at the Encyclopedia
+
+11:54.360 --> 11:56.460
+Britannica or something that we all kind
+
+11:56.460 --> 11:58.260
+of recognize but none of us is actively
+
+11:58.260 --> 12:00.840
+engaged with. So it strengthens the
+
+12:00.840 --> 12:02.560
+grounds on which people can assess the
+
+12:02.560 --> 12:06.300
+prototype. And then the other piece of
+
+12:06.300 --> 12:07.900
+integration that we're trying to do in our
+
+12:07.900 --> 12:11.420
+prototypes is to bring together the work
+
+12:11.420 --> 12:13.580
+that people are doing with both emerging
+
+12:13.580 --> 12:15.760
+park technologies and existing Xerox
+
+12:15.760 --> 12:16.920
+technologies. So we're trying to
+
+12:16.920 --> 12:19.360
+configure, sort of craft together an
+
+12:19.360 --> 12:21.320
+interesting relationship between those
+
+12:21.320 --> 12:23.280
+things, and the prototype is the
+
+12:23.280 --> 12:25.900
+manifestation, the demonstration of that.
+
+12:25.900 --> 12:29.080
+And the particular focus for us has been
+
+12:29.080 --> 12:30.860
+this relationship between paper and
+
+12:30.860 --> 12:34.260
+digital media, both the kinds of
+
+12:34.260 --> 12:36.060
+translations that we have to enable
+
+12:36.060 --> 12:39.280
+between the two and also the kind of
+
+12:39.280 --> 12:41.260
+cohabitations that we want them to be able
+
+12:41.260 --> 12:43.240
+to do. What does it mean to live in a
+
+12:43.240 --> 12:46.360
+world where some of your documents are on
+
+12:46.360 --> 12:48.220
+paper, some are online, they're shifting
+
+12:48.220 --> 12:50.400
+back and forth across that border? How do
+
+12:50.400 --> 12:55.160
+you maintain the coherence across media in
+
+12:55.160 --> 12:59.260
+that kind of situation? And then given the
+
+12:59.260 --> 13:01.880
+general strategy of case-based
+
+13:01.880 --> 13:04.080
+prototyping, the focus that we've taken
+
+13:04.080 --> 13:07.360
+recently has been this idea of working
+
+13:07.360 --> 13:09.480
+document collections. And here's a sort of
+
+13:09.480 --> 13:13.660
+set of defining is probably too strong a
+
+13:13.660 --> 13:16.080
+term, but characterizing criteria for
+
+13:16.080 --> 13:18.780
+those. Basically, what we mean by working
+
+13:18.780 --> 13:21.040
+collections are the documents that are in
+
+13:21.040 --> 13:23.140
+between the documents that are on your
+
+13:23.140 --> 13:25.160
+desk at any given moment. Although for
+
+13:25.160 --> 13:26.720
+most of us, I think many of the documents
+
+13:26.720 --> 13:28.320
+on our desk should be in our working
+
+13:28.320 --> 13:30.760
+collection. But the idealized view is that
+
+13:30.760 --> 13:33.020
+you have this sort of three-part division.
+
+13:33.300 --> 13:34.760
+You've got your active documents on your
+
+13:34.760 --> 13:36.860
+desk. You've got documents that are often
+
+13:36.860 --> 13:39.860
+in archives somewhere, filed some distance
+
+13:39.860 --> 13:42.860
+from your office. And then you've got your
+
+13:42.860 --> 13:44.560
+working document collections, the
+
+13:44.560 --> 13:46.520
+canonical form of this is your file
+
+13:46.520 --> 13:51.040
+cabinets. And our premise is that many
+
+13:51.040 --> 13:53.700
+organizations have a tremendous investment
+
+13:54.100 --> 13:56.360
+in document collections that have this
+
+13:56.360 --> 13:59.300
+character, and that there's a large
+
+13:59.300 --> 14:03.080
+opportunity in finding ways to help people
+
+14:03.080 --> 14:05.500
+partly migrate those collections online,
+
+14:05.500 --> 14:08.440
+partly integrate those collections with
+
+14:08.440 --> 14:10.020
+their with their online document
+
+14:12.080 --> 14:14.140
+repositories the the documents that get
+
+14:14.140 --> 14:15.780
+into this these collections are
+
+14:15.780 --> 14:18.420
+selectively saved by people with the idea
+
+14:18.420 --> 14:20.560
+that they're going to be useful either as
+
+14:20.560 --> 14:23.020
+a reference or maybe actually to be reused
+
+14:23.020 --> 14:25.300
+in some way in the future and and very
+
+14:25.300 --> 14:28.420
+importantly you can it's very difficult to
+
+14:28.420 --> 14:30.060
+predict what the value of any given
+
+14:30.060 --> 14:31.620
+document is going to be in advance you
+
+14:31.620 --> 14:34.120
+couldn't go through most most file
+
+14:34.120 --> 14:35.680
+cabinets and definitely the collection
+
+14:35.680 --> 14:36.900
+that I'm going to be talking about at
+
+14:36.900 --> 14:39.220
+Caltrans and weight the documents
+
+14:39.220 --> 14:41.520
+according to their value because the value
+
+14:41.520 --> 14:43.660
+of the document is tied to its
+
+14:43.660 --> 14:45.300
+availability at the moment when it's
+
+14:45.300 --> 14:48.680
+needed. It becomes valuable in relation to
+
+14:48.680 --> 14:50.780
+some ongoing activity. So it's this
+
+14:50.780 --> 14:54.860
+contingent value that depends much more on
+
+14:54.860 --> 14:56.560
+the accessibility of the document in
+
+14:56.560 --> 14:58.500
+relation to the activity than on its
+
+14:58.500 --> 15:02.260
+intrinsic characteristics. The The
+
+15:02.260 --> 15:03.760
+documents in the collections that we're
+
+15:03.760 --> 15:05.800
+looking at are very diverse, both in
+
+15:05.800 --> 15:07.440
+quality, they include everything from
+
+15:07.440 --> 15:10.160
+documents that have been faxed three times
+
+15:10.160 --> 15:13.520
+and photocopied to very, very nice,
+
+15:13.580 --> 15:17.360
+cleanly printed ASCII documents, and also
+
+15:17.360 --> 15:19.960
+very variable in format, and I'll show you
+
+15:19.960 --> 15:22.040
+more of that. The thing that interests us
+
+15:22.040 --> 15:23.980
+about that is, again, a sense that when we
+
+15:23.980 --> 15:26.780
+look at the document repositories that are
+
+15:26.780 --> 15:29.900
+often used in research, they tend to be
+
+15:29.900 --> 15:32.780
+rather homogeneous. So people who are
+
+15:32.780 --> 15:35.920
+doing different aspects of document image
+
+15:35.920 --> 15:37.900
+and document recognition and document
+
+15:37.900 --> 15:40.040
+retrieval work are working with these sort
+
+15:40.040 --> 15:42.320
+of standard corpora. And when we look at
+
+15:42.320 --> 15:44.280
+these real world corpora, they have
+
+15:44.280 --> 15:46.800
+different characteristics that pose some
+
+15:46.800 --> 15:49.640
+interesting problems and challenges.
+
+15:50.820 --> 15:53.920
+Document research, document search through
+
+15:53.920 --> 15:55.960
+these collections relies very heavily on
+
+15:55.960 --> 15:57.460
+their visual characteristics. I mean this
+
+15:57.460 --> 15:59.520
+is just a simple observation that when you
+
+15:59.520 --> 16:02.900
+go to your paper file cabinet, you get a
+
+16:02.900 --> 16:04.740
+huge amount of information from being able
+
+16:04.740 --> 16:07.540
+to scan the visual organization of the
+
+16:07.540 --> 16:09.720
+folders, to open up a folder and scan
+
+16:09.720 --> 16:11.500
+through the documents that are in there.
+
+16:11.680 --> 16:14.380
+And so images, we have a very strong
+
+16:14.380 --> 16:15.900
+emphasis as you'll see on preserving
+
+16:15.900 --> 16:20.160
+document images. Shared access to the
+
+16:20.160 --> 16:22.300
+collection is facilitated by its creator.
+
+16:22.300 --> 16:24.180
+These are collections that generally, you
+
+16:24.180 --> 16:25.680
+know, they're owned by somebody and that
+
+16:25.680 --> 16:29.200
+person acts, to the extent that the
+
+16:29.200 --> 16:30.980
+collections are shared, that person acts
+
+16:30.980 --> 16:33.200
+effectively as a kind of librarian for the
+
+16:33.200 --> 16:34.400
+collection. And there are really
+
+16:34.400 --> 16:36.480
+interesting issues then if you're moving
+
+16:36.480 --> 16:38.980
+those collections online, giving people
+
+16:38.980 --> 16:41.580
+distributed access, what happens to the
+
+16:41.580 --> 16:44.820
+role of the owner or the collector of the
+
+16:44.820 --> 16:48.820
+corpus. And then finally, it's important
+
+16:48.820 --> 16:50.700
+that you can get to these things easily,
+
+16:50.700 --> 16:53.260
+because often these are documents that, as
+
+16:53.260 --> 16:54.780
+I said, you need them in the midst of an
+
+16:54.780 --> 16:56.960
+ongoing activity, and if you can't get a
+
+16:56.960 --> 16:58.020
+hold of them, you're going to work around
+
+16:58.020 --> 16:59.820
+it in some way. You're not going to send
+
+16:59.820 --> 17:01.760
+off and wait a couple of days to get them
+
+17:01.760 --> 17:04.000
+back. Yeah? Just for a point of
+
+17:04.000 --> 17:07.080
+clarification, so if we're talking about a
+
+17:07.080 --> 17:08.980
+facility design, during the actual design
+
+17:08.980 --> 17:10.880
+process, the documents will be active,
+
+17:11.360 --> 17:14.340
+whereas once the facility was complete and
+
+17:14.340 --> 17:16.820
+it goes to management phase, it would be a
+
+17:16.820 --> 17:18.800
+working collection? No, no. No, I mean,
+
+17:18.820 --> 17:20.260
+I'm glad you asked that question because
+
+17:20.260 --> 17:24.460
+it's very much not tied to across a
+
+17:24.460 --> 17:27.780
+project. Documents move from active to
+
+17:27.780 --> 17:31.220
+working status in a very dynamic way. I'm
+
+17:31.220 --> 17:33.500
+thinking more of when a document is on
+
+17:33.500 --> 17:35.260
+your desk and you're working with it, it's
+
+17:35.260 --> 17:36.640
+active, and when you stick it in your
+
+17:36.640 --> 17:37.920
+filing cabinet, it's in your working
+
+17:37.920 --> 17:39.560
+collection. And in the case that we're
+
+17:39.560 --> 17:41.400
+looking at, as you'll see, things are
+
+17:41.400 --> 17:43.280
+coming in and out of the collection all
+
+17:43.280 --> 17:48.140
+the time. So it's more dynamic than that.
+
+17:48.500 --> 17:52.400
+Okay, alright so where are we? We're
+
+17:52.400 --> 17:56.100
+actually spending most of our time in
+
+17:56.100 --> 17:59.500
+Oakland at Caltrans District 4
+
+17:59.500 --> 18:01.100
+headquarters, which is the district that's
+
+18:01.100 --> 18:03.640
+responsible for the entire Bay area,
+
+18:03.920 --> 18:05.540
+basically all the roads and the toll
+
+18:05.540 --> 18:08.880
+bridges in the Bay area. And within the
+
+18:08.880 --> 18:13.140
+District 4 headquarters, we're working
+
+18:13.140 --> 18:16.680
+with a particular project team. And if
+
+18:16.680 --> 18:18.400
+people are interested, I mean there are a
+
+18:18.400 --> 18:20.660
+lot of practical things to be said about
+
+18:20.660 --> 18:23.020
+how we got into Caltrans, how once we got
+
+18:23.020 --> 18:25.080
+to Caltrans we sort of found our way to
+
+18:25.080 --> 18:27.360
+this particular project. Having to do
+
+18:27.360 --> 18:29.580
+with, again, the practicalities of sort of
+
+18:29.580 --> 18:32.020
+crafting a manageable and relevant
+
+18:32.020 --> 18:35.000
+project. But we are working with the team
+
+18:35.000 --> 18:37.320
+of engineers who are involved in doing a
+
+18:37.320 --> 18:38.920
+replacement bridge over the Carcuna
+
+18:38.920 --> 18:42.280
+Straits, which are in the north part of
+
+18:42.280 --> 18:45.020
+the San Francisco Bay. and these are, some
+
+18:45.020 --> 18:46.580
+of you have probably driven across these
+
+18:46.580 --> 18:49.880
+two bridges, they're a pair of old trestle
+
+18:49.880 --> 18:54.080
+bridges. This one on your right was built
+
+18:54.080 --> 18:56.800
+in 1927 and the other one was built in
+
+18:56.800 --> 19:00.580
+1958. And what's happened is while there's
+
+19:00.580 --> 19:03.000
+not any new bridge building going on in
+
+19:03.000 --> 19:06.880
+the Bay Area, there are funds for seismic
+
+19:06.880 --> 19:10.160
+retrofitting. And Caltrans has made the
+
+19:10.160 --> 19:12.840
+argument that they're going to retrofit
+
+19:12.840 --> 19:15.660
+the 58 bridge, but the 27 bridge is
+
+19:15.660 --> 19:18.340
+sufficiently old and out of date that it
+
+19:18.340 --> 19:20.580
+doesn't make sense to retrofit it. So they
+
+19:20.580 --> 19:22.900
+have proposed replacement as a retrofit
+
+19:22.900 --> 19:24.960
+strategy, which is a phrase I like very
+
+19:24.960 --> 19:26.940
+much. And that means that they can take
+
+19:26.940 --> 19:29.580
+funds that have been allocated for seismic
+
+19:29.580 --> 19:31.280
+retrofitting and use them to build a new
+
+19:31.280 --> 19:33.460
+bridge, which is what engineers most like
+
+19:33.460 --> 19:37.020
+to do. So they are actually going to take
+
+19:37.020 --> 19:39.520
+down the old 27 bridge and put up a new
+
+19:39.520 --> 19:41.620
+one. And that's the project that we've
+
+19:41.620 --> 19:42.960
+been following for the last couple of
+
+19:42.960 --> 19:46.140
+years through, up until now it's largely
+
+19:46.140 --> 19:48.680
+been what they call the design phase, the
+
+19:48.680 --> 19:50.880
+environmental phase, where they're going
+
+19:50.880 --> 19:52.120
+out and doing all of the environmental
+
+19:52.120 --> 19:54.460
+impact assessments and basically getting
+
+19:54.460 --> 19:56.080
+permission to go ahead with the project.
+
+19:56.160 --> 19:57.940
+And they're just now moving into the
+
+19:57.940 --> 20:02.500
+design phase. Now within, as fascinating
+
+20:02.500 --> 20:05.200
+as the bridge is, and we've spent a lot of
+
+20:05.200 --> 20:07.020
+time doing things like following them to
+
+20:07.020 --> 20:09.940
+town meetings in Crockett where they have
+
+20:09.940 --> 20:11.620
+talked to the local citizens about the
+
+20:11.620 --> 20:14.260
+project. For us as anthropologists this is
+
+20:14.260 --> 20:16.160
+an opportunity to do some very wonderful
+
+20:16.160 --> 20:19.220
+ethnography of how a bridge gets built and
+
+20:19.220 --> 20:22.520
+relations between engineers and citizens
+
+20:22.520 --> 20:25.240
+and that sort of thing. But for us in our
+
+20:25.240 --> 20:28.320
+capacity as park researchers doing a
+
+20:28.320 --> 20:31.700
+prototyping project, the focus has been on
+
+20:31.700 --> 20:34.080
+what are called the project files. And
+
+20:34.080 --> 20:36.820
+project files are collections that are
+
+20:36.820 --> 20:39.280
+maintained by every engineering team at
+
+20:39.280 --> 20:41.920
+Caltrans. It's an obligatory collection
+
+20:41.920 --> 20:45.340
+that you have to create that is basically
+
+20:45.340 --> 20:47.520
+a cumulative collection of relevant
+
+20:47.520 --> 20:50.160
+documents that are created and acquired
+
+20:50.160 --> 20:53.060
+over the course of a project. And as you
+
+20:53.060 --> 20:55.800
+can see they are currently kept on paper
+
+20:55.800 --> 21:00.900
+in three ring binders. And I'll tell you
+
+21:00.900 --> 21:02.860
+more about them but just to say that one
+
+21:02.860 --> 21:04.580
+of the things that, you know, when we were
+
+21:04.580 --> 21:07.300
+again sort of in terms of how a project
+
+21:07.300 --> 21:09.940
+like ours gets designed, when we were
+
+21:09.940 --> 21:11.900
+starting to talk with the project team
+
+21:11.900 --> 21:13.740
+about what they were up to and how we
+
+21:13.740 --> 21:15.700
+might do some interesting kind of
+
+21:15.700 --> 21:17.880
+collaboration together, together, we
+
+21:17.880 --> 21:19.600
+realized that the project files were
+
+21:19.600 --> 21:23.240
+another instance of what we're calling
+
+21:23.240 --> 21:24.800
+working document collection and that we
+
+21:24.800 --> 21:27.300
+had worked with it with an interestingly
+
+21:27.300 --> 21:30.120
+similar and different collection in our
+
+21:30.120 --> 21:32.300
+previous project, which was in a law firm,
+
+21:32.500 --> 21:35.720
+where we worked with a particular attorney
+
+21:35.720 --> 21:39.120
+taking, again, a paper collection of his
+
+21:39.120 --> 21:42.340
+documents and moving them online,
+
+21:42.640 --> 21:44.340
+exploring what it would mean to move them
+
+21:44.340 --> 21:48.920
+online. So it was for us a way of building
+
+21:48.920 --> 21:52.020
+on our previous projects, of bringing
+
+21:52.020 --> 21:54.840
+together the specifics of this particular
+
+21:54.840 --> 21:59.220
+work site and its practices with a more
+
+21:59.220 --> 22:02.140
+sort of cumulative general understanding
+
+22:02.140 --> 22:05.000
+of how these kinds of collections work.
+
+22:05.000 --> 22:09.340
+work. And the other thing that struck us
+
+22:09.340 --> 22:12.480
+was, again, as in the law firm collection,
+
+22:12.840 --> 22:15.280
+the tremendous heterogeneity of the
+
+22:15.280 --> 22:17.480
+documents that are in the project files.
+
+22:17.720 --> 22:20.500
+They include a lot of general business
+
+22:20.500 --> 22:23.960
+documents, letters and memos and reports
+
+22:23.960 --> 22:27.340
+and spreadsheets and tables and that sort
+
+22:27.340 --> 22:30.520
+of thing. And then also things like
+
+22:30.520 --> 22:32.740
+newspaper clippings. So they clip you
+
+22:32.740 --> 22:34.640
+know, articles that come out about
+
+22:34.640 --> 22:36.440
+Caltrans that are relevant to the project.
+
+22:37.120 --> 22:39.320
+And then a lot of interesting more
+
+22:39.320 --> 22:42.900
+engineering specific documents, maps, and
+
+22:42.900 --> 22:46.160
+plans of various kinds, all ingeniously
+
+22:46.160 --> 22:49.300
+folded to fit in an 8.5 by 11 inch binder.
+
+22:49.560 --> 22:52.240
+So we've got documents of, you know, a lot
+
+22:52.240 --> 22:54.940
+of different kinds of genre and format,
+
+22:55.240 --> 22:58.080
+and a lot of different sizes and that sort
+
+22:58.080 --> 22:59.300
+of thing. So the question is, you know,
+
+22:59.300 --> 23:00.940
+how are you actually going to deal with
+
+23:00.940 --> 23:03.560
+this when you're thinking of moving this
+
+23:03.560 --> 23:07.560
+collection from one medium to another? The
+
+23:07.560 --> 23:10.120
+other thing that fascinated us was that in
+
+23:10.120 --> 23:12.120
+spite of the tremendous heterogeneity of
+
+23:12.120 --> 23:15.180
+these documents, they were all to be filed
+
+23:15.180 --> 23:17.460
+according to the Caltrans Uniform Filing
+
+23:17.460 --> 23:22.040
+System, which as a piece of classification
+
+23:22.040 --> 23:24.640
+is a really, really interesting artifact
+
+23:24.640 --> 23:27.320
+in its own right. The Caltrans Uniform
+
+23:27.320 --> 23:31.060
+Filing System is a basically
+
+23:31.060 --> 23:33.840
+hierarchically nested set of categories
+
+23:33.840 --> 23:36.740
+that are in principle to be used
+
+23:36.740 --> 23:39.420
+throughout Caltrans. It's really
+
+23:39.420 --> 23:41.520
+interesting when you start to look at the
+
+23:41.520 --> 23:43.460
+Uniform Filing System how incredibly
+
+23:43.460 --> 23:48.000
+dynamic it becomes. It changes both, it's
+
+23:48.000 --> 23:49.980
+changed from the sort of central
+
+23:49.980 --> 23:53.860
+headquarters and then it's changed, it's,
+
+23:53.860 --> 23:56.920
+you know, with permission customized
+
+23:56.920 --> 24:01.800
+locally. And so I'll talk more about that
+
+24:01.800 --> 24:03.300
+when I tell you about the prototype, but
+
+24:03.300 --> 24:06.120
+the uniform filing system turns out to be
+
+24:06.120 --> 24:08.800
+in fact a constantly sort of shifting and
+
+24:08.800 --> 24:12.940
+transformed set of categorization scheme.
+
+24:13.980 --> 24:15.840
+Another interesting thing about it from
+
+24:15.840 --> 24:17.240
+the point of view of classification is
+
+24:17.240 --> 24:18.180
+that it's got all these different
+
+24:18.180 --> 24:21.160
+interests in it. Partly it's organized by
+
+24:21.160 --> 24:23.100
+the kind of phases of a project, so it's
+
+24:23.100 --> 24:26.720
+orienting to producing a kind of archival
+
+24:26.720 --> 24:28.920
+historical record at the end of the
+
+24:28.920 --> 24:31.660
+project. It's also oriented to the types
+
+24:31.660 --> 24:33.620
+of documents, so whether it's
+
+24:33.620 --> 24:35.640
+correspondence or reports of various
+
+24:35.640 --> 24:39.260
+kinds, it's oriented to topical issues.
+
+24:39.260 --> 24:42.280
+and all of these different cross-cutting
+
+24:42.280 --> 24:45.780
+interests are sort of homogenized and
+
+24:45.780 --> 24:47.880
+flattened in in this apparently
+
+24:47.880 --> 24:51.720
+straightforward hierarchical system but of
+
+24:51.720 --> 24:53.200
+course when you actually go to file
+
+24:53.200 --> 24:55.940
+documents you run into into that and I'll
+
+24:55.940 --> 25:01.420
+show you more about that there are there
+
+25:01.420 --> 25:04.460
+is a perceived problem around around
+
+25:04.460 --> 25:06.800
+getting documents into the project files.
+
+25:06.980 --> 25:10.720
+It is a perpetual trouble for people. For
+
+25:10.720 --> 25:13.220
+all sorts of reasons, certainly in part, I
+
+25:13.220 --> 25:15.160
+think part of the reason that we're all so
+
+25:15.160 --> 25:18.880
+behind in our filing is that it's not a
+
+25:18.880 --> 25:20.780
+straightforward task. For any given
+
+25:20.780 --> 25:23.220
+document, there are so many possible ways
+
+25:23.220 --> 25:26.500
+of filing it. And so it's a hard problem,
+
+25:26.560 --> 25:28.580
+and as a consequence, things pile up. And
+
+25:28.580 --> 25:31.300
+this is the two-file cardboard box sitting
+
+25:31.300 --> 25:35.880
+on the desk of the senior engineer. So we
+
+25:35.880 --> 25:38.420
+became interested in understanding more
+
+25:38.420 --> 25:41.180
+about what actually is hard about filing
+
+25:41.180 --> 25:43.600
+documents. Here's another activity which
+
+25:43.600 --> 25:46.680
+is typically seen as a completely mindless
+
+25:46.680 --> 25:49.880
+activity, but which somehow when any of us
+
+25:49.880 --> 25:52.660
+actually goes to try to do it, opens out
+
+25:52.660 --> 25:55.100
+into something more problematic and what's
+
+25:55.100 --> 25:57.120
+going on there. So what we did was we
+
+25:57.120 --> 25:59.540
+spent some time with the senior, The other
+
+25:59.540 --> 26:01.880
+thing I should say is that at Caltrans, as
+
+26:01.880 --> 26:04.100
+with many organizations, budgets have been
+
+26:04.100 --> 26:06.020
+cut. There's very little administrative
+
+26:06.020 --> 26:08.800
+support. The engineers themselves are
+
+26:08.800 --> 26:10.800
+responsible for doing the filing of their
+
+26:10.800 --> 26:14.380
+documents. So we spent some time with the
+
+26:14.380 --> 26:18.140
+senior project engineer, sitting with him
+
+26:18.140 --> 26:20.580
+while he worked on trying to file some of
+
+26:20.580 --> 26:22.180
+these documents that were on his desk that
+
+26:22.180 --> 26:23.860
+he wanted to get into the project files.
+
+26:23.860 --> 26:27.160
+And this is my colleague Randy watching
+
+26:27.160 --> 26:30.000
+sympathetically as Dave sort of talks his
+
+26:30.000 --> 26:32.440
+way through some filing. And at this point
+
+26:32.440 --> 26:34.820
+I want to show you a videotape if we're
+
+26:34.820 --> 26:37.520
+queued up. I'm going to show you a few
+
+26:37.520 --> 26:44.600
+little bits of recorded Dave filing. And
+
+26:44.600 --> 26:49.100
+in the first one, let me just orient you a
+
+26:49.100 --> 26:50.260
+little bit to what you're going to see.
+
+26:51.460 --> 26:53.440
+Well, I'll show it to you and then just
+
+26:53.440 --> 26:55.380
+point out what I think are some of the
+
+26:55.380 --> 26:57.240
+interesting issues. And here's a
+
+26:57.240 --> 26:59.080
+transcript in case you have any trouble
+
+26:59.080 --> 27:02.700
+hearing. Can I show the overhead and the
+
+27:02.700 --> 27:05.800
+tape at the same time or should we? I feel
+
+27:05.800 --> 27:08.240
+I'm talking to some unknown assistant
+
+27:08.240 --> 27:12.300
+here. Over there, right? I can't. Okay. So
+
+27:12.300 --> 27:13.580
+we'll just look at the tape and then I'll
+
+27:13.580 --> 27:14.460
+put the transcript up.
+
+27:22.480 --> 27:24.460
+store these things you know like for
+
+27:24.460 --> 27:28.480
+instance this one right here it's our
+
+27:28.480 --> 27:33.160
+letter to the FHWA regarding consultation
+
+27:33.160 --> 27:35.660
+for the Endangered Species Act so there's
+
+27:35.660 --> 27:37.620
+a permit involved environmental is
+
+27:37.620 --> 27:40.940
+involved the federal FHWA is involved
+
+27:40.940 --> 27:42.740
+external agencies so there's all these
+
+27:42.740 --> 27:45.040
+categories that can conceivably go under
+
+27:45.040 --> 27:47.980
+and I have to pick one. Then I have to go
+
+27:47.980 --> 27:49.880
+back and maybe search for because maybe I
+
+27:49.880 --> 27:52.700
+wasn't thinking the same on the next time
+
+27:52.700 --> 27:54.260
+when I'm looking back. So that's why it'd
+
+27:54.260 --> 27:56.800
+be really cool if you know if you can
+
+27:56.800 --> 27:58.420
+enter these things one like you had you
+
+27:58.420 --> 28:01.000
+said you could you could have a date or a
+
+28:01.000 --> 28:03.420
+title or Subject or keyword or whatever.
+
+28:03.480 --> 28:04.600
+That's why I think it'd be really handy
+
+28:04.600 --> 28:06.240
+because I'm sitting here and I'm going
+
+28:06.240 --> 28:06.540
+well
+
+28:09.260 --> 28:10.980
+Correspondence to federal agencies. Yeah,
+
+28:10.980 --> 28:13.200
+that's the one I think it is But it could
+
+28:13.200 --> 28:14.820
+easily be thrown underneath permit. And
+
+28:14.820 --> 28:17.520
+certainly my assessment may be different
+
+28:17.520 --> 28:19.960
+than the guy in the next aisle over. Not
+
+28:19.960 --> 28:21.400
+when he's trying to fire a lady, when
+
+28:21.400 --> 28:22.360
+they're trying to find him.
+
+28:25.620 --> 28:27.820
+Okay, so. I don't see what I thought I was
+
+28:27.820 --> 28:30.660
+looking. I'm going to show you one more.
+
+28:31.140 --> 28:33.520
+Okay, so, you know, this is all really
+
+28:33.520 --> 28:36.320
+familiar and mundane stuff. But, you know,
+
+28:36.360 --> 28:37.700
+it's stuff that we all know, but we've
+
+28:37.700 --> 28:39.860
+never figured out exactly what to do about
+
+28:39.860 --> 28:41.560
+it. You know, we've got the problem.
+
+28:41.560 --> 28:42.980
+you've got multiple alternative
+
+28:42.980 --> 28:45.880
+categories, any one of which could make
+
+28:45.880 --> 28:48.240
+sense depending on how you reason about
+
+28:48.240 --> 28:50.980
+it. Then you've got the problem of how do
+
+28:50.980 --> 28:52.940
+you align the way you're going to reason
+
+28:52.940 --> 28:54.560
+about the document when you're filing it
+
+28:54.560 --> 28:55.680
+and the way you're going to be reasoning
+
+28:55.680 --> 28:57.680
+about it when you go to look for it. And
+
+28:57.680 --> 29:00.580
+Dave's uneasy feeling that if he comes up
+
+29:00.580 --> 29:02.580
+with one sort of logic right now for how
+
+29:02.580 --> 29:06.120
+to file it, he's trying to anticipate when
+
+29:06.120 --> 29:08.180
+he goes to look for this thing, how is he
+
+29:08.180 --> 29:10.360
+likely to be thinking about it. And then
+
+29:10.360 --> 29:12.840
+finally he worries at the end about the
+
+29:12.840 --> 29:15.360
+obvious problem of whether the way he
+
+29:15.360 --> 29:17.360
+thinks about it is going to be the same as
+
+29:17.360 --> 29:19.640
+the way, you know, the guy or lady, as he
+
+29:19.640 --> 29:22.100
+says in the next cubicle, overthinks about
+
+29:22.100 --> 29:24.040
+it. So these are all, you know, familiar
+
+29:24.040 --> 29:28.080
+kinds of problems around cataloging and
+
+29:28.080 --> 29:30.460
+filing of documents. Let me show you one
+
+29:30.460 --> 29:35.180
+more little clip now from the same session
+
+29:35.180 --> 29:35.660
+with Dave.
+
+29:39.980 --> 29:43.400
+I guess I would stick it under floodplain
+
+29:43.400 --> 29:44.320
+evaluations.
+
+29:46.620 --> 29:49.280
+Where was the other spot? Drainage is
+
+29:49.280 --> 29:52.320
+usually done during the design phase, and
+
+29:52.320 --> 29:54.840
+we're not there yet. So that's why I
+
+29:54.840 --> 29:58.860
+always pick... This is 4D2, 5D2. But see,
+
+29:58.900 --> 30:01.340
+231 is draft environmental document, which
+
+30:01.340 --> 30:06.960
+is pretty vague. So I'll never find it. I
+
+30:06.960 --> 30:08.660
+would probably be more inclined to stick
+
+30:08.660 --> 30:10.100
+it under drainage even though that's not
+
+30:10.100 --> 30:13.820
+where it belongs. I don't know what else.
+
+30:14.220 --> 30:17.460
+That's what I'm going to do. I'm probably
+
+30:17.460 --> 30:19.000
+not doing it right, but that's what I
+
+30:19.000 --> 30:21.480
+would do. This is why your system would be
+
+30:21.480 --> 30:26.500
+nice. So again, another sort of related
+
+30:26.500 --> 30:29.420
+set of problems here. In the beginning
+
+30:29.420 --> 30:30.880
+here, he's looking through the uniform
+
+30:30.880 --> 30:32.520
+filing system itself. itself is like an
+
+30:32.520 --> 30:34.060
+eight-page document. He's sitting there
+
+30:34.060 --> 30:35.460
+searching through the uniform filing
+
+30:35.460 --> 30:37.200
+system for the category that he's looking
+
+30:37.200 --> 30:39.720
+for that he thinks he wants to assign this
+
+30:39.720 --> 30:42.820
+document to. Again, he's worrying here
+
+30:42.820 --> 30:44.860
+about this misalignment between the kind
+
+30:44.860 --> 30:47.460
+of normative chronological order of the
+
+30:47.460 --> 30:50.000
+classification scheme and the topical
+
+30:50.000 --> 30:52.440
+content of the document that he's got,
+
+30:52.520 --> 30:55.320
+which is about drainage, which has come up
+
+30:55.320 --> 30:57.940
+in terms of an evaluation of a floodplain
+
+30:57.940 --> 30:59.880
+in the environmental stage, but the
+
+30:59.880 --> 31:02.180
+drainage category is farther down in the
+
+31:02.180 --> 31:05.880
+design. So how does he adjudicate that?
+
+31:06.180 --> 31:09.140
+And again, he's thinking here about how am
+
+31:09.140 --> 31:10.800
+I going to file it such that when I go to
+
+31:10.800 --> 31:12.340
+look for it, there's some hope that I'll
+
+31:12.340 --> 31:14.380
+actually find it. Now let me show you a
+
+31:14.380 --> 31:18.880
+couple of clips around search. The clip
+
+31:18.880 --> 31:21.840
+I'm going to show you was a serendipitous
+
+31:21.840 --> 31:26.100
+recording that we were actually up there
+
+31:26.100 --> 31:29.940
+installing a board on Dave's PC that would
+
+31:29.940 --> 31:31.980
+allow it to talk to our scanner as we were
+
+31:31.980 --> 31:33.800
+putting together a prototype. And because
+
+31:33.800 --> 31:36.340
+we're interested in all of the grungy
+
+31:36.340 --> 31:38.660
+practical details around actually
+
+31:38.660 --> 31:40.160
+implementing a prototype, we were
+
+31:40.160 --> 31:42.460
+recording this, right? So we're there in
+
+31:42.460 --> 31:45.540
+Dave's office and when the clip first
+
+31:45.540 --> 31:46.920
+starts, you're going to see my colleague
+
+31:46.920 --> 31:49.460
+Randy and one of their IS people under
+
+31:49.460 --> 31:53.000
+Dave's desk messing with his PC. And so
+
+31:53.000 --> 31:54.720
+we're there recording and Dave comes in
+
+31:54.720 --> 31:56.700
+and he picks up the two file box off his
+
+31:56.700 --> 31:58.140
+desk and sits down and starts going
+
+31:58.140 --> 32:01.640
+through it. So I eventually pan back to
+
+32:01.640 --> 32:03.560
+actually see what it is that he's up to.
+
+32:03.700 --> 32:05.520
+And you're going to see three little
+
+32:05.520 --> 32:08.060
+segments with breaks between them. In the
+
+32:08.060 --> 32:11.200
+first, you'll hear a query from my
+
+32:11.200 --> 32:13.340
+colleague, Jeanette, to Dave about what
+
+32:13.340 --> 32:15.260
+he's searching for. And he explains that
+
+32:15.260 --> 32:17.380
+he's looking for the documentation of an
+
+32:17.380 --> 32:20.640
+agreement between a local agency and a
+
+32:20.640 --> 32:23.780
+local city and Caltrans around an aspect
+
+32:23.780 --> 32:26.280
+of their process. And then in the second,
+
+32:26.400 --> 32:29.040
+you'll see him find a document and sort of
+
+32:29.040 --> 32:31.300
+inspect it and decide, apparently, that
+
+32:31.300 --> 32:33.020
+it's what he wants and set it aside. And
+
+32:33.020 --> 32:35.100
+then in the final one, we have a little
+
+32:35.100 --> 32:38.720
+exchange where he explains to us the
+
+32:38.720 --> 32:40.900
+uncertainties about what he's been looking
+
+32:40.900 --> 32:44.560
+for. And there's this whole search. I
+
+32:44.560 --> 32:46.060
+mean, he went through, you'll see when he
+
+32:46.060 --> 32:47.880
+finds the document, he's about two-thirds
+
+32:47.880 --> 32:49.740
+of the way through the box. So the whole
+
+32:49.740 --> 32:51.560
+thing probably went on for 15 minutes, I
+
+32:51.560 --> 32:53.320
+would say. So here are these three little
+
+32:53.320 --> 32:53.720
+clips.
+
+33:02.000 --> 33:06.100
+Some old resolutions that East Virginia
+
+33:06.100 --> 33:07.500
+Regional Park and the city passed in
+
+33:07.500 --> 33:11.020
+support of our mitigation project. Yeah,
+
+33:13.100 --> 33:16.240
+sure do. Exactly. Exactly.
+
+33:58.000 --> 33:59.500
+I don't know if the oven exists.
+
+34:05.120 --> 34:07.840
+Yeah, most of the time. I don't think I
+
+34:07.840 --> 34:09.100
+actually got one of these things from the
+
+34:09.100 --> 34:09.280
+city.
+
+34:18.440 --> 34:21.300
+So, at the beginning, as I said, he
+
+34:21.300 --> 34:24.420
+explains to us that he's looking for some
+
+34:24.420 --> 34:26.400
+old resolutions, as he says, from the East
+
+34:26.400 --> 34:29.580
+Bay Regional Parks and the City. So
+
+34:29.580 --> 34:31.240
+potentially, at the beginning, he's
+
+34:31.240 --> 34:33.760
+looking for two documents, one from each
+
+34:33.760 --> 34:36.720
+of these agencies. And then when he talks
+
+34:36.720 --> 34:40.900
+to us about what he found, he explains, he
+
+34:40.900 --> 34:43.300
+says he's still going through, you saw him
+
+34:43.300 --> 34:45.560
+in the middle clip sort of pull out one
+
+34:45.560 --> 34:46.920
+document, set it to the side, and then
+
+34:46.920 --> 34:50.460
+keep going. And then he announces happily
+
+34:50.460 --> 34:52.440
+to us that he actually found something and
+
+34:52.440 --> 34:54.540
+explains that now he's starting to wonder
+
+34:54.540 --> 34:56.780
+whether there is actually ever was a
+
+34:56.780 --> 34:59.680
+second document. So the question here is
+
+34:59.680 --> 35:01.720
+what do you know ahead of time about what
+
+35:01.720 --> 35:03.140
+you're looking for when you're doing this
+
+35:03.140 --> 35:04.660
+kind of search? And here's a case where
+
+35:04.660 --> 35:06.920
+Dave goes through the whole box on the
+
+35:06.920 --> 35:11.120
+possibility that a document that may or
+
+35:11.120 --> 35:13.120
+may not exist was put in there by one of
+
+35:13.120 --> 35:14.540
+his colleagues. And that's the kind of
+
+35:14.540 --> 35:18.280
+working with the material medium that's
+
+35:18.280 --> 35:23.040
+involved in the sort of problematic state
+
+35:23.040 --> 35:26.420
+of the project files at the moment. So
+
+35:26.420 --> 35:29.940
+what we have been doing together with Dave
+
+35:29.940 --> 35:33.160
+and the rest of the engineering team is an
+
+35:33.160 --> 35:35.860
+exploration in what would it mean to put
+
+35:35.860 --> 35:38.380
+their collection online. And the prototype
+
+35:38.380 --> 35:41.240
+that we've built, we hear being used very
+
+35:41.240 --> 35:43.020
+loosely to refer to my colleague Randy
+
+35:43.020 --> 35:46.660
+Trigg, is called, it's built on top of a
+
+35:46.660 --> 35:48.560
+platform called the integrator because the
+
+35:48.560 --> 35:51.600
+idea of the integrator has been to try to
+
+35:51.600 --> 35:53.340
+build a platform on which we can pull
+
+35:53.340 --> 35:56.680
+together as much stuff as possible into a
+
+35:56.680 --> 36:01.200
+useful configuration. We have our sort of
+
+36:01.200 --> 36:04.840
+basic approach in putting this prototype
+
+36:04.840 --> 36:07.420
+together is we want to require minimal
+
+36:07.420 --> 36:09.580
+overhead for filing. You should be able to
+
+36:09.580 --> 36:11.920
+get documents into this collection with as
+
+36:11.920 --> 36:14.960
+little effort as possible. And you'll see
+
+36:14.960 --> 36:18.240
+concretely what that means. And then we
+
+36:18.240 --> 36:20.320
+want to provide, once you've gotten your
+
+36:20.320 --> 36:22.620
+document in there, and particularly if
+
+36:22.620 --> 36:24.040
+you've put your document in with very,
+
+36:24.100 --> 36:27.020
+very minimal coding of any kind, we want
+
+36:27.020 --> 36:29.640
+to give you multiple opportunities to add
+
+36:29.640 --> 36:34.220
+more metadata to the document. So we want
+
+36:34.220 --> 36:36.300
+you to be able to take a document that's
+
+36:36.300 --> 36:37.880
+in the, when you come across a document
+
+36:37.880 --> 36:39.900
+that's in the collection, be able to add
+
+36:39.900 --> 36:42.680
+more metadata to it if you're inspired to
+
+36:42.680 --> 36:45.760
+do that. And very importantly, as you'll
+
+36:45.760 --> 36:49.140
+see, the collection of metadata that's
+
+36:49.140 --> 36:51.900
+applicable has got to be modifiable.
+
+36:52.400 --> 36:54.100
+You've got to be able to both go in and
+
+36:54.100 --> 36:55.840
+change the coding of a particular document
+
+36:55.840 --> 36:58.520
+and then work with the overall set of
+
+36:58.520 --> 37:00.480
+metadata. data. And then when it goes to
+
+37:00.480 --> 37:02.700
+look to come sign to look for documents we
+
+37:02.700 --> 37:04.740
+want there to be multiple ways that you
+
+37:04.740 --> 37:07.520
+can go about looking for them. Trying to
+
+37:07.520 --> 37:10.540
+perpetuate some of the advantages of the
+
+37:10.540 --> 37:13.560
+paper world where where you can use a
+
+37:13.560 --> 37:17.100
+pretty wide repertoire of strategies for
+
+37:17.100 --> 37:21.500
+looking. The basic scenario has been that
+
+37:21.500 --> 37:22.780
+you know first of all you get your
+
+37:22.780 --> 37:27.000
+document scanned into into a file and and
+
+37:27.000 --> 37:29.100
+then into a repository. And then, of
+
+37:29.100 --> 37:31.140
+course, the rationale is that once you've
+
+37:31.140 --> 37:34.460
+got your documents online, you can do
+
+37:34.460 --> 37:38.040
+things like do multiple categorization of
+
+37:38.040 --> 37:39.520
+a given document. You don't have to worry
+
+37:39.520 --> 37:41.220
+about resolving those problems that Dave
+
+37:41.220 --> 37:43.700
+was struggling with. You can look at the
+
+37:43.700 --> 37:45.780
+whole collection in different ways, which
+
+37:45.780 --> 37:47.640
+is something impossible for them to do at
+
+37:47.640 --> 37:49.400
+this point. So you can look at the whole
+
+37:49.400 --> 37:52.080
+collection ordered by the document dates
+
+37:52.080 --> 37:55.620
+or the topics. And I'll show you more
+
+37:55.620 --> 37:59.220
+about that. you can still view and browse
+
+37:59.220 --> 38:01.400
+over the page images. That's a place where
+
+38:01.400 --> 38:03.740
+we want to preserve what you've got now
+
+38:03.740 --> 38:05.800
+and maybe even enhance it in some ways.
+
+38:06.640 --> 38:10.160
+Obviously now you can do a full text
+
+38:10.160 --> 38:12.740
+search over the optically character
+
+38:12.740 --> 38:16.520
+recognized text and we want you to be able
+
+38:16.520 --> 38:19.340
+to do combined searches so you throw in
+
+38:19.340 --> 38:20.960
+you know something that you know about a
+
+38:20.960 --> 38:22.760
+property that might have been assigned to
+
+38:22.760 --> 38:25.220
+this document with a text stream string
+
+38:25.220 --> 38:28.040
+and also being able to search use the
+
+38:28.040 --> 38:30.500
+images as a resource and then obviously
+
+38:30.500 --> 38:33.160
+once you're online there's the possibility
+
+38:33.160 --> 38:35.340
+of having distributed access to the
+
+38:35.340 --> 38:37.740
+collection so to sit at your desk and and
+
+38:37.740 --> 38:39.540
+over the world wide web actually look at
+
+38:39.540 --> 38:41.640
+it and get a hold of things and then you
+
+38:41.640 --> 38:43.500
+still have to be able to print your
+
+38:43.500 --> 38:47.420
+documents that's essential you know the
+
+38:47.420 --> 38:49.960
+idea there's simple idea we have is okay
+
+38:49.960 --> 38:52.340
+once Once you got documents online, then
+
+38:52.340 --> 38:57.120
+you could have access to the project files
+
+38:57.120 --> 38:58.900
+from multiple locations, from multiple
+
+38:58.900 --> 39:01.040
+locations both within Caltrans
+
+39:01.040 --> 39:03.440
+headquarters and also now they've got
+
+39:03.440 --> 39:04.940
+their field office set up out by the
+
+39:04.940 --> 39:06.600
+bridge. So one of the things we're
+
+39:06.600 --> 39:08.540
+interested in seeing is how do documents
+
+39:08.540 --> 39:11.780
+travel across these sites. The way they
+
+39:11.780 --> 39:14.000
+travel now primarily is that Dave gets a
+
+39:14.000 --> 39:16.740
+phone call, he finds, he or somebody
+
+39:16.740 --> 39:17.920
+somebody who works for him finds the
+
+39:17.920 --> 39:19.440
+document, they stick it into a relevant
+
+39:19.440 --> 39:21.840
+form of mail and it gets sent off or it
+
+39:21.840 --> 39:24.640
+gets faxed. So this would obviously open
+
+39:24.640 --> 39:27.520
+up some new possibilities there. And
+
+39:27.520 --> 39:29.840
+distributed access would work both to give
+
+39:30.400 --> 39:32.280
+multiple people access to the same
+
+39:32.280 --> 39:34.380
+collection, which is the situation I was
+
+39:34.380 --> 39:37.240
+just describing. And also a single person,
+
+39:37.300 --> 39:38.720
+one of the managers that we've been
+
+39:38.720 --> 39:41.180
+talking to, she has, I think, 100 projects
+
+39:41.180 --> 39:43.420
+that she's in principle responsible for.
+
+39:43.540 --> 39:45.740
+So she has an interest in being able to
+
+39:45.740 --> 39:50.300
+get views onto multiple project files. And
+
+39:50.300 --> 39:51.940
+there are really interesting, obviously,
+
+39:52.470 --> 39:54.560
+protection and access issues that come up
+
+39:54.560 --> 39:57.160
+there that I'll come back to. So what
+
+39:57.160 --> 39:59.100
+we've done is we've set up, this is the
+
+39:59.100 --> 40:01.940
+prototype. It's made up of plastic
+
+40:01.940 --> 40:06.820
+hardware, software, and paper. So we
+
+40:06.820 --> 40:09.420
+basically have a really, I will say,
+
+40:09.440 --> 40:12.260
+really nice Xerox scanner. Nice because it
+
+40:12.260 --> 40:14.280
+has a great document feeder that you can
+
+40:14.280 --> 40:16.280
+throw in multiple documents at a time,
+
+40:16.680 --> 40:20.360
+hooked up to a PC, and the PC is running a
+
+40:20.360 --> 40:22.680
+piece of software called Pages, which
+
+40:22.680 --> 40:24.580
+again is a really nice application for
+
+40:24.580 --> 40:27.760
+supporting the work of scanning documents.
+
+40:28.460 --> 40:32.460
+And so the documents are basically scanned
+
+40:32.460 --> 40:38.880
+using the scanner in Pages onto the PC
+
+40:38.880 --> 40:41.840
+that's sitting there. And then with a web
+
+40:41.840 --> 40:44.220
+-based form, they're coded and then
+
+40:44.220 --> 40:47.680
+they're uploaded onto the web. And at the
+
+40:47.680 --> 40:50.720
+moment, they're actually uploaded onto the
+
+40:50.720 --> 40:53.180
+web and sent to PARC, where we pull them
+
+40:53.180 --> 40:56.980
+in across the PARC firewall and do various
+
+40:56.980 --> 40:59.620
+kinds of processing over them, and then
+
+40:59.620 --> 41:02.100
+put them back out, indexed, both the
+
+41:02.100 --> 41:04.280
+documents and the metadata indexed outside
+
+41:04.280 --> 41:06.280
+the firewall, so that people at Caltrans
+
+41:06.280 --> 41:09.060
+with password protection can view the
+
+41:09.060 --> 41:10.800
+documents. The thing that we're up to now
+
+41:10.800 --> 41:12.320
+is trying to move the whole thing into
+
+41:12.320 --> 41:15.060
+Caltrans running on their intranet. And
+
+41:15.060 --> 41:18.180
+that involves a bit of substituting some
+
+41:18.180 --> 41:21.260
+code that's been running at PARC with
+
+41:21.260 --> 41:24.640
+commercially available, extended
+
+41:24.640 --> 41:27.500
+commercially available software using
+
+41:27.500 --> 41:31.640
+pages as the sort of basic platform for
+
+41:31.640 --> 41:35.540
+it. They now have an intern who's
+
+41:35.540 --> 41:38.660
+dedicated 25 hours a week to scanning and
+
+41:38.660 --> 41:42.040
+maintaining the project files. We have at
+
+41:42.040 --> 41:44.580
+last count about 1,250 documents in there,
+
+41:44.720 --> 41:47.140
+which just to give you a sense, I mean if
+
+41:47.140 --> 41:49.380
+you say documents, it turns out documents
+
+41:49.380 --> 41:51.820
+average about five pages. That of course
+
+41:51.820 --> 41:53.280
+doesn't mean it all. I mean they range
+
+41:53.280 --> 41:55.700
+from lots of one pagers to long documents.
+
+41:55.820 --> 41:59.480
+But it's about 1,250 roughly times five is
+
+41:59.480 --> 42:01.200
+the number of actual pages that we have.
+
+42:01.200 --> 42:03.900
+And for those of you who are interested in
+
+42:03.900 --> 42:06.060
+it takes about a gigabyte of storage at
+
+42:06.060 --> 42:08.140
+this point with another megabyte for the
+
+42:08.140 --> 42:08.660
+metadata.
+
+42:11.980 --> 42:14.660
+Okay, some things that we've learned about
+
+42:14.660 --> 42:17.460
+scanning because along with the intern
+
+42:17.460 --> 42:19.980
+that they've hired, we ourselves have done
+
+42:19.980 --> 42:22.160
+an enormous amount of scanning and learned
+
+42:22.160 --> 42:25.760
+a great deal from it. You know, again this
+
+42:25.760 --> 42:27.220
+sort of goes back to what I was saying
+
+42:27.220 --> 42:28.860
+about filing. There are all these things
+
+42:28.860 --> 42:32.220
+that are almost too mundane to mention,
+
+42:32.360 --> 42:33.800
+but when you're actually sitting there
+
+42:33.800 --> 42:35.420
+scanning documents, they become quite
+
+42:35.420 --> 42:38.940
+salient. Things like you have a stack and
+
+42:38.940 --> 42:41.100
+it's not always completely clear what
+
+42:41.100 --> 42:43.160
+should constitute a single document.
+
+42:43.660 --> 42:47.360
+Should this thing be scanned as a single
+
+42:47.360 --> 42:50.420
+document or as multiple documents? A
+
+42:50.420 --> 42:52.360
+little bit of judgment has to be exercised
+
+42:52.360 --> 42:54.000
+there. You know, you've got to give the
+
+42:54.000 --> 42:56.500
+document a name to store it on the hard
+
+42:56.500 --> 42:59.320
+drive on your PC. And so you've got to
+
+42:59.320 --> 43:01.040
+sort of come up with something. And it
+
+43:01.040 --> 43:02.800
+turns out that we display the names, and
+
+43:02.800 --> 43:04.400
+so it's actually useful if they say a
+
+43:04.400 --> 43:06.880
+little bit about the document. And then
+
+43:06.880 --> 43:08.040
+you've got to deal with the kind of
+
+43:08.040 --> 43:09.760
+heterogeneity that these documents have.
+
+43:10.240 --> 43:12.420
+For example, there are a lot of documents
+
+43:12.420 --> 43:14.220
+that have some pages, portrait, and some
+
+43:14.220 --> 43:17.040
+landscape. And, you know, there are issues
+
+43:17.040 --> 43:18.960
+there. You throw them all in the scanner.
+
+43:18.960 --> 43:21.000
+one of the really nice things that Pages
+
+43:21.000 --> 43:23.760
+does is you can view all of the thumbnails
+
+43:23.760 --> 43:25.360
+of all the documents that you've scanned
+
+43:25.360 --> 43:28.060
+and very easily rotate. So we go in and we
+
+43:28.060 --> 43:29.920
+rotate the documents so that when the
+
+43:29.920 --> 43:31.520
+thumbnails are displayed, everything will
+
+43:31.520 --> 43:34.980
+be nicely oriented in the right way, which
+
+43:34.980 --> 43:36.580
+is great for viewing the documents, but
+
+43:36.580 --> 43:37.940
+then of course when you're going to go to
+
+43:37.940 --> 43:41.540
+print them, you need to both reorient them
+
+43:41.540 --> 43:43.580
+and rescale them again. So there are
+
+43:43.580 --> 43:46.100
+translations between scanning and viewing
+
+43:46.100 --> 43:48.640
+and printing around page orientation that
+
+43:48.640 --> 43:51.720
+have become an issue. And there are
+
+43:51.720 --> 43:54.200
+variously sized pages. Pages again
+
+43:54.200 --> 43:56.220
+supports really nicely, you know, you do
+
+43:56.220 --> 43:58.900
+the 8.5 by 11s and then you add the, you
+
+43:58.900 --> 44:00.600
+do the others on the platen and you add
+
+44:00.600 --> 44:03.620
+them. So a lot of this, and again, it's
+
+44:03.620 --> 44:06.220
+essential to be able to easily go in and
+
+44:06.220 --> 44:09.120
+rescan a document, replace a particular
+
+44:09.120 --> 44:11.820
+page and also to see what you've done
+
+44:11.820 --> 44:13.620
+after you scan them and to be able to go
+
+44:13.620 --> 44:16.680
+in there and reorder pages reorient things
+
+44:16.680 --> 44:19.460
+all of that actually pages does really
+
+44:19.460 --> 44:22.520
+well which is why we're we're relying on
+
+44:22.520 --> 44:25.160
+it to a great deal now of course you get
+
+44:25.160 --> 44:27.120
+to the documents in the project files
+
+44:27.120 --> 44:30.780
+through a home page and we have this
+
+44:30.780 --> 44:34.580
+project files home page it may be a little
+
+44:34.580 --> 44:36.460
+hard for you to read it so you know you
+
+44:36.460 --> 44:38.280
+can select search the project files that
+
+44:38.280 --> 44:39.680
+which takes you to the search interface
+
+44:39.680 --> 44:41.740
+which I'll show you add a new document
+
+44:41.740 --> 44:44.000
+takes you to the coding form that I'll
+
+44:44.000 --> 44:46.240
+show you and then of their various ways in
+
+44:46.240 --> 44:48.160
+which you can review the whole collection
+
+44:48.160 --> 44:52.220
+by dates by the arranged according to the
+
+44:52.220 --> 44:58.720
+uniform filing system and then various
+
+44:58.720 --> 45:00.920
+kinds of administrative operations that it
+
+45:00.920 --> 45:02.560
+turns out to be really useful to have like
+
+45:02.560 --> 45:05.380
+a change log that shows what the status of
+
+45:05.380 --> 45:08.200
+documents that have been scanned but not
+
+45:08.200 --> 45:12.240
+yet indexed is and things like that. We
+
+45:12.240 --> 45:16.240
+have a web-based form so that after you've
+
+45:16.240 --> 45:18.820
+used Pages to scan your document, you go
+
+45:18.820 --> 45:22.340
+in and you bring it up and then you can
+
+45:22.340 --> 45:26.340
+code it in a variety of ways. The
+
+45:26.340 --> 45:29.140
+interesting thing about this form is the
+
+45:29.140 --> 45:31.640
+number of times it's changed since we've
+
+45:31.640 --> 45:34.340
+been working with them. Once they really
+
+45:34.340 --> 45:38.020
+got into using this form, they began to
+
+45:38.020 --> 45:40.820
+see ways in which actually the initial
+
+45:40.820 --> 45:44.120
+things which they said made sense. Like we
+
+45:44.120 --> 45:46.080
+started out with a bunch of keywords,
+
+45:46.260 --> 45:48.160
+which then got differentiated into things
+
+45:48.160 --> 45:50.060
+like source and recipient, as we have
+
+45:50.060 --> 45:53.060
+here. And the issue there is that it's
+
+45:53.060 --> 45:56.020
+become clear to us how essential it is
+
+45:56.020 --> 45:58.420
+that this kind of a form be tailorable and
+
+45:58.420 --> 46:01.340
+modifiable. And that presents, we've
+
+46:01.340 --> 46:03.340
+probably done a half a dozen iterations on
+
+46:03.340 --> 46:05.800
+the design of this form in the last six
+
+46:05.800 --> 46:07.140
+months to a year that we've been working
+
+46:07.140 --> 46:10.400
+with them. This poses a real challenge for
+
+46:10.400 --> 46:12.580
+us in attempting to move this thing into
+
+46:12.580 --> 46:14.220
+their environment and extricate ourselves
+
+46:14.220 --> 46:16.340
+because at the moment these changes are
+
+46:16.340 --> 46:18.020
+done through very close collaboration
+
+46:18.020 --> 46:22.060
+between the engineers and Randy where they
+
+46:22.060 --> 46:24.220
+tell him the changes that they want and he
+
+46:24.220 --> 46:26.760
+implements them. How do we deal with that?
+
+46:26.840 --> 46:28.420
+That's obviously going to be essential.
+
+46:29.740 --> 46:33.160
+Once you've coded your document, you go
+
+46:33.160 --> 46:35.720
+down. This is the second page which
+
+46:35.720 --> 46:38.040
+printed out doesn't fit onto a single
+
+46:38.040 --> 46:40.800
+sheet. You go down to the bottom and you
+
+46:40.800 --> 46:45.820
+say submit document and document info. And
+
+46:45.820 --> 46:47.660
+then it goes through this, at the moment,
+
+46:47.700 --> 46:50.760
+this sort of trip over to park and back
+
+46:50.760 --> 46:54.260
+again. But eventually that will just
+
+46:54.260 --> 46:57.780
+basically put it onto a web server in
+
+46:57.780 --> 47:01.540
+their environment. Again, some
+
+47:01.540 --> 47:04.300
+observations about coding documents, which
+
+47:04.300 --> 47:06.540
+we've also done a lot of and talked to
+
+47:06.540 --> 47:10.120
+them about a lot. It turns out that
+
+47:10.120 --> 47:13.400
+there's a requirement for a lot of
+
+47:13.400 --> 47:15.660
+flexibility around the question of who
+
+47:15.660 --> 47:17.600
+codes documents and who scans them. And
+
+47:17.600 --> 47:19.820
+one of the things that they wanted and
+
+47:19.820 --> 47:22.040
+that we provided is a paper version of the
+
+47:22.040 --> 47:24.780
+online coding form. Which means that
+
+47:24.780 --> 47:27.440
+engineers who are sitting at their desks
+
+47:27.440 --> 47:29.620
+with a pile of documents can just take
+
+47:29.620 --> 47:32.900
+this paper form, code it, paper clip it to
+
+47:32.900 --> 47:34.380
+the front of the document, put it in that
+
+47:34.380 --> 47:36.620
+inbox, and then the intern can scan it.
+
+47:36.820 --> 47:38.660
+The intern also does coding himself
+
+47:38.660 --> 47:39.920
+online.
+
+47:42.100 --> 47:43.940
+Engineers could do online coding from
+
+47:43.940 --> 47:45.880
+their desks if they were into that. But
+
+47:45.880 --> 47:48.520
+basically, it's the more alternatives
+
+47:48.520 --> 47:50.900
+there are for how to do this, the better.
+
+47:51.960 --> 47:54.060
+Again, a lot of flexibility in the amount
+
+47:54.060 --> 47:56.260
+of coding. Either you can do very, very
+
+47:56.260 --> 47:59.100
+minimal coding, basically give it a
+
+47:59.100 --> 48:01.600
+uniform file system category, or you can
+
+48:01.600 --> 48:04.000
+do increasingly elaborate, and you can do
+
+48:04.000 --> 48:05.880
+that either at the time that you scan it
+
+48:05.880 --> 48:08.520
+or later. So we've been trying to give
+
+48:08.520 --> 48:12.980
+them a lot of different ways of organizing
+
+48:12.980 --> 48:17.200
+the time and the place and how much or
+
+48:17.200 --> 48:19.160
+little of this work gets done. And that
+
+48:19.160 --> 48:20.960
+seems essential for making the thing
+
+48:20.960 --> 48:24.940
+really, really useful, usable and useful.
+
+48:26.780 --> 48:29.360
+Again, now that things, once things have
+
+48:29.360 --> 48:32.420
+actually been entered into the online
+
+48:32.420 --> 48:35.340
+repository, there are a whole lot of new
+
+48:35.340 --> 48:37.500
+ways to be able to see the collection. You
+
+48:37.500 --> 48:39.640
+can still look at all of the, look at the
+
+48:39.640 --> 48:41.180
+collection according to the uniform filing
+
+48:41.180 --> 48:43.880
+system, but now, oh sorry, I meant to put
+
+48:43.880 --> 48:46.840
+this one up for you, but now of course you
+
+48:46.840 --> 48:51.080
+have active links. So you can actually go
+
+48:51.080 --> 48:53.220
+in and you can see how many documents
+
+48:53.220 --> 48:54.900
+there are in a given category. You can
+
+48:54.900 --> 48:56.680
+click on the link and you can see all of
+
+48:56.680 --> 48:59.640
+those documents. So it's preserving the
+
+48:59.640 --> 49:03.120
+old way of organizing the collection, but
+
+49:03.120 --> 49:05.500
+with some new ways of being able to see it
+
+49:05.500 --> 49:09.320
+and get at it. One thing that's turned out
+
+49:09.320 --> 49:11.140
+to be really useful for them is that you
+
+49:11.140 --> 49:12.620
+can organize, you can see the whole
+
+49:12.620 --> 49:15.180
+collection ordered by dates from the most
+
+49:15.180 --> 49:18.320
+recent documents. It turns out that in
+
+49:18.320 --> 49:20.800
+thinking about a document when people,
+
+49:20.840 --> 49:22.400
+when they're going to look for it, people
+
+49:22.400 --> 49:25.260
+very often know, well you know this is a
+
+49:25.260 --> 49:27.440
+letter that was sent to us back in March
+
+49:27.440 --> 49:30.460
+of last year. So it's really helpful to be
+
+49:30.460 --> 49:32.120
+able to go in and look at all the
+
+49:32.120 --> 49:33.800
+documents from from March of last year.
+
+49:35.460 --> 49:39.360
+You can actually view thumbnail images of
+
+49:39.360 --> 49:42.220
+all of the document. One of the options is
+
+49:42.220 --> 49:44.080
+to code documents by the type of document
+
+49:44.080 --> 49:45.800
+they are. So is it a letter? Is it a
+
+49:45.800 --> 49:49.740
+report? Is it a memo? And you can, again,
+
+49:49.920 --> 49:52.440
+just see what you've got in the collection
+
+49:52.440 --> 49:56.440
+in that way. In addition to various ways
+
+49:56.440 --> 49:58.900
+of viewing it, obviously you can search.
+
+49:59.180 --> 50:01.600
+And this is the kind of, it's a hybrid
+
+50:01.600 --> 50:03.360
+search interface, as I said because it
+
+50:03.360 --> 50:05.700
+allows you to combine you know a full text
+
+50:05.700 --> 50:10.320
+search with properties plus getting back a
+
+50:10.320 --> 50:12.640
+view of your hits as thumbnails which you
+
+50:12.640 --> 50:15.860
+can then scan in something like the way
+
+50:15.860 --> 50:18.780
+that you would scan a paper collection and
+
+50:18.780 --> 50:22.940
+you can also display that the returns the
+
+50:22.940 --> 50:24.460
+results of a search in different ways you
+
+50:24.460 --> 50:26.560
+can display them as thumbnails you can
+
+50:26.560 --> 50:28.420
+also display them in this kind of tabular
+
+50:28.420 --> 50:30.840
+form if it's more helpful to see
+
+50:30.840 --> 50:32.480
+everything that comes back by dates So
+
+50:32.480 --> 50:34.240
+again, the point here is that there are
+
+50:34.240 --> 50:38.540
+many different ways in which things can be
+
+50:38.540 --> 50:41.500
+configured. And it turns out that how you
+
+50:41.500 --> 50:43.780
+want it configured is very much tied to
+
+50:43.780 --> 50:46.280
+what you know when you go to do the
+
+50:46.280 --> 50:49.640
+search. Shapes how you want to actually
+
+50:49.640 --> 50:53.440
+view the collection. Once you find a
+
+50:53.440 --> 50:56.800
+document that you're looking for, you can
+
+50:56.800 --> 51:01.040
+view it in multiple thumbnail sizes. So
+
+51:01.040 --> 51:03.440
+here's a single document with all of its
+
+51:03.440 --> 51:06.500
+pages laid out. You can see this issue of
+
+51:06.500 --> 51:08.640
+portrait and landscape in a single
+
+51:08.640 --> 51:10.660
+document. And then, of course, you can go
+
+51:10.660 --> 51:14.480
+in and view any of the pages. And you can
+
+51:14.480 --> 51:16.240
+see from this how important the images are
+
+51:16.240 --> 51:17.800
+because a lot of the documents in this
+
+51:17.800 --> 51:20.860
+collection, once you do OCR, you get back
+
+51:20.860 --> 51:23.380
+practically nothing. And even the
+
+51:23.380 --> 51:25.680
+documents that you get a lot back from OCR
+
+51:25.680 --> 51:28.500
+have, in addition, various kinds of
+
+51:28.500 --> 51:31.120
+marginalia annotations that that you lose
+
+51:31.120 --> 51:34.920
+so we're very much believers in the idea
+
+51:34.920 --> 51:37.000
+that you need both you need to preserve
+
+51:37.000 --> 51:39.560
+images as well as providing people with
+
+51:39.560 --> 51:43.780
+text search and then Randy has actually
+
+51:43.780 --> 51:45.820
+created in an attempt to address this
+
+51:45.820 --> 51:49.220
+problem of user modification of the of the
+
+51:49.220 --> 51:52.640
+coding scheme Randy's actually provided a
+
+51:52.640 --> 51:55.640
+an interface for them that allows them to
+
+51:55.640 --> 51:57.400
+do the the relatively straightforward
+
+51:57.400 --> 51:59.580
+things like take all the documents that
+
+51:59.580 --> 52:02.560
+were called this and now call them that or
+
+52:02.560 --> 52:06.940
+add this new category. The tricky part of
+
+52:06.940 --> 52:08.980
+course that we're dealing with now is as
+
+52:08.980 --> 52:11.800
+they do more elaborate reconfigurations of
+
+52:11.800 --> 52:14.120
+their coding scheme that have
+
+52:14.120 --> 52:16.640
+ramifications back through the already
+
+52:16.640 --> 52:19.080
+coded documents, Randy has to write more
+
+52:19.080 --> 52:20.880
+and more elaborate scripts that will go
+
+52:20.880 --> 52:25.520
+back and recode the collection and the
+
+52:25.520 --> 52:28.000
+really difficult question that we face is
+
+52:28.000 --> 52:31.240
+when we leave how can we make sure that
+
+52:31.240 --> 52:34.000
+this thing doesn't die in the next at the
+
+52:34.000 --> 52:35.840
+next point where they decide they want to
+
+52:35.840 --> 52:38.280
+to make a big change and aren't able to do
+
+52:38.280 --> 52:40.360
+it that's and that's that brings us into
+
+52:40.360 --> 52:41.740
+the whole question of what kind of
+
+52:41.740 --> 52:45.320
+continuing organizational and and human
+
+52:45.320 --> 52:48.640
+support there's going to be okay to
+
+52:48.640 --> 52:52.860
+summarize the the two aspects aspects of
+
+52:52.860 --> 52:55.240
+what this project has meant in terms of
+
+52:55.240 --> 52:58.420
+designing. There's the project of
+
+52:58.420 --> 53:00.380
+configuring a working prototype which
+
+53:00.380 --> 53:02.220
+we've done by, you know, we got a first
+
+53:02.220 --> 53:04.160
+approximation running in our lab, we moved
+
+53:04.160 --> 53:07.400
+it over to their organization keeping some
+
+53:07.400 --> 53:10.660
+of the processing work at park and now
+
+53:10.660 --> 53:12.080
+we're trying to actually move the whole
+
+53:12.080 --> 53:16.600
+thing onto their intranet. And then a lot
+
+53:16.600 --> 53:18.040
+of what we've been doing has been
+
+53:18.040 --> 53:20.960
+configuring a working practice in relation
+
+53:20.960 --> 53:23.980
+to that prototype. Working out flexible
+
+53:23.980 --> 53:26.800
+divisions of labor. As I said, this idea
+
+53:26.800 --> 53:28.620
+of paper coding forms came out of that.
+
+53:30.140 --> 53:33.780
+Being sure that you can review and
+
+53:33.780 --> 53:37.000
+manipulate your page images. Scanning
+
+53:37.000 --> 53:39.940
+really requires, you can't do it blind.
+
+53:40.240 --> 53:41.660
+You want to see what you've done and you
+
+53:41.660 --> 53:43.700
+want to be able to go in there and fix
+
+53:43.700 --> 53:46.720
+things. And support for this kind of
+
+53:46.720 --> 53:48.940
+iterative document coding. So you code a
+
+53:48.940 --> 53:50.960
+document maybe a bit when you scan it and
+
+53:50.960 --> 53:52.700
+then you add things or you change things
+
+53:52.700 --> 53:54.820
+later on. Maybe even when you go to search
+
+53:54.820 --> 53:56.160
+for it and you bring it up and you see how
+
+53:56.160 --> 53:57.640
+it was coded and you say, oh, I don't
+
+53:57.640 --> 54:00.500
+really like that. I want to revise it. And
+
+54:00.500 --> 54:04.000
+then on a larger scale, support for this
+
+54:04.000 --> 54:06.660
+kind of extensible and modifiable metadata
+
+54:06.660 --> 54:09.980
+that seems so important. Some of the
+
+54:09.980 --> 54:16.200
+issues for them, if this effort is
+
+54:16.200 --> 54:19.460
+successful, is that if we were actually to
+
+54:19.460 --> 54:21.240
+get to the point where this collection was
+
+54:21.240 --> 54:23.580
+online and available in a distributed way,
+
+54:23.800 --> 54:26.940
+the project team is no longer the
+
+54:26.940 --> 54:28.580
+interface to the collection in the way
+
+54:28.580 --> 54:29.900
+that they have been before, which has
+
+54:29.900 --> 54:33.080
+afforded tremendous value in various ways.
+
+54:33.080 --> 54:36.680
+These documents are in principle available
+
+54:36.680 --> 54:40.280
+to anyone, but of course it's a big
+
+54:40.280 --> 54:43.800
+difference if all of the requests go
+
+54:43.800 --> 54:46.020
+through you, or if people in unknown
+
+54:46.020 --> 54:49.060
+places are doing unknown things with the
+
+54:49.060 --> 54:52.060
+collection. So access controls that now
+
+54:52.060 --> 54:54.260
+are largely taken care of through the
+
+54:54.260 --> 54:56.160
+practicalities of the medium, because
+
+54:56.160 --> 54:58.420
+these things exist in one place, nobody
+
+54:58.420 --> 55:00.440
+else knows how to find anything in them,
+
+55:00.440 --> 55:02.980
+now have to be addressed much more
+
+55:02.980 --> 55:07.880
+explicitly. And very important and very
+
+55:07.880 --> 55:10.580
+salient for us at the moment is where, of
+
+55:10.580 --> 55:12.700
+course, at this point we're keeping all of
+
+55:12.700 --> 55:15.640
+these documents on paper in the old way.
+
+55:16.760 --> 55:18.860
+Eventually, I would imagine, there would
+
+55:18.860 --> 55:22.380
+be some mix. A lot of them would no longer
+
+55:22.380 --> 55:24.080
+be kept in the binders once they were
+
+55:24.080 --> 55:26.660
+online. Others of them would be kept in
+
+55:26.660 --> 55:27.960
+the binders because you'd want the
+
+55:27.960 --> 55:30.320
+original for various reasons. And so there
+
+55:30.320 --> 55:33.460
+are very complicated questions about how
+
+55:33.460 --> 55:35.760
+you're going to maintain the coherence of
+
+55:35.760 --> 55:39.000
+the media, of the paper and the digital
+
+55:39.000 --> 55:41.540
+renderings of the documents. And then
+
+55:41.540 --> 55:43.720
+finally, this larger question of
+
+55:43.720 --> 55:47.060
+maintaining the coherence of your coding
+
+55:47.060 --> 55:50.380
+categories, both with respect to the paper
+
+55:50.380 --> 55:52.920
+and the digital documents, and how you do
+
+55:52.920 --> 55:54.760
+that both over time. we've already seen,
+
+55:54.800 --> 55:56.760
+as I said, tremendously dynamic changes
+
+55:56.760 --> 55:58.920
+there within the project team that we're
+
+55:58.920 --> 56:01.280
+working with over the year or so that
+
+56:01.280 --> 56:03.240
+we've had the prototype running. And then
+
+56:03.240 --> 56:05.720
+once you have multiple project teams
+
+56:05.720 --> 56:08.740
+working with a collection, it becomes an
+
+56:08.740 --> 56:11.660
+even more challenging kind of coordination
+
+56:11.660 --> 56:16.040
+problem. I'll end with a slogan. slogan,
+
+56:16.060 --> 56:20.960
+which is really a slogan that refers to
+
+56:20.960 --> 56:23.540
+this whole approach to doing this kind of
+
+56:23.540 --> 56:26.680
+work oriented design approach. I was often
+
+56:26.680 --> 56:30.060
+asked, well the impression I got from many
+
+56:30.060 --> 56:32.780
+of my colleagues at PARC in the early days
+
+56:32.780 --> 56:34.440
+when I was arguing for this kind of work
+
+56:34.440 --> 56:38.000
+was, if we go out and look at the way
+
+56:38.000 --> 56:40.280
+people are currently working, it will have
+
+56:40.280 --> 56:44.340
+this deeply conservative effect on us.
+
+56:44.340 --> 56:47.620
+will end up just replicating what they're
+
+56:47.620 --> 56:51.180
+doing now. And it's better if we just sort
+
+56:51.180 --> 56:56.060
+of freely imagine the possibilities. And
+
+56:56.060 --> 57:00.180
+my response to that is, well, if you in a
+
+57:00.180 --> 57:04.060
+very sort of flat-footed way went about
+
+57:04.060 --> 57:06.780
+trying to replicate exactly, well, first
+
+57:06.780 --> 57:08.980
+of all, I think the premise that there is,
+
+57:09.100 --> 57:13.000
+that until we as designers come along, the
+
+57:13.000 --> 57:16.560
+world is a stagnant place. That people are
+
+57:16.560 --> 57:18.160
+basically sitting there doing the same
+
+57:18.160 --> 57:19.660
+thing over and over again and it's only
+
+57:19.660 --> 57:21.580
+when brilliant and innovative designers
+
+57:21.580 --> 57:23.600
+come on the scene that they say, oh, you
+
+57:23.600 --> 57:24.820
+know, we could be doing it differently.
+
+57:25.080 --> 57:27.140
+That's not my experience. Every workplace
+
+57:27.140 --> 57:29.860
+I've ever been in, there are people in the
+
+57:29.860 --> 57:32.940
+workplace who, not everyone, but there are
+
+57:32.940 --> 57:35.500
+always people who are pretty continually
+
+57:35.500 --> 57:38.460
+sort of reflecting in, you know, greater
+
+57:38.460 --> 57:39.840
+and lesser ways about what they're doing
+
+57:39.840 --> 57:41.420
+and trying to figure out how to do it
+
+57:41.420 --> 57:44.000
+differently. and our experience is that
+
+57:44.000 --> 57:46.160
+it's much more that it's hard to keep up
+
+57:46.160 --> 57:50.800
+with the dynamism of the organization of
+
+57:50.800 --> 57:53.340
+work practices than it is to get people to
+
+57:53.340 --> 57:57.800
+make any kinds of changes in what they're
+
+57:57.800 --> 58:01.300
+doing. So first of all, things aren't
+
+58:01.300 --> 58:03.120
+stagnant until we come along. And
+
+58:03.120 --> 58:06.640
+secondly, if we did come along and try to
+
+58:06.640 --> 58:10.240
+take an analysis of people's working
+
+58:10.240 --> 58:13.000
+practices as the basis for design, in the
+
+58:13.000 --> 58:15.080
+absence of any sort of imaginative
+
+58:15.080 --> 58:19.360
+activity, we might have a problem. We need
+
+58:19.360 --> 58:23.360
+to also engage in thinking about how
+
+58:23.360 --> 58:26.160
+things could be different. But the idea
+
+58:26.160 --> 58:28.140
+here is that, I mean, the crude way of
+
+58:28.140 --> 58:29.960
+putting this is it's better to design from
+
+58:29.960 --> 58:31.980
+knowledge than from ignorance, right? But
+
+58:31.980 --> 58:36.200
+I think that the goal that we're after is
+
+58:36.200 --> 58:40.980
+to try to get enough of a mutual
+
+58:40.980 --> 58:43.380
+understanding, and this comes very much
+
+58:43.380 --> 58:45.260
+out of the tradition of Scandinavian
+
+58:45.260 --> 58:47.120
+systems design that we've been deeply
+
+58:47.120 --> 58:50.120
+influenced by, the idea that people doing
+
+58:50.120 --> 58:53.020
+a particular kind of work using relevant
+
+58:53.020 --> 58:55.280
+technologies need to have enough of an
+
+58:55.280 --> 58:56.520
+understanding of what the technological
+
+58:56.520 --> 59:00.520
+possibilities are that they can engage in
+
+59:00.520 --> 59:03.120
+thinking intelligently about what the
+
+59:03.120 --> 59:05.100
+possibilities could be. And that's what
+
+59:05.100 --> 59:07.920
+our running prototype in this worksite is
+
+59:07.920 --> 59:10.520
+doing. It's giving people in the worksite
+
+59:10.520 --> 59:13.200
+the ability to imagine what the
+
+59:13.200 --> 59:14.880
+technology, to have enough of an
+
+59:14.880 --> 59:16.380
+understanding of what the technology does
+
+59:16.380 --> 59:17.980
+to be able to imagine what it could do.
+
+59:18.140 --> 59:21.060
+And similarly for us, we need not to
+
+59:21.060 --> 59:22.780
+become civil engineers. That would require
+
+59:22.780 --> 59:26.800
+many lifetimes to do that in all of the
+
+59:26.800 --> 59:29.880
+sites where we might want to design. But
+
+59:29.880 --> 59:31.220
+we need to develop enough of an
+
+59:31.220 --> 59:33.420
+appreciation for what their issues are
+
+59:33.420 --> 59:36.440
+that we, in turn, can think intelligently
+
+59:36.440 --> 59:39.420
+about their work. And doing the kind of
+
+59:39.420 --> 59:41.840
+projects that we're doing on site in the
+
+59:41.840 --> 59:44.040
+way that we're doing them enables that
+
+59:44.040 --> 59:47.720
+sort of collaboration so that you get what
+
+59:47.720 --> 59:49.940
+I think is a very powerful combination of
+
+59:49.940 --> 59:53.600
+grounded understanding of existing
+
+59:53.600 --> 59:58.800
+practice plus imagination of how things
+
+59:58.800 --> 01:00:02.580
+might be different. So I'll stop there and
+
+01:00:02.580 --> 01:00:05.980
+take questions. Yeah. What are your
+
+01:00:05.980 --> 01:00:09.120
+thoughts at the moment on purging and on
+
+01:00:09.120 --> 01:00:12.040
+archiving machine-readable forms?
+
+01:00:16.020 --> 01:00:20.480
+Well, if we get to stay around long enough
+
+01:00:20.480 --> 01:00:23.600
+we'll see because in terms of archiving
+
+01:00:23.600 --> 01:00:27.280
+it's a very explicit part of this project
+
+01:00:27.280 --> 01:00:31.040
+files process that a subset of the
+
+01:00:31.040 --> 01:00:33.000
+documents in the project files go into a
+
+01:00:33.000 --> 01:00:36.200
+history file. In paper. Now at the moment
+
+01:00:36.200 --> 01:00:38.740
+everything is in paper. So, but that means
+
+01:00:38.740 --> 01:00:40.300
+that if we have an online collection,
+
+01:00:40.660 --> 01:00:42.860
+eventually a subset of that online
+
+01:00:42.860 --> 01:00:46.440
+collection will need to be archived. And
+
+01:00:46.440 --> 01:00:50.620
+another, presumably some other documents
+
+01:00:50.620 --> 01:00:52.220
+that are useful in the course of the
+
+01:00:52.220 --> 01:00:54.080
+project will no longer be needed. I read
+
+01:00:54.080 --> 01:00:55.660
+an article in the New York News very
+
+01:00:55.660 --> 01:00:58.540
+recently about the fact that even DVDs are
+
+01:00:58.540 --> 01:01:01.020
+now known to deteriorate much more rapidly
+
+01:01:01.020 --> 01:01:04.000
+than anyone expected they would. Much
+
+01:01:04.000 --> 01:01:06.800
+faster than film, for example. And now
+
+01:01:06.800 --> 01:01:08.380
+this is a more general question to someone
+
+01:01:08.380 --> 01:01:12.820
+from PARC. What are you going to use to
+
+01:01:12.820 --> 01:01:15.680
+archive records? Yeah, I am not an
+
+01:01:15.680 --> 01:01:17.800
+archivist, but I think that, I know that's
+
+01:01:17.800 --> 01:01:20.200
+a really serious and pressing question
+
+01:01:20.200 --> 01:01:24.660
+because archivists know a lot about paper
+
+01:01:24.660 --> 01:01:27.500
+as a medium. And there's been a huge
+
+01:01:27.500 --> 01:01:31.140
+amount of work done to develop kinds of
+
+01:01:31.140 --> 01:01:33.320
+paper that are extremely durable, much
+
+01:01:33.320 --> 01:01:35.700
+more than we know or have done in relation
+
+01:01:35.700 --> 01:01:37.260
+to digital media. So I don't have the
+
+01:01:37.260 --> 01:01:39.700
+answer, but I think it's a very important
+
+01:01:39.700 --> 01:01:42.900
+question. Yeah? Have you looked at the
+
+01:01:42.900 --> 01:01:45.560
+change in practice after introduction of
+
+01:01:45.560 --> 01:01:47.180
+your prototype? You have a fascinating
+
+01:01:47.180 --> 01:01:49.380
+natural experiment. Any result from it?
+
+01:01:49.680 --> 01:01:52.300
+Oh, yeah. I mean, well, let's see.
+
+01:01:53.960 --> 01:01:57.060
+Obviously, before we were there, the
+
+01:01:57.060 --> 01:02:00.040
+practice was to take these documents and
+
+01:02:00.040 --> 01:02:02.440
+put them into the binders. and we've
+
+01:02:02.440 --> 01:02:07.000
+interjected an entire new sort of piece of
+
+01:02:07.000 --> 01:02:10.780
+work that we hope is going to be valuable
+
+01:02:10.780 --> 01:02:13.280
+enough that it's worth doing. At the
+
+01:02:13.280 --> 01:02:15.340
+moment, of course, they're doing both
+
+01:02:15.340 --> 01:02:17.340
+things so that after things are put into
+
+01:02:17.340 --> 01:02:19.040
+the online collection, they get put into
+
+01:02:19.040 --> 01:02:20.800
+the binders. I think it's...
+
+01:02:24.300 --> 01:02:26.860
+We've actually wondered what would be
+
+01:02:26.860 --> 01:02:30.140
+happening if we weren't there because the
+
+01:02:30.140 --> 01:02:34.500
+state of the documents that needed to go
+
+01:02:34.500 --> 01:02:36.800
+into the project files was reaching kind
+
+01:02:36.800 --> 01:02:40.720
+of a crisis point at the time when we
+
+01:02:40.720 --> 01:02:42.160
+actually got our prototype up and running.
+
+01:02:42.320 --> 01:02:43.520
+I mean there were just stacks of documents
+
+01:02:43.520 --> 01:02:46.900
+everywhere. It was out of control in part
+
+01:02:46.900 --> 01:02:48.840
+because the whole project is on an
+
+01:02:48.840 --> 01:02:50.960
+accelerated time frame and there's nobody
+
+01:02:50.960 --> 01:02:54.460
+to do that work. And so partly I think our
+
+01:02:54.460 --> 01:02:56.760
+being there, this this is a bit of a
+
+01:02:56.760 --> 01:02:58.580
+Hawthorne effect, but it's had now, I
+
+01:02:58.580 --> 01:02:59.960
+think, some really enduring consequences,
+
+01:03:00.300 --> 01:03:05.280
+was to raise the project files, both to
+
+01:03:05.280 --> 01:03:08.960
+raise their visibility within the team,
+
+01:03:09.180 --> 01:03:12.920
+and also we obviously put a lot of labor
+
+01:03:12.920 --> 01:03:15.120
+into getting the online collection
+
+01:03:15.120 --> 01:03:18.760
+together. I think what usually happens
+
+01:03:18.760 --> 01:03:20.840
+around the project files is that they're
+
+01:03:20.840 --> 01:03:25.040
+managed on an as-needed basis. So for a
+
+01:03:25.040 --> 01:03:27.180
+large part of the project people go along
+
+01:03:27.180 --> 01:03:29.900
+doing sort of crisis document search. They
+
+01:03:29.900 --> 01:03:31.580
+need to find something, they spend huge
+
+01:03:31.580 --> 01:03:34.680
+amounts of time searching through piles of
+
+01:03:34.680 --> 01:03:36.680
+documents. And then at the point where
+
+01:03:36.680 --> 01:03:38.600
+they're actually responsible for turning
+
+01:03:38.600 --> 01:03:41.420
+the collection over to someone else, they
+
+01:03:41.420 --> 01:03:44.160
+do a huge amount of work to pull the
+
+01:03:44.160 --> 01:03:45.700
+collection together. So the collection
+
+01:03:45.700 --> 01:03:48.620
+becomes more like a record than a useful
+
+01:03:48.620 --> 01:03:53.440
+resource in the actual work as it's going
+
+01:03:53.440 --> 01:03:57.520
+on. So I'm hoping that one of the effects
+
+01:03:57.520 --> 01:04:02.800
+of our intervention is to make the project
+
+01:04:02.800 --> 01:04:05.900
+files into much more of a sort of active
+
+01:04:05.900 --> 01:04:09.320
+resource and obviously cut down a great
+
+01:04:09.320 --> 01:04:10.560
+deal on the amount of time they spend
+
+01:04:10.560 --> 01:04:13.100
+searching through cardboard boxes and all
+
+01:04:13.100 --> 01:04:17.320
+the other stats that are around. Two
+
+01:04:17.320 --> 01:04:20.020
+questions. A lot of times people take old
+
+01:04:20.020 --> 01:04:21.780
+documents and modify them, either clipping
+
+01:04:21.780 --> 01:04:24.000
+notes to them or making changes to them.
+
+01:04:24.060 --> 01:04:25.460
+How do you handle that in the system? Are
+
+01:04:25.460 --> 01:04:26.660
+there multiple copies of the document,
+
+01:04:26.800 --> 01:04:30.140
+links or what? There are multiple copies,
+
+01:04:30.400 --> 01:04:33.040
+multiple versions of documents, and in a
+
+01:04:33.040 --> 01:04:35.520
+way that's fine. You know, we're one of,
+
+01:04:35.580 --> 01:04:38.640
+we don't worry, we've tried to keep an eye
+
+01:04:38.640 --> 01:04:41.040
+out for exact duplicates and not put exact
+
+01:04:41.040 --> 01:04:42.760
+duplicates in. But we've got many
+
+01:04:42.760 --> 01:04:44.980
+variations on documents with different
+
+01:04:44.980 --> 01:04:47.280
+annotations and I think one of the
+
+01:04:47.280 --> 01:04:49.500
+benefits of this kind of a system is that
+
+01:04:49.500 --> 01:04:52.120
+you can do that, you know, at a relatively
+
+01:04:52.120 --> 01:04:53.840
+low cost. And then when you do your
+
+01:04:53.840 --> 01:04:57.420
+search, you're going to get back all of
+
+01:04:57.420 --> 01:04:59.320
+the different versions and you can look
+
+01:04:59.320 --> 01:05:01.940
+for the one that you want. It's really up
+
+01:05:01.940 --> 01:05:05.300
+to them to decide which documents go into
+
+01:05:05.300 --> 01:05:07.420
+the collection. So I would say, you know,
+
+01:05:07.500 --> 01:05:11.060
+if something gets pulled out and modified,
+
+01:05:11.800 --> 01:05:13.540
+it's going to be their call whether it
+
+01:05:13.540 --> 01:05:16.240
+should then be rescanned in a new version.
+
+01:05:16.720 --> 01:05:18.300
+But we want to make the scanning easy
+
+01:05:18.300 --> 01:05:20.940
+enough that if you wanted to do that, it
+
+01:05:20.940 --> 01:05:22.440
+wouldn't be a big deal. The second
+
+01:05:22.440 --> 01:05:24.480
+question is, with the changing of the
+
+01:05:24.480 --> 01:05:27.820
+classification, How much of that is them
+
+01:05:27.820 --> 01:05:29.700
+learning the system and thinking about it
+
+01:05:29.700 --> 01:05:31.200
+for the first time versus they're moving
+
+01:05:31.200 --> 01:05:35.680
+on to different phases of the work? I
+
+01:05:35.680 --> 01:05:38.760
+think partly it's their thinking more
+
+01:05:38.760 --> 01:05:44.200
+about it. Partly their orientation to the
+
+01:05:44.200 --> 01:05:45.920
+classification scheme is tied to the
+
+01:05:45.920 --> 01:05:47.380
+particular thing that they're working on
+
+01:05:47.380 --> 01:05:49.640
+at the moment. For example, we just had a
+
+01:05:49.640 --> 01:05:52.940
+major revision to the filing system by one
+
+01:05:52.940 --> 01:05:55.440
+of the engineers who was given
+
+01:05:55.440 --> 01:05:58.400
+responsibility for doing some work around
+
+01:05:58.400 --> 01:06:01.480
+all of the task orders to consultants. So
+
+01:06:01.480 --> 01:06:04.180
+he was focused on the task orders to
+
+01:06:04.180 --> 01:06:06.020
+consultants. He looked at the previous
+
+01:06:06.020 --> 01:06:08.420
+classification scheme, and he didn't like
+
+01:06:08.420 --> 01:06:10.780
+the ways in which, you know, he was
+
+01:06:10.780 --> 01:06:11.980
+actually going to look for those things,
+
+01:06:12.020 --> 01:06:13.820
+and they were interspersed in ways that he
+
+01:06:13.820 --> 01:06:15.260
+didn't like, and he wanted to create a new
+
+01:06:15.260 --> 01:06:18.180
+category for them. So it's very much
+
+01:06:18.180 --> 01:06:22.200
+occasioned by you turn to do a particular
+
+01:06:22.200 --> 01:06:27.500
+task and you then find things that matter
+
+01:06:27.500 --> 01:06:29.840
+to you. And I think that kind of
+
+01:06:29.840 --> 01:06:32.240
+interweaving of the design of the
+
+01:06:32.240 --> 01:06:34.920
+classification scheme and the ongoing work
+
+01:06:34.920 --> 01:06:37.460
+is critical. You've got to be able to sort
+
+01:06:37.460 --> 01:06:39.320
+of work back and forth between the two. It
+
+01:06:39.320 --> 01:06:41.420
+doesn't happen all at once at the
+
+01:06:41.420 --> 01:06:44.040
+beginning. And it doesn't even happen at
+
+01:06:44.040 --> 01:06:47.080
+sort of predictable times. It happens as
+
+01:06:47.080 --> 01:06:50.120
+the spirit moves you and you actually
+
+01:06:50.120 --> 01:06:55.340
+care, then you focus on it. Yeah? I
+
+01:06:55.340 --> 01:06:58.800
+noticed in my experience, if I have some
+
+01:06:58.800 --> 01:07:04.100
+kind of archives, I put them on my desk so
+
+01:07:04.100 --> 01:07:06.460
+that I can remember that I need to look at
+
+01:07:06.460 --> 01:07:08.840
+these things. I'm wondering if you guys
+
+01:07:08.840 --> 01:07:11.320
+have thought about that in terms of those
+
+01:07:11.320 --> 01:07:12.860
+documents are actually a trigger to
+
+01:07:12.860 --> 01:07:14.700
+remember things. If they're in some kind
+
+01:07:14.700 --> 01:07:17.820
+of electronic form, it may not be as good
+
+01:07:17.820 --> 01:07:19.700
+of a trigger. Right, absolutely. I think
+
+01:07:19.700 --> 01:07:21.420
+the difference between having things sort
+
+01:07:21.420 --> 01:07:25.120
+of enclosed in a workstation and spread
+
+01:07:25.120 --> 01:07:29.260
+around is very important. In a way, that's
+
+01:07:29.260 --> 01:07:30.960
+about how things move between this sort of
+
+01:07:30.960 --> 01:07:33.940
+active and working status. But I think
+
+01:07:33.940 --> 01:07:35.240
+there are interesting possibilities,
+
+01:07:35.500 --> 01:07:38.100
+again, for new kinds of integration there.
+
+01:07:38.100 --> 01:07:40.060
+I mean one of the things that people at
+
+01:07:40.060 --> 01:07:41.680
+PARCC have been working on for a long time
+
+01:07:41.680 --> 01:07:46.980
+are these glyphs, basically barcode type
+
+01:07:46.980 --> 01:07:51.000
+images that you could put onto documents
+
+01:07:51.000 --> 01:07:55.260
+that are instructions for a machine
+
+01:07:55.260 --> 01:07:59.320
+readable. So one of the ideas is that you
+
+01:07:59.320 --> 01:08:02.140
+could have, it's been called document
+
+01:08:02.140 --> 01:08:04.500
+tokens, or let's say you have, I mean I've
+
+01:08:04.500 --> 01:08:05.760
+always thought it would be nice to have
+
+01:08:05.760 --> 01:08:08.160
+paper file cabinets, minutes, but instead
+
+01:08:08.160 --> 01:08:10.480
+of the whole papers I'd have first pages.
+
+01:08:11.460 --> 01:08:15.140
+And then you could take out that page and
+
+01:08:15.140 --> 01:08:18.620
+stick it into a scanner and get the whole
+
+01:08:18.620 --> 01:08:21.680
+document back out again. So variations on
+
+01:08:21.680 --> 01:08:24.040
+how we could both have those sort of
+
+01:08:24.040 --> 01:08:26.700
+mnemonic cues, but maybe not have in every
+
+01:08:26.700 --> 01:08:28.520
+case the whole document sitting around,
+
+01:08:28.760 --> 01:08:32.040
+for example. But that kind of playing with
+
+01:08:32.040 --> 01:08:34.120
+the relationship between the paper and the
+
+01:08:34.120 --> 01:08:37.140
+digital I think is really interesting,
+
+01:08:37.340 --> 01:08:40.860
+much more interesting direction than
+
+01:08:40.860 --> 01:08:43.760
+thinking about the paperless office. I
+
+01:08:43.760 --> 01:08:45.500
+think it would be interesting to see that
+
+01:08:45.500 --> 01:08:48.800
+people, a lot of people have personal post
+
+01:08:48.800 --> 01:08:51.320
+-it notes where although the documents are
+
+01:08:51.320 --> 01:08:52.720
+shared between everyone, there's some kind
+
+01:08:52.720 --> 01:08:55.120
+of system locally on their computer where
+
+01:08:55.120 --> 01:08:56.800
+they can add post-it notes to the files
+
+01:08:56.800 --> 01:08:58.880
+that represent their own files. Right.
+
+01:08:58.900 --> 01:09:00.660
+Well, if we're imagining this as a web
+
+01:09:00.660 --> 01:09:02.700
+-based thing, people should be able to
+
+01:09:02.700 --> 01:09:03.980
+create their own sub-collections.
+
+01:09:03.980 --> 01:09:05.440
+collections, people should be able to have
+
+01:09:05.440 --> 01:09:07.400
+their own sets of bookmarks obviously and
+
+01:09:07.400 --> 01:09:10.700
+do sort of personalized subsets of the
+
+01:09:10.700 --> 01:09:13.240
+project files. We've got a lot of post-its
+
+01:09:13.240 --> 01:09:14.840
+in the project files. We've been very
+
+01:09:14.840 --> 01:09:17.140
+conscientious about scanning everything,
+
+01:09:17.420 --> 01:09:19.900
+right? So we scan post-its and sometimes
+
+01:09:19.900 --> 01:09:22.500
+if it's a post-it that obscures the
+
+01:09:22.500 --> 01:09:24.740
+document, we'll do it twice so we'll have
+
+01:09:24.740 --> 01:09:26.760
+an image of the document with the post-it
+
+01:09:26.760 --> 01:09:28.640
+and then the page behind it, right? But
+
+01:09:28.640 --> 01:09:31.480
+those sorts of things, we take those
+
+01:09:31.480 --> 01:09:36.780
+seriously. Yeah? Have you started to
+
+01:09:36.780 --> 01:09:39.360
+gather any evidence on how people, without
+
+01:09:39.360 --> 01:09:41.860
+using both the paper files and the online
+
+01:09:41.860 --> 01:09:43.740
+version, are they starting, I mean, do you
+
+01:09:43.740 --> 01:09:45.640
+find them turning to search in one or the
+
+01:09:45.640 --> 01:09:48.800
+other? Yeah, I think it's too early to say
+
+01:09:48.800 --> 01:09:50.840
+that. We've been so focused on building
+
+01:09:50.840 --> 01:09:53.220
+this collection that we're just beginning.
+
+01:09:53.440 --> 01:09:55.220
+It's just now getting to the point where
+
+01:09:55.220 --> 01:09:59.340
+it's substantial enough, And it's, I think
+
+01:09:59.340 --> 01:10:01.800
+we're passing that threshold where we've
+
+01:10:01.800 --> 01:10:03.440
+got enough documents in the collection and
+
+01:10:03.440 --> 01:10:05.880
+it's going to be enough easier to find
+
+01:10:05.880 --> 01:10:08.560
+things in the collection than on paper
+
+01:10:08.560 --> 01:10:11.700
+that the search will really start. But
+
+01:10:11.700 --> 01:10:14.180
+that's where we're focused at the moment
+
+01:10:14.180 --> 01:10:16.620
+and I think it's too soon to say. We've
+
+01:10:16.620 --> 01:10:19.080
+gotten reports of, you know, I found a
+
+01:10:19.080 --> 01:10:21.040
+document using your system that I hadn't
+
+01:10:21.040 --> 01:10:23.260
+been able to find. But the sense I have is
+
+01:10:23.260 --> 01:10:27.880
+that it's still people probably go first
+
+01:10:27.880 --> 01:10:30.080
+to look for the thing on paper and then if
+
+01:10:30.080 --> 01:10:31.800
+they can't find it, they go to the system.
+
+01:10:31.960 --> 01:10:36.280
+We really have to get the system much more
+
+01:10:36.280 --> 01:10:38.880
+sort of on people's desktops so that, you
+
+01:10:38.880 --> 01:10:41.040
+know, we've put a bookmark on Dave's
+
+01:10:41.040 --> 01:10:43.680
+machine and we've made little cheat sheets
+
+01:10:43.680 --> 01:10:45.980
+about how easy it is to do search. But
+
+01:10:45.980 --> 01:10:47.540
+people aren't quite into it yet. yet they
+
+01:10:47.540 --> 01:10:50.120
+still view the intern as the kind of, that
+
+01:10:50.120 --> 01:10:51.680
+they'll go to him and he'll do an online
+
+01:10:51.680 --> 01:10:53.340
+search for them. So we're, I think, very
+
+01:10:53.340 --> 01:10:55.500
+much still in that process.
+
+01:10:59.660 --> 01:11:01.400
+Right. Well, I think that's going to
+
+01:11:01.400 --> 01:11:03.320
+depend on the document. In some cases, I
+
+01:11:03.320 --> 01:11:05.340
+think they'll print it out. In some cases,
+
+01:11:05.340 --> 01:11:06.740
+they'll want to go back and find the
+
+01:11:06.740 --> 01:11:11.680
+original. Yeah. I saw images of drawings,
+
+01:11:11.880 --> 01:11:15.240
+but I haven't read the CAD files. Right.
+
+01:11:15.240 --> 01:11:17.340
+They actually handle their CAD files,
+
+01:11:17.560 --> 01:11:21.580
+their actual plans separately from the
+
+01:11:21.580 --> 01:11:25.040
+project files at this point. And so we
+
+01:11:25.040 --> 01:11:29.120
+don't have, we have some printouts of
+
+01:11:29.120 --> 01:11:33.260
+plans that, you know, have some historical
+
+01:11:33.260 --> 01:11:35.380
+relationship to the current project. But
+
+01:11:35.380 --> 01:11:37.900
+their actual working CAD files are treated
+
+01:11:37.900 --> 01:11:42.880
+totally separately and are much more, at
+
+01:11:42.880 --> 01:11:46.620
+this point, online. than the rest of these
+
+01:11:46.620 --> 01:11:51.340
+documents. So not at this point. But
+
+01:11:51.340 --> 01:11:54.000
+that's going to be important eventually to
+
+01:11:54.000 --> 01:11:58.180
+do that. Yeah. You have been mentioning
+
+01:11:58.180 --> 01:12:01.520
+that there is a growing need to keep care
+
+01:12:01.520 --> 01:12:04.540
+of the coding. I mean, there is a kind of
+
+01:12:04.540 --> 01:12:08.000
+of all this stuff. And when the project
+
+01:12:08.000 --> 01:12:12.540
+gets larger, do you foresee the need to
+
+01:12:12.540 --> 01:12:14.500
+have someone taking care care of the
+
+01:12:14.500 --> 01:12:17.220
+Cesarus and then possibly undermining the
+
+01:12:17.220 --> 01:12:20.020
+economic benefits of the system or the
+
+01:12:20.460 --> 01:12:21.840
+benefits in terms of, is that the
+
+01:12:21.840 --> 01:12:24.720
+engineers caring for the Cesarus will
+
+01:12:24.720 --> 01:12:26.700
+overcome the fact that someone will have
+
+01:12:26.700 --> 01:12:28.680
+to be professionally involved in keeping
+
+01:12:28.680 --> 01:12:30.940
+the Cesarus? I do think that in order to
+
+01:12:30.940 --> 01:12:33.160
+get the value from the system, there will
+
+01:12:33.160 --> 01:12:35.260
+need to be some human resources invested
+
+01:12:35.260 --> 01:12:39.340
+in, particularly in the ongoing
+
+01:12:39.340 --> 01:12:41.820
+modification and maintenance of the
+
+01:12:41.820 --> 01:12:43.660
+collection, the kinds of things where we
+
+01:12:43.660 --> 01:12:45.900
+want to make a substantial enough change
+
+01:12:45.900 --> 01:12:48.360
+to the classification scheme that
+
+01:12:48.360 --> 01:12:50.060
+something's got to run over the collection
+
+01:12:50.060 --> 01:12:53.380
+and bring it up to date. And I think that
+
+01:12:53.380 --> 01:12:55.900
+is a new role that's really going to be
+
+01:12:55.900 --> 01:12:59.120
+crucial, which I would see as a relatively
+
+01:12:59.120 --> 01:13:01.600
+small investment that has the potential of
+
+01:13:01.600 --> 01:13:04.080
+actually making the rest of the investment
+
+01:13:04.080 --> 01:13:07.660
+pay off. But those are the kinds of, I
+
+01:13:07.660 --> 01:13:09.180
+think, really hard issues, practical
+
+01:13:09.180 --> 01:13:14.100
+issues around getting a system like this
+
+01:13:14.100 --> 01:13:18.020
+really implemented in an organization. Do
+
+01:13:18.020 --> 01:13:20.120
+you know if there was someone in the past
+
+01:13:20.120 --> 01:13:23.120
+before the cuts in the budgets that would
+
+01:13:23.120 --> 01:13:24.720
+do this work? So the technology is
+
+01:13:24.720 --> 01:13:26.400
+bringing back a figure that was there.
+
+01:13:26.600 --> 01:13:30.240
+Well in a way there is a, for example, one
+
+01:13:30.240 --> 01:13:34.220
+of the engineers now keeps a copy of the
+
+01:13:34.220 --> 01:13:36.800
+UFS, us actually uses an Excel spreadsheet
+
+01:13:36.800 --> 01:13:39.140
+because interesting I'm not quite sure why
+
+01:13:39.140 --> 01:13:40.600
+but I think because he likes all the
+
+01:13:40.600 --> 01:13:42.660
+columns and rows and everything and he
+
+01:13:42.660 --> 01:13:46.300
+actually goes in and edits edits that and
+
+01:13:46.300 --> 01:13:49.020
+so what what that would mean now is you
+
+01:13:49.020 --> 01:13:52.560
+get your new uniform filing system and
+
+01:13:52.560 --> 01:13:54.340
+then you'd have to go back and and make
+
+01:13:54.340 --> 01:13:56.100
+sure your binders were you know
+
+01:13:56.100 --> 01:13:58.240
+synchronized with that so there is a kind
+
+01:13:58.240 --> 01:14:00.120
+of version of it now but it involves a
+
+01:14:00.120 --> 01:14:01.980
+very different set of skills And we're
+
+01:14:01.980 --> 01:14:03.800
+talking about some programming skills here
+
+01:14:03.800 --> 01:14:05.360
+that take you into whole other
+
+01:14:05.360 --> 01:14:07.520
+departments. Then you get into the
+
+01:14:07.520 --> 01:14:09.560
+information systems department and you're
+
+01:14:09.560 --> 01:14:12.420
+into an entirely new sort of place in the
+
+01:14:12.420 --> 01:14:16.120
+organization. So it's, yeah. Have you
+
+01:14:16.120 --> 01:14:19.980
+found that formalizing
+
+01:14:19.980 --> 01:14:22.360
+the work processes and work flows, the
+
+01:14:22.360 --> 01:14:25.180
+roles of the people help you in figuring
+
+01:14:25.180 --> 01:14:26.900
+out what kind of coding system would be
+
+01:14:26.900 --> 01:14:29.800
+helpful? My immediate answer is no. I
+
+01:14:29.800 --> 01:14:31.060
+guess I should think about it a little bit
+
+01:14:31.060 --> 01:14:35.560
+more. I mean, it's so dynamic. They're
+
+01:14:35.560 --> 01:14:38.840
+constantly negotiating their sort of
+
+01:14:38.840 --> 01:14:40.960
+working division of labor within the
+
+01:14:40.960 --> 01:14:43.040
+group. And I mean, there are frameworks
+
+01:14:43.040 --> 01:14:47.900
+that come down centrally. There's a large
+
+01:14:47.900 --> 01:14:51.580
+procedure manual for projects at Caltrans,
+
+01:14:51.680 --> 01:14:54.900
+which is really a framework for, you know,
+
+01:14:54.900 --> 01:14:56.920
+here here are the sort of basic components
+
+01:14:56.920 --> 01:15:00.640
+of what you need to, what needs to shape a
+
+01:15:00.640 --> 01:15:03.620
+project. And then, you know, the lead
+
+01:15:03.620 --> 01:15:05.800
+engineers for the individual projects have
+
+01:15:05.800 --> 01:15:08.080
+a huge amount of discretion in the way
+
+01:15:08.080 --> 01:15:09.980
+that they organize their particular team,
+
+01:15:10.140 --> 01:15:12.440
+and that's changing all the time with the
+
+01:15:12.440 --> 01:15:14.140
+different phases of the project as they
+
+01:15:14.140 --> 01:15:15.800
+see what's working and what's not working.
+
+01:15:16.080 --> 01:15:18.540
+So I think it's such a moving target that,
+
+01:15:18.600 --> 01:15:21.320
+you know, a lot of what I've been talking
+
+01:15:21.320 --> 01:15:23.300
+about is trying to provide a kind of
+
+01:15:23.300 --> 01:15:28.040
+toolkit kit or a suite of resources that
+
+01:15:28.040 --> 01:15:29.760
+can be picked up and combined and
+
+01:15:29.760 --> 01:15:31.940
+recombined very flexibly. And that's
+
+01:15:31.940 --> 01:15:34.780
+essential because their own division of
+
+01:15:34.780 --> 01:15:38.080
+labor and their roles in the organization
+
+01:15:38.080 --> 01:15:43.560
+of the work is so dynamic. So in this kind
+
+01:15:43.560 --> 01:15:45.980
+of situation I'm not much of a believer in
+
+01:15:45.980 --> 01:15:48.420
+in, well, some of you know I'm not much of
+
+01:15:48.420 --> 01:15:51.180
+a believer in workflow, but definitely for
+
+01:15:51.180 --> 01:15:55.440
+this kind of worksite. I guess I was
+
+01:15:55.440 --> 01:15:57.100
+thinking at the document level thinking
+
+01:15:57.100 --> 01:16:00.940
+about flows and uses. That would help you.
+
+01:16:01.380 --> 01:16:03.500
+And whether there is then some meta models
+
+01:16:03.500 --> 01:16:05.820
+that would emerge. Well, I think the
+
+01:16:05.820 --> 01:16:07.200
+problem is that I think what you could
+
+01:16:07.200 --> 01:16:09.100
+come up with would be very schematic. It
+
+01:16:09.100 --> 01:16:10.840
+would be useful, but it would be very
+
+01:16:10.840 --> 01:16:15.820
+schematic. and the actual use would take
+
+01:16:15.820 --> 01:16:20.280
+you off into very sort of circumstantially
+
+01:16:20.280 --> 01:16:25.020
+organized cases that, I mean, at this
+
+01:16:25.020 --> 01:16:28.600
+point we haven't felt any need. I mean,
+
+01:16:28.600 --> 01:16:30.780
+obviously you could come along and
+
+01:16:30.780 --> 01:16:34.200
+describe the organization of work that's
+
+01:16:34.200 --> 01:16:38.680
+been set up in a model, but it's not clear
+
+01:16:38.680 --> 01:16:40.540
+to me what value it would have at this
+
+01:16:40.540 --> 01:16:40.800
+point.
+
+01:16:44.200 --> 01:16:49.060
+I wanted to ask, what are some of the,
+
+01:16:49.180 --> 01:16:51.300
+what you might call the innovation to come
+
+01:16:51.300 --> 01:16:54.140
+in the scanner as a product? I was trying
+
+01:16:54.140 --> 01:16:55.680
+to get your impression. It's one of the
+
+01:16:55.680 --> 01:16:58.140
+more labor intensive parts in this
+
+01:16:58.140 --> 01:17:02.540
+process. Are we expecting some new product
+
+01:17:02.540 --> 01:17:04.720
+from Xerox to replace the scanner as we
+
+01:17:04.720 --> 01:17:08.560
+know it today? Not that I can think of. I
+
+01:17:08.560 --> 01:17:10.520
+mean scanners, I don't, you know, scanners
+
+01:17:10.520 --> 01:17:14.500
+are great. I'm a great fan of scanners at
+
+01:17:14.500 --> 01:17:16.620
+this point. I think the software that
+
+01:17:16.620 --> 01:17:19.500
+controls the scanner is critical. And, I
+
+01:17:19.500 --> 01:17:21.460
+mean, I will definitely put in a plug for
+
+01:17:21.460 --> 01:17:25.600
+Pages. Pages Pro 2.0 is what we've been
+
+01:17:25.600 --> 01:17:26.980
+using. It's a wonderful application
+
+01:17:26.980 --> 01:17:29.200
+because it actually lets you see what
+
+01:17:29.200 --> 01:17:31.980
+you're doing. And it lets you go in and
+
+01:17:31.980 --> 01:17:35.360
+very, very easily, you get a row of
+
+01:17:35.360 --> 01:17:38.720
+thumbnails. You can reorder them. You can
+
+01:17:38.720 --> 01:17:42.920
+rotate things so that you can very, very
+
+01:17:42.920 --> 01:17:48.300
+easily, manually, but very easily make
+
+01:17:48.300 --> 01:17:51.040
+sure that the online document that you
+
+01:17:51.040 --> 01:17:53.400
+scan actually looks the way that you want
+
+01:17:53.400 --> 01:17:55.400
+it to look. Now, you can get, and
+
+01:17:55.400 --> 01:17:57.640
+actually, Pages also has wonderful sort of
+
+01:17:57.640 --> 01:17:59.820
+automatic de-skewing. And you can watch
+
+01:17:59.820 --> 01:18:01.540
+that happen too. It's very entertaining.
+
+01:18:01.720 --> 01:18:03.260
+You sit there and you see your little
+
+01:18:03.260 --> 01:18:04.920
+document get scanned and come up, and then
+
+01:18:04.920 --> 01:18:07.820
+you see pages align it, fix its alignment,
+
+01:18:07.900 --> 01:18:11.520
+and you go, oh, that's great. So I think
+
+01:18:11.520 --> 01:18:13.320
+it's a very, very nice piece of software
+
+01:18:13.320 --> 01:18:16.040
+because, as I say, it makes everything
+
+01:18:16.040 --> 01:18:17.860
+that's happening so visible. You can both
+
+01:18:17.860 --> 01:18:20.580
+see the things that you need to see in
+
+01:18:20.580 --> 01:18:22.500
+order to do the stuff manually that you
+
+01:18:22.500 --> 01:18:25.000
+need to do, and you can watch it doing
+
+01:18:25.000 --> 01:18:28.420
+what it's doing automatically. and you
+
+01:18:28.420 --> 01:18:30.160
+know you need some entertainment while
+
+01:18:30.160 --> 01:18:32.780
+you're doing this so it's helpful.
+
+01:18:37.380 --> 01:18:40.780
+Any others? I think we've exhausted
+
+01:18:40.780 --> 01:18:49.140
+ourselves. so how do
+
+01:18:49.140 --> 01:18:52.780
+they maintain
+
+01:18:52.780 --> 01:18:55.760
+the integrity of the binders so you don't
+
+01:18:55.760 --> 01:18:57.280
+have everybody looking and saying oh I
+
+01:18:57.280 --> 01:18:59.080
+need that and it just sprang to their desk
+
+01:18:59.080 --> 01:19:01.360
+it may or may not get back into that
+
+01:19:01.360 --> 01:19:03.660
+binder or it may not get back anywhere
+
+01:19:03.660 --> 01:19:05.940
+It's a problem. It's a problem. It's a
+
+01:19:05.940 --> 01:19:07.540
+problem. It's a problem. And that's
+
+01:19:07.540 --> 01:19:09.300
+actually a problem, you know, again, which
+
+01:19:09.300 --> 01:19:12.500
+this would help address because you can
+
+01:19:12.500 --> 01:19:14.200
+print out a copy of the document and it's
+
+01:19:14.200 --> 01:19:18.920
+still there. All right, thanks a lot.
+
+01:19:36.980 --> 01:19:38.380
+Yeah.
+

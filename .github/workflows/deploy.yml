@@ -31,5 +31,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
           AWS_ECR_DOCKER_REPO: ${{ secrets.AWS_ECR_DOCKER_REPO_STAGING }}
           HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
-          DEPLOYMENT_ENV: stage
+          DEPLOYMENT_ENV: staging
         run: ./deploy.sh

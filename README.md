@@ -43,17 +43,17 @@ docker_repository = "1234567890123.dkr.ecr.us-west-2.amazonaws.com/sul-speech-to
 ecs_instance_role = "sul-speech-to-text-qa-ecs-instance-role"
 s3_bucket = "arn:aws:s3:::sul-speech-to-text-qa"
 sqs_done_queue = "https://sqs.us-west-2.amazonaws.com/1234567890123/sul-speech-to-text-done-qa"
-text_to_speech_access_key_id = "XXXXXXXXXXXXXX"
-text_to_speech_secret_access_key = <sensitive>
+speech_to_text_access_key_id = "XXXXXXXXXXXXXX"
+speech_to_text_secret_access_key = <sensitive>
 
-$ terraform output text_to_speech_secret_access_key
+$ terraform output speech_to_text_secret_access_key
 "XXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
 You will want to set these in your environment:
 
-- AWS_ACCESS_KEY_ID: the `text_to_speech_access_key_id` value
-- AWS_SECRET_ACCESS_KEY: the `text_to_speech_secret_access_key`
+- AWS_ACCESS_KEY_ID: the `speech_to_text_access_key_id` value
+- AWS_SECRET_ACCESS_KEY: the `speech_to_text_secret_access_key`
 - AWS_ECR_DOCKER_REPO: the `docker_repository` value
 - DEPLOYMENT_ENV: the SDR environment being deployed to (e.g. qa, stage, prod)
 - HONEYBADGER_API_KEY: the API key for this project, to support deployment notifications (obtainable from project settings in HB web UI)

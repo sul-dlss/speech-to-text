@@ -1,0 +1,229 @@
+{
+  "cocinaVersion": "0.99.3",
+  "type": "https://cocina.sul.stanford.edu/models/media",
+  "externalIdentifier": "druid:dn434hf2144",
+  "label": "earth day student podcast",
+  "version": 7,
+  "access": {
+    "view": "world",
+    "download": "world",
+    "controlledDigitalLending": false
+  },
+  "administrative": {
+    "hasAdminPolicy": "druid:pp818dw4992"
+  },
+  "description": {
+    "title": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "earth day student podcast",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "contributor": [],
+    "event": [],
+    "form": [],
+    "geographic": [],
+    "language": [],
+    "note": [],
+    "identifier": [],
+    "subject": [],
+    "relatedResource": [],
+    "marcEncodedData": [],
+    "purl": "https://sul-purl-stage.stanford.edu/dn434hf2144"
+  },
+  "identification": {
+    "catalogLinks": [],
+    "sourceId": "prod:kb219xm5239"
+  },
+  "structural": {
+    "contains": [
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/audio",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/dn434hf2144-6288fd99-4a44-4e6f-9514-dffa55000686",
+        "label": "podcast",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/dn434hf2144-6288fd99-4a44-4e6f-9514-dffa55000686/EarthDayPodcast_Full_Final.m4a",
+              "label": "EarthDayPodcast_Full_Final.m4a",
+              "filename": "EarthDayPodcast_Full_Final.m4a",
+              "size": 125952811,
+              "version": 1,
+              "hasMimeType": "audio/mp4",
+              "languageTag": null,
+              "use": null,
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "0fc5f6b63a10a845a8582d8a2a8ff3a2"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "e4c9a8dae2330997d6b703fae49486a3dcc2cd05"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/d323b99c-2205-4bc5-a1c5-bed83c02710e",
+              "label": "EarthDayPodcast_Full_Final.txt",
+              "filename": "EarthDayPodcast_Full_Final.txt",
+              "size": 62305,
+              "version": 4,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "e74932c6f843c20c5d612242178d4c0e"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "0cfa33140cf7168128ee9ee79d3767b940daa584"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/c8dc35ed-67d2-4349-918c-4e770a7faf97",
+              "label": "EarthDayPodcast_Full_Final.vtt",
+              "filename": "EarthDayPodcast_Full_Final.vtt",
+              "size": 103292,
+              "version": 4,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "2936bb218b9cf95bbcaab0eb78286e20"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "8255fab4a4bf8b363e2c8df7b0f2f827244930b2"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/0b081bac-be99-4a2a-9255-3e6408b4230e",
+              "label": "EarthDayPodcast_Full_Final_m4a.txt",
+              "filename": "EarthDayPodcast_Full_Final_m4a.txt",
+              "size": 62305,
+              "version": 7,
+              "hasMimeType": "text/plain",
+              "languageTag": "en",
+              "use": "transcription",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "e74932c6f843c20c5d612242178d4c0e"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "0cfa33140cf7168128ee9ee79d3767b940daa584"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            },
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/e2cfb863-25b7-40e9-b452-f9b0016263fe",
+              "label": "EarthDayPodcast_Full_Final_m4a.vtt",
+              "filename": "EarthDayPodcast_Full_Final_m4a.vtt",
+              "size": 103292,
+              "version": 7,
+              "hasMimeType": "text/vtt",
+              "languageTag": "en",
+              "use": "caption",
+              "sdrGeneratedText": true,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                {
+                  "type": "md5",
+                  "digest": "2936bb218b9cf95bbcaab0eb78286e20"
+                },
+                {
+                  "type": "sha1",
+                  "digest": "8255fab4a4bf8b363e2c8df7b0f2f827244930b2"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "hasMemberOrders": [],
+    "isMemberOf": [
+      "druid:mk455yf5748"
+    ]
+  },
+  "created": "2025-02-04T15:51:02.000+00:00",
+  "modified": "2025-02-04T16:19:46.000+00:00",
+  "lock": "druid:dn434hf2144=14=2"
+}

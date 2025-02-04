@@ -16,3 +16,10 @@ The VTT file output for these transcripts as of 2025-01-31 has been stored in th
 You should find a `index.md` Markdown file in a date stamped directory inside the `reports` directory.
 
 The `baseline` directory contains Cocina JSON and VTT files to use as baseline data. You may want to update these over time as understanding of what to use as a baseline changes. In an ideal world these would be more like ground truth data, or transcripts that have been vetted and corrected by people.
+
+## Reports
+
+This list contains reports that have been generated previously:
+
+- [2025-01-31](reports/2025-01-31/)
+- [2025-02-04](reports/2025-02-04/)

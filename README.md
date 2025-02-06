@@ -5,28 +5,21 @@
 
 This repository contains a Docker configuration for performing speech-to-text processing with [Whisper](https://openai.com/index/whisper/) using Amazon Web Services (AWS) to provision GPU resources on demand, and to tear them down when there is no more remaining work. It uses:
 
-* [AWS S3](https://aws.amazon.com/s3/): to store media in need of transcription and the transcription results
-* [AWS Batch](https://aws.amazon.com/batch/): which manages a work queue and provisioning EC2 instances.
-* [AWS SQS](https://aws.amazon.com/sqs/): to receive a notification when work is completed
-* [AWS ECR](https://aws.amazon.com/ecr/): to store the speech-to-text Docker image
+* [AWS S3](https://aws.amazon.com/s3/): to store media in need of transcription and the transcription results.
+* [AWS Batch](https://aws.amazon.com/batch/): manages a work queue and provisioning EC2 instances.
+* [AWS SQS](https://aws.amazon.com/sqs/): for receiving a notification when work is completed.
+* [AWS ECR](https://aws.amazon.com/ecr/): a Docker repository to store the code in this Git repository.
 
 ## Configure AWS
 
-A [Terraform](https://www.terraform.io/) configuration is included to help you configure AWS. Once you have installed Terraform you can set up resources you need to configure your `project_name` which is used to name resources in AWS:
+We have a [Terraform](https://www.terraform.io/) configuration in [dlss/terraform-aws](https://github.com/sul-dlss/terraform-aws/tree/main/organizations/development/speech_to_text] for provisioning AWS resources. If you aren't at Stanford Libraries and would like to use it as a reference Terraform implementation please get in touch via the [issue tracker](https://github.com/sul-dlss/speech-to-text/issues). Once you have the configuration and have installed Terraform you can:
 
 ```shell
-cd terraform
-cp variables.example variables.tf
-# edit variables.tf with your text editor
+$ terraform validate
+$ terraform apply
 ```
 
-Now you can validate and (if everything looks ok) apply your changes:
-
-```shell
-cd terraform
-terraform validate
-terraform apply
-```
+This will set up an S3, Batch, SQS and ECR and create an AWS user with permission to interact with these services. 
 
 ## Build and Deploy
 
@@ -37,12 +30,12 @@ Before running it you will need to define three environment variables using the 
 ```
 $ terraform output
 
-batch_job_definition = "arn:aws:batch:us-west-2:1234567890123:job-definition/sul-speech-to-text-qa"
-batch_job_queue = "arn:aws:batch:us-west-2:1234567890123:job-queue/sul-speech-to-text-qa"
-docker_repository = "1234567890123.dkr.ecr.us-west-2.amazonaws.com/sul-speech-to-text-qa"
-ecs_instance_role = "sul-speech-to-text-qa-ecs-instance-role"
-s3_bucket = "arn:aws:s3:::sul-speech-to-text-qa"
-sqs_done_queue = "https://sqs.us-west-2.amazonaws.com/1234567890123/sul-speech-to-text-done-qa"
+batch_job_definition = "arn:aws:batch:us-west-2:1234567890123:job-definition/speech-to-text-dev"
+batch_job_queue = "arn:aws:batch:us-west-2:1234567890123:job-queue/speech-to-text-dev"
+docker_repository = "1234567890123.dkr.ecr.us-west-2.amazonaws.com/speech-to-text-dev"
+ecs_instance_role = "speech-to-text-dev-ecs-instance-role"
+s3_bucket = "arn:aws:s3:::speech-to-text-dev"
+sqs_done_queue = "https://sqs.us-west-2.amazonaws.com/1234567890123/speech-to-text-dev"
 speech_to_text_access_key_id = "XXXXXXXXXXXXXX"
 speech_to_text_secret_access_key = <sensitive>
 
@@ -55,6 +48,7 @@ You will want to set these in your environment:
 - AWS_ACCESS_KEY_ID: the `speech_to_text_access_key_id` value
 - AWS_SECRET_ACCESS_KEY: the `speech_to_text_secret_access_key`
 - AWS_ECR_DOCKER_REPO: the `docker_repository` value
+- AWS_DEFAULT_REGION: e.g. `us-west-2`
 - DEPLOYMENT_ENV: the SDR environment being deployed to (e.g. qa, staging, production)
 - HONEYBADGER_API_KEY: the API key for this project, to support deployment notifications (obtainable from project settings in HB web UI)
 
@@ -64,7 +58,7 @@ Then you can run the deploy:
 $ ./deploy.sh
 ```
 
-Since this project already installs the `python-dotenv` package, you can do something like the following to run the deploy script with the correct environment variable values, if you want to avoid pasting credentials into your terminal and/or having them stored in your shell history:
+Since this project already installs the `python-dotenv` package, you can also do something like the following to run the deploy script with the correct environment variable values, if you want to avoid pasting credentials into your terminal and/or having them stored in your shell history:
 
 ```shell
 # requires you to create a .env.qa file with the QA-specific env vars values needed by deploy.sh
@@ -72,6 +66,14 @@ dotenv --file=.env.deploy.qa run ./deploy.sh
 ```
 
 ## Run
+
+### Upload Media
+
+In order to use speech-to-text you need to upload your media files to the Amazon S3 bucket that was created. You should mint a unique job identifier for your job, and use that identifier as a prefix when uploading your file. So for example if your job ID is `gy983cn1444`:
+
+```
+aws s3 cp my-media.mp3 s3://speech-to-text-example/gy983cn1444/my-media.mp3
+```
 
 ### Create a Job
 
@@ -139,9 +141,29 @@ If you are passing in multiple files and would like to specify different options
 }
 ```
 
+You need to send this JSON to the Batch queue:
+
+```shell
+$ aws batch submit-job \
+  --job-name gy983cn1444 \
+  --job-queue "arn:aws:batch:us-west-2:1234567890123:job-queue/speech-to-text-dev" \
+  --job-definition arn:aws:batch:us-west-2:1234567890123:job-definition/speech-to-text-dev" \
+  --parameters 'job=<JOB JSON>'
+```
+
 ## Receiving Jobs
 
-When a job completes you will receive a message on the DONE SQS queue which will contain JSON that looks something like:
+When a job completes you will receive a message on the SQS queue by doing something like:
+
+```shell
+$ aws sqs receive-message --queue-url "https://sqs.us-west-2.amazonaws.com/1234567890123/speech-to-text-dev"
+```
+
+Note: be sure that your code removes the received messages from the queue or else they will reappear! 
+
+The message you receive will be some JSON that looks something like your job,
+but includes an `output` stanza with a list of transcript files that were
+created.
 
 ```json
 {
@@ -204,7 +226,11 @@ When a job completes you will receive a message on the DONE SQS queue which will
 }
 ```
 
-You can then use an AWS S3 client to download the transcripts given in the `output` JSON stanza.
+You can then use an AWS S3 client to download the transcripts given in the `output` JSON stanza:
+
+```shell
+$ aws s3 cp s3://gy983cn1444/cat_video.vtt cat_video.vtt
+```
 
 If there was an error during processing the `output` will be an empty list, and an `error` property will be set to a message indicating what went wrong.
 
@@ -229,7 +255,7 @@ If there was an error during processing the `output` will be an empty list, and 
 
 ## Manually Running a Job
 
-The speech-to-text service has been designed so that software (in our case [common-accessioning](https://github.com/sul-dlss/common-accessioning)) can upload media files to S3 and then execute the AWS Batch job using an AWS client, and then listen for the "done" message. If you would like to simulate these steps yourself you can run the `speech_to_text.py` with the `--create` and `--done` flags.
+We don't actually interact with the speech-to-text service using the awscli utility at the command line. Instead the speech-to-text service is used by our digital repository, in our case the [common-accessioning](https://github.com/sul-dlss/common-accessioning)) system, which interacts directly with AWS using a Ruby AWS client. If you would like to simulate this yourself you can run the `speech_to_text.py` with the `--create` and `--done` flags.
 
 First you will need a `.env` file that tells `speech_to_text.py` your AWS credentials and some of the resources that Terraform configured for you.
 

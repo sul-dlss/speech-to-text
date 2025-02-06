@@ -20,11 +20,11 @@ set -e
 # the image with the model in it already will speed up processing since whisper
 # won't need to pull it dynamically.
 
-wget --timestamping --directory whisper_models https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt 
+wget --timestamping --no-verbose --directory whisper_models https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt 
 
 # Log in to ECR
 
-aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $AWS_ECR_DOCKER_REPO
+aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_DOCKER_REPO
 
 # Build the image for Linux (not really needed when running in Github Actions)
 

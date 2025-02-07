@@ -255,7 +255,7 @@ If there was an error during processing the `output` will be an empty list, and 
 
 ## Manually Running a Job
 
-We don't actually interact with the speech-to-text service using the awscli utility at the command line. Instead the speech-to-text service is used by our digital repository, in our case the [common-accessioning](https://github.com/sul-dlss/common-accessioning)) system, which interacts directly with AWS using a Ruby AWS client. If you would like to simulate this yourself you can run the `speech_to_text.py` with the `--create` and `--done` flags.
+We don't actually interact with the speech-to-text service using the awscli utility at the command line. Instead the speech-to-text service is used by our digital repository, in our case the [common-accessioning](https://github.com/sul-dlss/common-accessioning) system, which interacts directly with AWS using a Ruby AWS client. If you would like to simulate this yourself you can run the `speech_to_text.py` with the `--create` and `--done` flags.
 
 First you will need a `.env` file that tells `speech_to_text.py` your AWS credentials and some of the resources that Terraform configured for you.
 

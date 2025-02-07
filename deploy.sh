@@ -6,6 +6,7 @@
 # - AWS_ACCESS_KEY_ID: the access key for the speech-to-text user
 # - AWS_SECRET_ACCESS_KEY: the secret key for the speech-to-text user
 # - AWS_ECR_DOCKER_REPO: the Elastic Compute Registry URL for the Docker repository
+# - AWS_DEFAULT_REGION: the AWS region in which the ECR instance lives
 # - DEPLOYMENT_ENV: the SDR environment being deployed to (e.g. qa, staging, production)
 # - HONEYBADGER_API_KEY: the API key for this project, to support deployment notifications (obtainable from project settings in HB web UI)
 #

@@ -12,7 +12,7 @@ This repository contains a Docker configuration for performing speech-to-text pr
 
 ## Configure AWS
 
-We have a [Terraform](https://www.terraform.io/) configuration in [dlss/terraform-aws](https://github.com/sul-dlss/terraform-aws/tree/main/organizations/development/speech_to_text] for provisioning AWS resources. If you aren't at Stanford Libraries and would like to use it as a reference Terraform implementation please get in touch via the [issue tracker](https://github.com/sul-dlss/speech-to-text/issues). Once you have the configuration and have installed Terraform you can:
+We have a [Terraform](https://www.terraform.io/) configuration in [dlss/terraform-aws](https://github.com/sul-dlss/terraform-aws/tree/main/organizations/development/speech_to_text) for provisioning AWS resources. If you aren't at Stanford Libraries and would like to use it as a reference Terraform implementation please get in touch via the [issue tracker](https://github.com/sul-dlss/speech-to-text/issues). Once you have the configuration and have installed Terraform you can:
 
 ```shell
 $ terraform validate

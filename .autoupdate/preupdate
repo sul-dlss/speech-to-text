@@ -3,8 +3,8 @@
 
 # This script is called by our weekly dependency update job in Jenkins
 
-pip3 install --upgrade uv > speech-to-text.txt && rm -rf .venv &&
-    ~/.local/bin/uv lock --upgrade >> speech-to-text.txt
+pip3 install --upgrade uv > speech-to-text.txt &&
+    ~/.local/bin/uv lock --upgrade --quiet --no-progress --color never >> speech-to-text.txt
 
 retVal=$?
 

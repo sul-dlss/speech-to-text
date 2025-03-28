@@ -3,7 +3,11 @@ name = "speech-to-text"
 version = "0.0.1"
 description = ""
 readme = "README.md"
-requires-python = ">= 3.8"
+
+# We should be able to use later versions of Python once this is released to PyPI:
+# https://github.com/openai/whisper/pull/2435
+requires-python = "==3.11.11"
+
 dependencies = [
     "boto3>=1.36.9",
     "honeybadger>=0.20.3",

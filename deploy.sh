@@ -17,11 +17,15 @@
 
 set -e
 
+# Remove unnecessary files to make space and avoid build errors.
+# See https://github.com/orgs/community/discussions/25678
+rm -rf /opt/hostedtoolcache
+
 # Download the Whisper large-v3 model, which is what we use by default. Building
 # the image with the model in it already will speed up processing since whisper
 # won't need to pull it dynamically.
 
-wget --timestamping --no-verbose --directory whisper_models https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt 
+wget --timestamping --no-verbose --directory whisper_models https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt
 
 # Log in to ECR
 

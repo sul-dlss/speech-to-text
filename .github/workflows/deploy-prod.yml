@@ -25,6 +25,4 @@ jobs:
           HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
           DEPLOYMENT_ENV: production
         run: |
-          echo "production deploy not yet enabled"
-          # uncomment this when the keys are avaialable!
-          # ./deploy.sh
+          ./deploy.sh

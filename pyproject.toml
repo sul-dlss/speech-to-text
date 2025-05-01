@@ -13,6 +13,7 @@ dependencies = [
     "honeybadger>=0.20.3",
     "openai-whisper>=20240930",
     "python-dotenv[cli]>=1.0.1",
+    "triton==3.2 ; (platform_machine == 'x86_64' and sys_platform == 'linux') or sys_platform == 'linux2'",
 ]
 
 [dependency-groups]

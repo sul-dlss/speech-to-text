@@ -133,7 +133,7 @@ def test_file_options(bucket, queues):
         "media": [
             {
                 "name": f"{job_id}/{media_path.name}",
-                "options": {"language": "en", "writer": {"max_line_width": 20}},
+                "options": {"language": "fr", "writer": {"max_line_width": 20}},
             }
         ],
         "options": {"model": "tiny", "writer": {"max_line_width": 42}},
@@ -150,7 +150,7 @@ def test_file_options(bucket, queues):
     job = json.loads(msgs[0].body)
     assert len(job["log"]["runs"]) == 1
     assert job["log"]["runs"][0]["media"] == f"{job_id}/{media_path.name}"
-    assert job["log"]["runs"][0]["transcribe"]["language"] == "en"
+    assert job["log"]["runs"][0]["transcribe"]["language"] == "fr"
     assert job["log"]["runs"][0]["transcribe"]["model"] == "tiny"
     assert job["log"]["runs"][0]["write"]["max_line_width"] == 20
 
@@ -167,7 +167,7 @@ def test_exception_handling(bucket, queues):
     with pytest.raises(Exception):
         speech_to_text.main(job)
 
-    # look at the done job to see if whisper ran with language=fr
+    # look at the done job
     queue = speech_to_text.get_done_queue()
     msgs = queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=10)
     assert len(msgs) == 1, "found a done message"

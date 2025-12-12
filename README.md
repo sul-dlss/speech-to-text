@@ -292,18 +292,10 @@ This will:
 
 ## Testing
 
-To run the tests it is probably easiest to create a virtual environment and run the tests with pytest:
+To run the tests you will need to install [uv](https://docs.astral.sh/uv/) and then:
 
-```shell
-python -mvenv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-pytest
 ```
-
-If you've already installed dependencies in your current virtual env, and want to update to the latest versions:
-```shell
-pip install --upgrade -r requirements.txt
+uv run pytest
 ```
 
 Note: the tests use the [moto](https://docs.getmoto.org/en/latest/) library to mock out AWS resources. If you want to test live AWS you can follow the steps above to create a job, run, and then receive the done message.

@@ -4,9 +4,9 @@ import datetime
 import difflib
 import json
 import re
+from collections.abc import Iterator
 from io import StringIO
 from pathlib import Path
-from typing import Iterator, Tuple, List
 
 import requests
 
@@ -113,7 +113,7 @@ def write_report(date: str, baseline_dir: Path, current_dir: Path) -> None:
 
 def compare_item(
     date: str, druid: str, baseline_dir: Path, current_dir: Path
-) -> List[Tuple[str, bool]]:
+) -> list[tuple[str, bool]]:
     """
     Compare the transcripts in the baseline directory with the ones found in the
     current_dir. The druid is passed in for reference in messages. A list of
@@ -178,7 +178,7 @@ def write_diff(druid: str, vtt1: Path, vtt2: Path, output_file: Path) -> None:
     output_file.open("w").write(html)
 
 
-def lines(vtt_file: Path) -> List[str]:
+def lines(vtt_file: Path) -> list[str]:
     """
     Returns a list of just the text lines from the VTT file.
     """
@@ -194,7 +194,7 @@ def lines(vtt_file: Path) -> List[str]:
 sentence_endings = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s")
 
 
-def split_sentences(lines) -> List[str]:
+def split_sentences(lines) -> list[str]:
     """
     Split lines with multiple sentences into multiple lines. So,
 

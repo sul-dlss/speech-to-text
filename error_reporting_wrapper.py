@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import dotenv
 import logging
 import os
 import sys
+from subprocess import CalledProcessError, run
 
+import dotenv
 from honeybadger import honeybadger
-from subprocess import run, CalledProcessError
 
 
 # This must be invoked before the logger is invoked for the first time

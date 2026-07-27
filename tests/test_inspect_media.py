@@ -1,6 +1,6 @@
-from speech_to_text import inspect_media, SpeechToTextException
-
 import pytest
+
+from speech_to_text import SpeechToTextException, inspect_media
 
 
 def test_duration():

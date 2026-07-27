@@ -1,14 +1,15 @@
-import os
-import boto3
 import json
+import os
 import re
 import uuid
 from pathlib import Path
+from unittest.mock import patch
 
+import boto3
 import moto
 import pytest
+
 import speech_to_text
-from unittest.mock import patch
 
 BUCKET = "bucket"
 DONE_QUEUE = "done"

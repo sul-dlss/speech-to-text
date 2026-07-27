@@ -1,9 +1,9 @@
-import error_reporting_wrapper
+from subprocess import CalledProcessError, CompletedProcess, run
+from unittest.mock import patch
+
 import pytest
 
-from subprocess import run, CalledProcessError, CompletedProcess
-
-from unittest.mock import patch
+import error_reporting_wrapper
 
 
 def test_error_reporting_wrapper_exit_zero():

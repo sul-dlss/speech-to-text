@@ -16,6 +16,20 @@ dependencies = [
     "triton==3.2 ; (platform_machine == 'x86_64' and sys_platform == 'linux') or sys_platform == 'linux2'",
 ]
 
+[tool.ruff.lint]
+# Rules surfaced by newer ruff versions that we want to revisit and fix
+# properly rather than suppress inline. See:
+# https://github.com/sul-dlss/speech-to-text/issues/177
+ignore = [
+    "LOG015",  # logging call on root logger
+    "RUF059",  # unpacked variable never used
+    "BLE001",  # blind `except Exception`
+    "B017",    # `pytest.raises(Exception)` blind assert
+    "SIM115",  # file opened without a context manager
+    "PLW1510", # `subprocess.run` without explicit `check`
+    "DTZ005",  # `datetime.now()` without `tz` argument
+]
+
 [dependency-groups]
 dev = [
     "boto3-stubs[s3,sqs,sts]>=1.36.9",

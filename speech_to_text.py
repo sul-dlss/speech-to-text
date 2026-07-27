@@ -5,25 +5,24 @@ import datetime
 import json
 import logging
 import os
-import sys
-import uuid
 import shutil
 import subprocess
+import sys
 import traceback
+import uuid
 from pathlib import Path
-from typing import Optional, Dict
 
 import boto3
 import dotenv
 import torch
 import whisper
 from honeybadger import honeybadger
-from whisper.utils import get_writer
 from mypy_boto3_s3.service_resource import Bucket, S3ServiceResource
 from mypy_boto3_sqs.service_resource import Queue
+from whisper.utils import get_writer
 
 
-def main(job: Dict) -> None:
+def main(job: dict) -> None:
     try:
         if job is None:
             logging.info("no jobs waiting in the todo queue")
@@ -200,7 +199,7 @@ def get_done_queue() -> Queue:
     )
 
 
-def report_error(message: str, job: Optional[Dict], e: Exception) -> None:
+def report_error(message: str, job: dict | None, e: Exception) -> None:
     """
     Add the job to the done queue with an error.
     """
@@ -238,7 +237,7 @@ def check_env() -> None:
 
 
 def now() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+    return datetime.datetime.now(datetime.UTC).isoformat()
 
 
 def get_output_dir(job) -> Path:

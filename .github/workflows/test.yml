@@ -18,12 +18,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Lint
-        uses: astral-sh/ruff-action@v4
+        uses: astral-sh/ruff-action@v4.1.0
         with:
           args: 'check'
 
       - name: Format
-        uses: astral-sh/ruff-action@v4
+        uses: astral-sh/ruff-action@v4.1.0
         with:
           args: 'format --check'
 
